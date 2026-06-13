@@ -1,115 +1,137 @@
-<<<<<<< HEAD
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-export default function ShortsPage() {
-  return (<><Nav /><main className="pt-[88px] min-h-screen"><div className="max-w-[var(--max-w-content)] mx-auto px-6 py-16"><h1 className="font-serif text-4xl font-bold text-white mb-6">Shorts</h1><p className="text-[var(--muted)]">Quick takes and signal snippets. Coming soon.</p></div></main><Footer /></>);
-=======
-"use client";
+'use client'
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import ShortsCard from "@/components/ShortsCard";
-import SubscribeForm from "@/components/SubscribeForm";
-import type { Short } from "@/components/ShortsCard";
-
-// --- Mock data generator ---
-const allMockShorts: Short[] = [
-  { id: "s1", tag: "Flash", date: "2026-06-13", title: "Japan's 10-Year Yield Breaks 2% for First Time Since 2006", body: "The BOJ's gradual tightening cycle reaches another milestone as Japan's benchmark yield pierces the 2% threshold. Market participants are watching for accelerated portfolio rebalancing out of JGBs." },
-  { id: "s2", tag: "Data Point", date: "2026-06-12", title: "Global Semiconductor Sales Hit $62B in May", body: "Monthly semiconductor sales reached $62 billion globally, up 18% YoY. AI chip demand continues to be the primary growth driver, with data center segment up 34%." },
-  { id: "s3", tag: "Chart", date: "2026-06-12", title: "Central Bank Gold Reserves Hit 30-Year High", body: "Central banks added 1,037 tonnes of gold in 2025, the third consecutive year of purchases exceeding 1,000 tonnes." },
-  { id: "s4", tag: "Alert", date: "2026-06-11", title: "OPEC+ Signals Production Cuts Extended", body: "OPEC+ delegates indicate the group will extend voluntary production cuts through Q3 2026 in an effort to support prices amid weaker global demand projections." },
-  { id: "s5", tag: "Flash", date: "2026-06-11", title: "UK GDP Contracts 0.3% in April", body: "The UK economy contracted more than expected in April, driven by a sharp decline in manufacturing output. Sterling falls 0.8% against the dollar." },
-  { id: "s6", tag: "Data Point", date: "2026-06-10", title: "US Jobless Claims Fall to 204K", body: "Initial jobless claims dropped to 204,000, well below the 220,000 consensus estimate. The labor market remains remarkably tight despite elevated rates." },
-  { id: "s7", tag: "Chart", date: "2026-06-10", title: "Bitcoin Volatility Hits 6-Month Low", body: "Bitcoin's 30-day realized volatility dropped to 32%, the lowest level since December 2025. Options markets show increased positioning for a breakout." },
-  { id: "s8", tag: "Flash", date: "2026-06-09", title: "China Exports Surge 12% YoY in May", body: "Chinese exports beat expectations with 12% year-over-year growth, driven by EV and solar panel shipments. Trade surplus widens to $82 billion." },
-  { id: "s9", tag: "Alert", date: "2026-06-09", title: "Fed's Bowman: 'Further Rate Hikes Possible'", body: "Fed Governor Michelle Bowman stated that additional rate hikes remain on the table if inflation progress stalls. Markets price in 25% chance of a hike in September." },
-  { id: "s10", tag: "Data Point", date: "2026-06-08", title: "European Gas Storage Reaches 75% Capacity", body: "EU gas storage facilities are now 75% full, ahead of the 70% target for June. The accelerated fill rate provides a buffer against winter supply disruptions." },
-  { id: "s11", tag: "Chart", date: "2026-06-08", title: "Global Debt-to-GDP Ratio Edges Lower", body: "Global debt-to-GDP fell to 245% in Q1 2026, down from 249% in Q4 2025. The first decline since 2021 reflects fiscal consolidation in advanced economies." },
-  { id: "s12", tag: "Flash", date: "2026-06-07", title: "India's GDP Grows 7.8% in Q1", body: "India remains the fastest-growing major economy with 7.8% Q1 GDP growth. Manufacturing PMI hits 58.9, signaling continued expansion." },
-];
-
-const PAGE_SIZE = 4;
+import { useEffect, useState, useRef, useCallback } from 'react'
+import SubscribeForm from '@/components/SubscribeForm'
+import type { Short } from '@/lib/types'
+import { getShorts } from '@/lib/supabase-queries'
+import { formatDate } from '@/lib/utils'
 
 export default function ShortsPage() {
-  const [displayed, setDisplayed] = useState<Short[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const sentinelRef = useRef<HTMLDivElement>(null);
+  const [shorts, setShorts] = useState<Short[]>([])
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const loaderRef = useRef<HTMLDivElement>(null)
 
-  // Initial load
-  useEffect(() => {
-    setDisplayed(allMockShorts.slice(0, PAGE_SIZE));
-    setHasMore(allMockShorts.length > PAGE_SIZE);
-  }, []);
-
-  // IntersectionObserver for infinite scroll
-  const loadMore = useCallback(() => {
-    if (loading || !hasMore) return;
-    setLoading(true);
-    // Simulate network delay
-    setTimeout(() => {
-      const nextPage = page + 1;
-      const end = nextPage * PAGE_SIZE;
-      setDisplayed(allMockShorts.slice(0, end));
-      setPage(nextPage);
-      setHasMore(end < allMockShorts.length);
-      setLoading(false);
-    }, 400);
-  }, [loading, hasMore, page]);
+  const loadShorts = useCallback(async () => {
+    if (loading || !hasMore) return
+    setLoading(true)
+    try {
+      const data = await getShorts(page, 10)
+      if (data.length === 0) {
+        setHasMore(false)
+      } else {
+        setShorts((prev) => [...prev, ...data])
+        setPage((prev) => prev + 1)
+      }
+    } catch (err) {
+      console.error('Error loading shorts:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [page, loading, hasMore])
 
   useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
+    loadShorts()
+  }, [])
+
+  useEffect(() => {
+    const el = loaderRef.current
+    if (!el) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore();
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadShorts()
         }
       },
-      { threshold: 0.5 }
-    );
+      { threshold: 0.1 }
+    )
 
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, [loadMore]);
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [loadShorts, hasMore, loading])
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl font-serif text-stone-100 mb-2">Shorts</h1>
-      <p className="text-stone-400 mb-10">
-        Quick signals, flashes, and data points.
-      </p>
-
-      <div className="space-y-4">
-        {displayed.map((short, index) => (
-          <div key={short.id}>
-            <ShortsCard short={short} />
-            {/* SubscribeForm after every 5th item */}
-            {(index + 1) % 5 === 0 && (
-              <div className="my-8 bg-stone-900/30 border border-stone-800 rounded-xl p-6">
-                <h3 className="text-lg font-serif text-stone-100 mb-3">
-                  Get these in your inbox
-                </h3>
-                <SubscribeForm />
-              </div>
-            )}
-          </div>
-        ))}
+    <div>
+      <div className="px-6 md:px-12 pt-12 pb-6" style={{borderBottom: '1px solid var(--border)'}}>
+        <div className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase flex items-center gap-[10px] mb-4" style={{color: 'var(--red)'}}>
+          <span className="w-6 h-px" style={{background: 'var(--red)'}} />
+          Shorts
+        </div>
+        <h1 className="font-serif text-[36px] md:text-[48px] font-black text-white leading-[1.1]">
+          Quick Signals
+        </h1>
+        <p className="text-[15px] leading-[1.6] mt-3 max-w-lg" style={{color: 'var(--muted)'}}>
+          Bite-sized intelligence. Always free. Always signal.
+        </p>
       </div>
 
-      {/* Sentinel for infinite scroll */}
-      <div ref={sentinelRef} className="py-8 text-center">
-        {loading && (
-          <p className="text-sm text-stone-500 font-mono">Loading more...</p>
+      <div className="px-6 md:px-12 py-8 max-w-2xl mx-auto">
+        {shorts.length === 0 && !loading ? (
+          <div className="text-center py-20">
+            <div className="font-serif text-2xl text-white mb-3">No shorts yet</div>
+            <p className="text-sm" style={{color: 'var(--muted)'}}>Quick signals will appear here once published.</p>
+          </div>
+        ) : (
+          <div className="space-y-1">
+            {shorts.map((short, index) => {
+              const showCta = (index + 1) % 5 === 0
+
+              return (
+                <div key={short.id}>
+                  <div className="py-6" style={{borderBottom: '1px solid var(--border)'}}>
+                    <div className="flex items-center gap-3 mb-3">
+                      {short.tag && (
+                        <span className="font-mono text-[8px] tracking-[0.1em] uppercase px-[7px] py-[2px] border" style={{color: 'var(--muted)', borderColor: 'var(--border-bright)'}}>
+                          {short.tag}
+                        </span>
+                      )}
+                      <span className="font-mono text-[8px] tracking-[0.1em] uppercase" style={{color: 'var(--dim)'}}>
+                        {formatDate(short.published_at)}
+                      </span>
+                    </div>
+                    <h3 className="font-serif text-[20px] font-bold leading-[1.3] text-white mb-2">
+                      {short.title}
+                    </h3>
+                    <p className="text-[14px] leading-[1.8]" style={{color: 'var(--muted)'}}>
+                      {short.body}
+                    </p>
+                  </div>
+
+                  {showCta && (
+                    <div className="py-8 px-6 my-4" style={{
+                      border: '1px solid var(--red-border)',
+                      background: 'var(--red-dim)'
+                    }}>
+                      <div className="font-serif text-[18px] font-bold text-white mb-3 text-center">
+                        Getting value from these shorts?
+                      </div>
+                      <p className="text-[13px] text-center mb-4" style={{color: 'var(--muted)'}}>
+                        Get the full daily brief delivered to your inbox.
+                      </p>
+                      <SubscribeForm variant="inline" buttonText="Subscribe" placeholder="your@email.com" />
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         )}
-        {!hasMore && displayed.length > 0 && (
-          <p className="text-sm text-stone-600 font-mono">
-            You&apos;re all caught up.
-          </p>
-        )}
+
+        <div ref={loaderRef} className="py-8 text-center">
+          {loading && (
+            <div className="font-mono text-[9px] tracking-[0.1em] uppercase" style={{color: 'var(--dim)'}}>
+              Loading more signals…
+            </div>
+          )}
+          {!hasMore && shorts.length > 0 && (
+            <div className="font-mono text-[9px] tracking-[0.1em] uppercase" style={{color: 'var(--dim)'}}>
+              — All signals loaded —
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  );
->>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
+  )
 }
