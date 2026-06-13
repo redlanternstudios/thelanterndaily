@@ -57,16 +57,10 @@ export async function getIssues(tier?: string, page = 1, perPage = 12): Promise<
     .from('lantern_issues')
     .select('*', { count: 'exact' })
     .order('published_at', { ascending: false })
-
-  if (tier && tier !== 'all') {
-    query = query.eq('tier', tier)
-  }
-
+  if (tier && tier !== 'all') query = query.eq('tier', tier)
   const from = (page - 1) * perPage
   const to = from + perPage - 1
-
   const { data, count, error } = await query.range(from, to)
-
   if (error) {
     console.error('Error fetching issues:', error)
     return { issues: [], total: 0 }
@@ -77,14 +71,12 @@ export async function getIssues(tier?: string, page = 1, perPage = 12): Promise<
 export async function getShorts(page = 1, perPage = 10): Promise<Short[]> {
   const from = (page - 1) * perPage
   const to = from + perPage - 1
-
   const { data, error } = await supabase
     .from('lantern_content_queue')
     .select('*')
     .eq('type', 'short')
     .order('published_at', { ascending: false })
     .range(from, to)
-
   if (error) {
     console.error('Error fetching shorts:', error)
     return []
