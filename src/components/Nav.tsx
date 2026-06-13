@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -8,11 +9,21 @@ const navLinks = [
   { href: "/", label: "Today" },
   { href: "/intelligence", label: "Intelligence" },
   { href: "/stack", label: "Stack" },
+=======
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/shorts", label: "Shorts" },
+>>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
   { href: "/archive", label: "Archive" },
   { href: "/about", label: "About" },
 ];
 
 export default function Nav() {
+<<<<<<< HEAD
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -98,10 +109,92 @@ export default function Nav() {
           >
             <div className="flex flex-col gap-4 px-6 py-6">
               {navLinks.map((link) => (
+=======
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-stone-950/90 backdrop-blur-md border-b border-stone-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link
+            href="/"
+            className="text-xl font-serif text-amber-400 hover:text-amber-300 transition-colors tracking-tight"
+          >
+            The Lantern Daily
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden sm:flex items-center gap-8">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-amber-400"
+                      : "text-stone-400 hover:text-stone-200"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="sm:hidden text-stone-400 hover:text-stone-200 focus:outline-none"
+            aria-label="Toggle navigation menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {mobileOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile nav */}
+      {mobileOpen && (
+        <div className="sm:hidden bg-stone-950 border-t border-stone-800">
+          <div className="px-4 py-3 space-y-2">
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+              return (
+>>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
+<<<<<<< HEAD
                   className="font-mono text-[11px] font-bold tracking-[0.15em] uppercase text-[var(--muted)] hover:text-white transition-colors no-underline"
                 >
                   {link.label}
@@ -118,6 +211,21 @@ export default function Nav() {
           </motion.nav>
         )}
       </AnimatePresence>
+=======
+                  className={`block px-3 py-2 rounded text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-amber-400 bg-stone-900"
+                      : "text-stone-400 hover:text-stone-200 hover:bg-stone-900"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+>>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
     </nav>
   );
 }

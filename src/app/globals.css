@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+<<<<<<< HEAD
 /* ===== THE LANTERN DAILY — DESIGN SYSTEM v2 =====
  * Dark theme matching homepage.html design ref
  */
@@ -354,5 +355,85 @@ body {
   section, div[id] {
     padding-left: 20px !important;
     padding-right: 20px !important;
+=======
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  :root {
+    --color-amber-400: #fbbf24;
+    --color-amber-50: #fffbeb;
+    --color-stone-950: #0c0a09;
+    --color-stone-900: #1c1917;
+    --color-stone-800: #292524;
+    --color-stone-400: #a8a29e;
+    --color-stone-300: #d6d3d1;
+    --color-emerald-500: #10b981;
+  }
+
+  body {
+    @apply bg-stone-950 text-stone-300 font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-amber-400/20 text-amber-200;
+  }
+}
+
+@layer utilities {
+  .bg-atmospheric {
+    background: linear-gradient(
+      135deg,
+      rgba(251, 191, 36, 0.08) 0%,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(251, 191, 36, 0.03) 100%
+    );
+  }
+
+  .bg-feature-card {
+    background: linear-gradient(
+      145deg,
+      rgba(251, 191, 36, 0.06) 0%,
+      rgba(28, 25, 23, 0.9) 60%
+    );
+    border: 1px solid rgba(251, 191, 36, 0.1);
+  }
+
+  .img-card {
+    @apply w-full aspect-[16/9] object-cover rounded-t-lg;
+  }
+
+  .img-hero {
+    @apply w-full aspect-[21/9] object-cover;
+  }
+
+  .blur-premium {
+    filter: blur(5px);
+    pointer-events: none;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ticker-scroll {
+    display: inline-block;
+    animation: ticker-scroll 30s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+>>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
   }
 }
