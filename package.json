@@ -9,18 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@supabase/supabase-js": "^2.108.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "next": "^16.2.9",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
-=======
-    "next": "16.2.9",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "@supabase/supabase-js": "^2.49.0"
->>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,12 +23,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.9",
+    "eslint-config-next": "^16.2.9",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 1b0c004 (feat: The Lantern Daily — all 6 pages, 8 components, API routes, design system)
