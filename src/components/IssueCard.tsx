@@ -1,16 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 
-interface IssueCardProps {
+export interface IssueCardProps {
   title: string;
   date: string;
   excerpt: string;
   topics: string[];
-  readTime: string;
+  readTime?: string;
   slug: string;
-  index?: number;
+  tier?: "free" | "premium";
 }
 
 export default function IssueCard({
@@ -18,82 +17,68 @@ export default function IssueCard({
   date,
   excerpt,
   topics,
-  readTime,
   slug,
-  index = 0,
+  tier = "free",
 }: IssueCardProps) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="issue-card group rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-6"
+    <article
+      style={{
+        borderRadius: "12px",
+        border: "1px solid var(--border)",
+        background: "var(--bg-card)",
+        padding: "24px",
+        transition: "all 0.3s",
+      }}
     >
-      {/* Meta row */}
-      <div className="flex items-center justify-between mb-4">
-        <time className="mono text-xs text-[var(--color-muted)] uppercase tracking-wider">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+        <time style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--dim)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
           {date}
         </time>
-        <span className="mono text-xs text-[var(--color-muted)]">
-          {readTime}
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            padding: "3px 8px",
+            border: "1px solid",
+            color: tier === "premium" ? "var(--red)" : "var(--muted)",
+            borderColor: tier === "premium" ? "var(--red-border)" : "var(--dim)",
+          }}
+        >
+          {tier === "premium" ? "Premium" : "Free"}
         </span>
       </div>
 
-      {/* Title */}
-      <h3 className="serif text-xl font-bold leading-snug text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-gold)] transition-colors">
-        <Link href={`/issues/${slug}`}>
-          <span className="absolute inset-0" aria-hidden="true" />
+      <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "20px", fontWeight: 700, lineHeight: 1.3, color: "var(--off-white)", marginBottom: "10px" }}>
+        <Link href={`/issues/${slug}`} style={{ textDecoration: "none", color: "inherit" }}>
           {title}
         </Link>
       </h3>
 
-      {/* Excerpt */}
-      <p className="mt-3 text-sm text-[var(--color-text-secondary)] leading-relaxed line-clamp-3">
+      <p style={{ fontSize: "14px", lineHeight: 1.6, color: "var(--muted)", marginBottom: "16px" }}>
         {excerpt}
       </p>
 
-      {/* Topics */}
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
         {topics.map((topic) => (
           <span
             key={topic}
-            className="mono inline-block rounded-full bg-[var(--color-bg)] px-3 py-1 text-[10px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wider"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "10px",
+              padding: "4px 10px",
+              background: "rgba(255,255,255,0.04)",
+              color: "var(--muted)",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+            }}
           >
             {topic}
           </span>
         ))}
       </div>
-    </motion.article>
+    </article>
   );
 }
-
-// Sample data for initial render
-export const sampleIssues: IssueCardProps[] = [
-  {
-    title: "The Agentic Shift: Why 2026 Is the Year AI Learns to Act",
-    date: "Jun 13, 2026",
-    excerpt:
-      "Enterprise AI is moving from chat to action. This week's briefing covers the major agent frameworks reshaping how work gets done.",
-    topics: ["AI", "Enterprise"],
-    readTime: "4 min",
-    slug: "agentic-shift-2026",
-  },
-  {
-    title: "Markets Digest Fed Decision: What the Steady Hand Means",
-    date: "Jun 12, 2026",
-    excerpt:
-      "The Fed held rates steady as expected, but the dot plot tells a different story. Breaking down the signal from the noise.",
-    topics: ["Markets", "Economy"],
-    readTime: "5 min",
-    slug: "fed-decision-june-2026",
-  },
-  {
-    title: "DeepSeek R1 and the Open-Weight Revolution",
-    date: "Jun 11, 2026",
-    excerpt:
-      "DeepSeek's latest model matches frontier labs on reasoning benchmarks. What this means for the AI landscape, competition, and accessibility.",
-    topics: ["AI", "Open Source"],
-    readTime: "6 min",
-    slug: "deepseek-r1-revolution",
-  },
-];

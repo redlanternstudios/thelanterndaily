@@ -4,16 +4,16 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "The Lantern Daily — Signal Before Consensus",
   description:
-    "AI-curated intelligence for the signal-driven reader. Daily briefings on AI, markets, geopolitics, and the future of work.",
+    "The daily intelligence brief for serious Muslim operators and AI-native builders. No noise. No consensus. Just signal.",
   openGraph: {
     title: "The Lantern Daily",
-    description: "Signal Before Consensus",
+    description: "Signal Before Consensus — Muslim-built. AI-native.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "The Lantern Daily",
-    description: "Signal Before Consensus",
+    description: "Signal Before Consensus — Muslim-built. AI-native.",
   },
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text-primary)]">
+      <body className="min-h-full flex flex-col" style={{ background: '#07080F', color: '#E8E9EF' }}>
         {children}
       </body>
     </html>

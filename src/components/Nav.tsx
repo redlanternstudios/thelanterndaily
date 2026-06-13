@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/issues", label: "Issues" },
+  { href: "/", label: "Today" },
+  { href: "/intelligence", label: "Intelligence" },
+  { href: "/stack", label: "Stack" },
+  { href: "/archive", label: "Archive" },
   { href: "/about", label: "About" },
 ];
 
@@ -21,60 +23,66 @@ export default function Nav() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[var(--color-bg)]/90 nav-blur border-b border-[var(--color-border)]"
-          : "bg-transparent"
-      }`}
+    <nav className="fixed top-0 left-0 right-0 z-100 flex items-center justify-between h-[60px] px-6 md:px-12"
+      style={{
+        background: scrolled ? "rgba(7,8,15,0.92)" : "rgba(7,8,15,0.92)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid var(--border)",
+      }}
     >
-      <div className="mx-auto flex h-16 max-w-[var(--max-w-content)] items-center justify-between px-6">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-2xl leading-none" aria-hidden="true">
-            🏮
-          </span>
-          <span className="serif text-xl font-bold tracking-tight text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-gold)] transition-colors">
-            The Lantern Daily
-          </span>
-        </Link>
+      {/* Logo */}
+      <Link href="/" className="nav-logo flex items-baseline gap-0 no-underline">
+        <span className="nav-logo-name font-serif text-[15px] font-bold text-white tracking-[0.02em]">
+          The Lantern
+        </span>
+        <span className="nav-logo-daily font-mono text-[11px] font-bold tracking-[0.2em] text-[var(--muted)] uppercase ml-[6px]">
+          D<span className="text-[var(--red)]">AI</span>LY
+        </span>
+      </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
+      {/* Desktop nav */}
+      <ul className="hidden md:flex items-center gap-8 list-none">
+        {navLinks.map((link) => (
+          <li key={link.href}>
             <Link
-              key={link.href}
               href={link.href}
-              className="text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors tracking-wide uppercase"
+              className="font-mono text-[10px] font-bold tracking-[0.15em] uppercase text-[var(--muted)] hover:text-white transition-colors no-underline"
             >
               {link.label}
             </Link>
-          ))}
-          <Link
-            href="/subscribe"
-            className="ml-4 rounded-full bg-[var(--color-accent-gold)] px-5 py-2 text-sm font-semibold text-white hover:bg-[var(--color-accent-gold)]/90 transition-all"
-          >
-            Subscribe
-          </Link>
-        </nav>
+          </li>
+        ))}
+      </ul>
 
+      {/* Right side */}
+      <div className="flex items-center gap-3">
+        <span className="label-rls font-mono text-[9px] tracking-[0.12em] text-[var(--dim)] uppercase hidden sm:inline">
+          RedLantern Studios™
+        </span>
+        <a
+          href="#subscribe"
+          className="btn-subscribe bg-[var(--red)] text-white font-mono text-[10px] font-bold tracking-[0.12em] uppercase px-5 py-[9px] border-none cursor-pointer hover:opacity-85 transition-opacity no-underline inline-block"
+        >
+          Subscribe
+        </a>
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="md:hidden flex flex-col gap-1.5 p-2 bg-transparent border-none cursor-pointer"
           aria-label="Toggle menu"
         >
           <motion.span
             animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            className="block h-0.5 w-6 bg-[var(--color-text-primary)]"
+            className="block h-[2px] w-5 bg-[var(--off-white)]"
           />
           <motion.span
             animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-            className="block h-0.5 w-6 bg-[var(--color-text-primary)]"
+            className="block h-[2px] w-5 bg-[var(--off-white)]"
           />
           <motion.span
             animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-            className="block h-0.5 w-6 bg-[var(--color-text-primary)]"
+            className="block h-[2px] w-5 bg-[var(--off-white)]"
           />
         </button>
       </div>
@@ -86,7 +94,7 @@ export default function Nav() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden bg-[var(--color-bg)] border-b border-[var(--color-border)]"
+            className="md:hidden overflow-hidden bg-[var(--bg-base)] border-b border-[var(--border)] absolute top-[60px] left-0 right-0"
           >
             <div className="flex flex-col gap-4 px-6 py-6">
               {navLinks.map((link) => (
@@ -94,22 +102,22 @@ export default function Nav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="text-base font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+                  className="font-mono text-[11px] font-bold tracking-[0.15em] uppercase text-[var(--muted)] hover:text-white transition-colors no-underline"
                 >
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/subscribe"
+              <a
+                href="#subscribe"
                 onClick={() => setMobileOpen(false)}
-                className="mt-2 rounded-full bg-[var(--color-accent-gold)] px-5 py-3 text-center text-sm font-semibold text-white hover:bg-[var(--color-accent-gold)]/90 transition-all"
+                className="mt-2 bg-[var(--red)] text-white font-mono text-[10px] font-bold tracking-[0.12em] uppercase px-5 py-3 text-center no-underline"
               >
                 Subscribe
-              </Link>
+              </a>
             </div>
           </motion.nav>
         )}
       </AnimatePresence>
-    </header>
+    </nav>
   );
 }

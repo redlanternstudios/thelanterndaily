@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
-export default function SubscribeForm() {
+export default function SubscribeSection() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
-    setMessage("");
+    setLoading(true);
+    setError("");
 
     try {
       const res = await fetch("/api/subscribe", {
@@ -19,45 +22,28 @@ export default function SubscribeForm() {
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setStatus("success");
-        setMessage("You're in. Check your inbox for the welcome email.");
-        setEmail("");
+      if (res.ok && data.operator_number) {
+        const num = String(data.operator_number).padStart(4, "0");
+        router.push(`/confirmed?operator=${num}`);
       } else {
-        setStatus("error");
-        setMessage(data.error || "Something went wrong.");
+        setError(data.error || "Something went wrong.");
       }
     } catch {
-      setStatus("error");
-      setMessage("Network error. Please try again.");
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <section
-      id="subscribe"
-      style={{
-        padding: "80px 48px",
-        textAlign: "center",
-        position: "relative",
-        overflow: "hidden",
-        borderBottom: "1px solid var(--border)",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "radial-gradient(ellipse at 50% 50%, rgba(212,37,53,0.08) 0%, transparent 60%)",
-          pointerEvents: "none",
-        }}
-      />
+    <section id="subscribe" className="scroll-mt-24" style={{ padding: "80px 48px", textAlign: "center", position: "relative", overflow: "hidden", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%, rgba(212,37,53,0.08) 0%, transparent 60%)", pointerEvents: "none" }} />
 
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--red)", marginBottom: "20px" }}>
+      <div className="subscribe-eyebrow" style={{ fontFamily: "var(--font-mono)", fontSize: "10px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--red)", marginBottom: "20px" }}>
         Signal Before Consensus
       </div>
 
-      <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 900, color: "var(--white)", lineHeight: 1.1, marginBottom: "16px", maxWidth: "600px", marginLeft: "auto", marginRight: "auto" }}>
+      <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 900, color: "var(--white)", lineHeight: 1.1, marginBottom: "16px", maxWidth: "600px", marginLeft: "auto", marginRight: "auto" }}>
         Built for the operators who don&apos;t wait for permission.
       </h2>
 
@@ -65,10 +51,7 @@ export default function SubscribeForm() {
         The Lantern Daily is the intelligence brief for Muslim founders, builders, and operators in AI and halal tech. Free to start. Serious when you&apos;re ready.
       </p>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", justifyContent: "center", maxWidth: "480px", margin: "0 auto" }}
-      >
+      <form onSubmit={handleSubmit} className="subscribe-form-large" style={{ display: "flex", justifyContent: "center", maxWidth: "480px", margin: "0 auto" }}>
         <input
           type="email"
           value={email}
@@ -86,12 +69,10 @@ export default function SubscribeForm() {
             padding: "15px 20px",
             outline: "none",
           }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--red)")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border-bright)")}
         />
         <button
           type="submit"
-          disabled={status === "loading"}
+          disabled={loading}
           style={{
             background: "var(--red)",
             color: "var(--white)",
@@ -102,26 +83,16 @@ export default function SubscribeForm() {
             textTransform: "uppercase",
             padding: "15px 28px",
             border: "none",
-            cursor: "pointer",
+            cursor: loading ? "not-allowed" : "pointer",
             whiteSpace: "nowrap",
-            opacity: status === "loading" ? 0.7 : 1,
+            opacity: loading ? 0.7 : 1,
           }}
         >
-          {status === "loading" ? "Subscribing..." : "Get the Daily"}
+          {loading ? "Joining..." : "Get the Daily"}
         </button>
       </form>
 
-      {message && (
-        <p
-          style={{
-            marginTop: "16px",
-            fontSize: "13px",
-            color: status === "success" ? "#4ADE80" : "var(--red)",
-          }}
-        >
-          {message}
-        </p>
-      )}
+      {error && <p style={{ color: "var(--red)", fontSize: "13px", marginTop: "12px" }}>{error}</p>}
 
       <div style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--dim)", marginTop: "16px" }}>
         Free · No spam · Unsubscribe anytime · Operator number assigned on join

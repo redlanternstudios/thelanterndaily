@@ -1,44 +1,35 @@
 "use client";
 
 const tickerItems = [
-  "🤖 AI agents are reshaping enterprise workflows",
-  "📊 Markets calm as Fed holds rates steady",
-  "🌍 Geopolitical tensions drive energy policy shifts",
-  "⚡ The future of work: distributed teams, AI copilots",
-  "🧬 Breakthrough in quantum computing announced",
-  "🏮 The Lantern Daily — Signal Before Consensus",
-  "📡 AI-curated intelligence for the signal-driven reader",
-  "💡 DeepSeek R1 sets new SOTA on reasoning benchmarks",
-  "🔮 How to think about AGI timelines in 2026",
-  "📈 Crypto volatility signals regime change ahead",
+  "Signal Before Consensus",
+  "Issue #007",
+  "Muslim-Built. AI-Native.",
+  "Agent Governance Is the New Product Layer",
+  "247 Operators",
+  "03 Signals Today",
 ];
 
 export default function TickerStrip() {
+  const items = [...tickerItems, ...tickerItems];
+
   return (
-    <div className="w-full overflow-hidden bg-[var(--color-ticker-bg)] py-3 mt-16">
-      <div className="ticker-track flex whitespace-nowrap">
-        {/* First track */}
-        <div className="flex shrink-0 items-center gap-12 px-6">
-          {tickerItems.map((item, i) => (
-            <span
-              key={`a-${i}`}
-              className="mono text-sm text-[var(--color-ticker-text)] tracking-wide"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-        {/* Duplicate for seamless loop */}
-        <div className="flex shrink-0 items-center gap-12 px-6">
-          {tickerItems.map((item, i) => (
-            <span
-              key={`b-${i}`}
-              className="mono text-sm text-[var(--color-ticker-text)] tracking-wide"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+    <div className="ticker fixed top-[60px] left-0 right-0 z-[99] overflow-hidden"
+      style={{
+        background: "var(--red)",
+        padding: "6px 0",
+      }}
+    >
+      <div className="ticker-inner flex whitespace-nowrap"
+        style={{
+          animation: "ticker-scroll 30s linear infinite",
+        }}
+      >
+        {items.map((item, i) => (
+          <span key={i} className="ticker-item font-mono text-[9px] font-bold tracking-[0.15em] uppercase text-white/90 px-[40px]">
+            {item}
+            <span className="ticker-sep text-white/40 px-[8px]">·</span>
+          </span>
+        ))}
       </div>
     </div>
   );

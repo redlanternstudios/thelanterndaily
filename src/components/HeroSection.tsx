@@ -1,92 +1,247 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="hero-gradient relative overflow-hidden">
-      {/* Decorative glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[var(--color-accent-gold)]/5 blur-3xl pointer-events-none" />
+    <section
+      style={{
+        position: "relative",
+        padding: "80px 48px 64px",
+        borderBottom: "1px solid var(--border)",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        gap: "80px",
+        alignItems: "center",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background glow */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "radial-gradient(ellipse at 60% 50%, rgba(212,37,53,0.06) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(30,20,80,0.15) 0%, transparent 50%)",
+          pointerEvents: "none",
+        }}
+      />
 
-      <div className="relative mx-auto max-w-[var(--max-w-content)] px-6 py-24 md:py-32">
-        <div className="max-w-3xl">
-          {/* Tagline */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="mono inline-block text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent-gold-light)] mb-6">
-              Daily Intelligence Briefing
-            </span>
-          </motion.div>
+      {/* Left column */}
+      <div>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "var(--red)",
+            marginBottom: "20px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <span style={{ width: "24px", height: "1px", background: "var(--red)" }} />
+          Muslim-Built. AI-Native.
+        </div>
 
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="serif text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight text-balance"
-          >
-            Signal Before
-            <span className="block text-[var(--color-accent-gold)]">
-              Consensus
-            </span>
-          </motion.h1>
+        <h1
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(36px, 5vw, 60px)",
+            fontWeight: 900,
+            lineHeight: 1.0,
+            color: "var(--white)",
+            marginBottom: "24px",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Signal<br />
+          <em style={{ fontStyle: "italic", color: "var(--off-white)" }}>before</em><br />
+          consensus.
+        </h1>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 max-w-xl text-lg md:text-xl text-gray-300 leading-relaxed"
-          >
-            AI-curated intelligence for the signal-driven reader. Daily briefings
-            on AI, markets, geopolitics, and the future of work — delivered
-            before the noise catches up.
-          </motion.p>
+        <p
+          style={{
+            fontSize: "16px",
+            fontWeight: 300,
+            lineHeight: 1.7,
+            color: "var(--muted)",
+            maxWidth: "440px",
+            marginBottom: "36px",
+          }}
+        >
+          The daily intelligence brief for serious Muslim operators and AI-native builders. No noise. No consensus. Just signal.
+        </p>
 
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-wrap gap-4"
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            style={{ display: "flex", gap: 0 }}
           >
-            <a
-              href="#issues"
-              className="rounded-full bg-[var(--color-accent-gold)] px-8 py-3.5 text-sm font-semibold text-white hover:bg-[var(--color-accent-gold)]/90 transition-all shadow-lg shadow-[var(--color-accent-gold)]/20"
+            <input
+              type="email"
+              placeholder="your@email.com"
+              className="subscribe-input"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid var(--border-bright)",
+                borderRight: "none",
+                color: "var(--white)",
+                fontFamily: "var(--font-sans)",
+                fontSize: "13px",
+                padding: "13px 20px",
+                width: "260px",
+                outline: "none",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                background: "var(--red)",
+                color: "var(--white)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                padding: "13px 24px",
+                border: "none",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
             >
-              Read Latest Issue
-            </a>
-            <a
-              href="#subscribe"
-              className="rounded-full border border-white/20 px-8 py-3.5 text-sm font-semibold text-white hover:bg-white/10 transition-all"
-            >
-              Subscribe Free
-            </a>
-          </motion.div>
+              Join the Daily
+            </button>
+          </form>
 
-          {/* Stats bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 flex flex-wrap gap-8 md:gap-12"
+          <Link
+            href="#signals"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "10px",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "var(--muted)",
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
           >
-            <div>
-              <p className="serif text-2xl font-bold text-white">24K+</p>
-              <p className="text-sm text-gray-400 mt-1">Active Readers</p>
+            Today&apos;s signal <span>→</span>
+          </Link>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "32px",
+            marginTop: "40px",
+            paddingTop: "32px",
+            borderTop: "1px solid var(--border)",
+          }}
+        >
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "var(--white)", lineHeight: 1, marginBottom: "4px" }}>
+              <span style={{ color: "var(--red)" }}>247</span>
             </div>
-            <div>
-              <p className="serif text-2xl font-bold text-white">150+</p>
-              <p className="text-sm text-gray-400 mt-1">Daily Issues</p>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Operators
             </div>
-            <div>
-              <p className="serif text-2xl font-bold text-white">5 min</p>
-              <p className="text-sm text-gray-400 mt-1">Avg. Read Time</p>
+          </div>
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "var(--white)", lineHeight: 1, marginBottom: "4px" }}>
+              07
             </div>
-          </motion.div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Signals
+            </div>
+          </div>
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "28px", fontWeight: 700, color: "var(--white)", lineHeight: 1, marginBottom: "4px" }}>
+              01
+            </div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--muted)" }}>
+              Brief
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right column — Feature card */}
+      <div>
+        <div
+          style={{
+            position: "relative",
+            border: "1px solid var(--border-bright)",
+            overflow: "hidden",
+            transition: "border-color 0.3s",
+          }}
+        >
+          <div style={{ height: "280px", position: "relative", overflow: "hidden" }}>
+            <div
+              className="feature-img-inner"
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "radial-gradient(circle at 30% 40%, rgba(212,37,53,0.25) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(50,30,100,0.4) 0%, transparent 40%), linear-gradient(135deg, #0A0818 0%, #1A1040 30%, #0F0820 60%, #080510 100%)",
+              }}
+            />
+            <span
+              style={{
+                position: "absolute",
+                top: "20px",
+                left: "20px",
+                background: "var(--red)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "9px",
+                fontWeight: 700,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "var(--white)",
+                padding: "5px 10px",
+                zIndex: 2,
+              }}
+            >
+              Today&apos;s Lead
+            </span>
+          </div>
+          <div style={{ padding: "28px", background: "var(--bg-card)" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--red)", marginBottom: "10px" }}>
+              AI Governance · Signal
+            </div>
+            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "22px", fontWeight: 700, lineHeight: 1.3, color: "var(--white)", marginBottom: "10px" }}>
+              Agent Governance Is the New Product Layer
+            </h3>
+            <p style={{ fontSize: "13px", lineHeight: 1.6, color: "var(--muted)", marginBottom: "20px" }}>
+              The teams that build governance infrastructure now will own the trust layer that determines which AI products survive the next 18 months.
+            </p>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", color: "var(--dim)", textTransform: "uppercase" }}>
+                Jun 13 · Issue #007
+              </span>
+              <Link
+                href="/issues/agent-governance"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--red)",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+              >
+                Read signal <span>→</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
