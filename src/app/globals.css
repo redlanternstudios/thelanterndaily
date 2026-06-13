@@ -24,19 +24,8 @@
   --font-mono: 'Space Mono', monospace;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  background: var(--bg-base);
-  color: var(--off-white);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: var(--bg-base); color: var(--off-white); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
 .atmo-1 { background: radial-gradient(ellipse at 30% 40%, rgba(30,20,60,0.9) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #0A0818 0%, #14102A 50%, #07080F 100%); }
 .atmo-2 { background: radial-gradient(ellipse at 70% 30%, rgba(50,10,20,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150810 0%, #200A15 50%, #07080F 100%); }
@@ -45,37 +34,10 @@ html, body {
 .atmo-5 { background: radial-gradient(ellipse at 80% 20%, rgba(40,20,10,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150F08 0%, #1F1408 50%, #07080F 100%); }
 .atmo-6 { background: radial-gradient(ellipse at 40% 50%, rgba(30,10,40,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #110820 0%, #180D28 50%, #07080F 100%); }
 
-.mesh::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
+.mesh::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
 
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-fade-in-up-delay-1 {
-  animation: fadeInUp 0.6s ease-out 0.15s forwards;
-  opacity: 0;
-}
-
-.animate-fade-in-up-delay-2 {
-  animation: fadeInUp 0.6s ease-out 0.3s forwards;
-  opacity: 0;
-}
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+.animate-fade-in-up-delay-1 { animation: fadeInUp 0.6s ease-out 0.15s forwards; opacity: 0; }
+.animate-fade-in-up-delay-2 { animation: fadeInUp 0.6s ease-out 0.3s forwards; opacity: 0; }
