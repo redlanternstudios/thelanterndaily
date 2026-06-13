@@ -1,28 +1,17 @@
 import Link from "next/link";
-
 export default function Footer() {
   return (
-    <footer style={{ padding: "40px 48px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+    <footer className="flex items-center justify-between px-6 md:px-12 py-10 flex-wrap gap-4">
       <div>
-        <div style={{ fontFamily: "var(--font-serif)", fontSize: "14px", fontWeight: 700, color: "var(--white)", marginBottom: "4px" }}>
-          The Lantern Daily
-        </div>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: "8px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--dim)" }}>
-          A RedLantern Studios™ Publication · By Red LLC
-        </div>
+        <div className="font-serif text-[14px] font-bold text-white mb-1">The Lantern Daily</div>
+        <div className="font-mono text-[8px] tracking-[0.12em] uppercase text-[var(--dim)]">A RedLantern Studios™ Publication · By Red LLC</div>
       </div>
-
-      <ul style={{ display: "flex", gap: "24px", listStyle: "none", flexWrap: "wrap" }}>
-        <li><Link href="/archive" style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", textDecoration: "none" }}>Archive</Link></li>
-        <li><Link href="/about" style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", textDecoration: "none" }}>About</Link></li>
-        <li><Link href="/shorts" style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", textDecoration: "none" }}>Shorts</Link></li>
-        <li><Link href="/privacy" style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--muted)", textDecoration: "none" }}>Privacy</Link></li>
+      <ul className="flex gap-6 list-none">
+        {[{ href: "/about", label: "About" }, { href: "/archive", label: "Archive" }, { href: "#subscribe", label: "Subscribe" }, { href: "/privacy", label: "Privacy" }].map((link) => (
+          <li key={link.href}><Link href={link.href} className="font-mono text-[9px] tracking-[0.1em] uppercase text-[var(--muted)] no-underline hover:text-white transition-colors">{link.label}</Link></li>
+        ))}
       </ul>
-
-      <div style={{ fontFamily: "var(--font-mono)", fontSize: "8px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--dim)", textAlign: "right" }}>
-        Muslim-Built. AI-Native.<br />
-        &copy; 2026 By Red, LLC
-      </div>
+      <div className="font-mono text-[8px] tracking-[0.1em] uppercase text-[var(--dim)] text-right">&copy; {new Date().getFullYear()}</div>
     </footer>
   );
 }

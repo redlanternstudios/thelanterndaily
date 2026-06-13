@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Create a function instead of eager singleton to avoid build-time env errors
+let supabaseInstance: ReturnType<typeof createClient> | null = null;
+
 export function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -9,13 +10,9 @@ export function getSupabaseClient() {
     throw new Error("Supabase environment variables not configured");
   }
 
-  return createClient(supabaseUrl, supabaseAnonKey);
-}
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+  }
 
-// For backwards compatibility and runtime usage
-export const supabase = typeof window !== "undefined"
-  ? createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-  : null!;
+  return supabaseInstance;
+}
