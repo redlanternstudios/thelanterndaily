@@ -1,61 +1,33 @@
-import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { email } = await request.json()
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json(
-        { error: "Valid email is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Valid email is required' }, { status: 400 })
     }
 
-    const { data: existing } = await supabase
-      .from("lantern_subscribers")
-      .select("operator_number")
-      .eq("email", email)
-      .maybeSingle();
-
-    if (existing) {
-      return NextResponse.json({
-        operator_number: existing.operator_number,
-        existing: true,
-      });
+    // Forward subscription to n8n webhook — business logic lives there
+    const n8nWebhookUrl = process.env.N8N_SUBSCRIBE_WEBHOOK_URL
+    if (n8nWebhookUrl) {
+      const response = await fetch(n8nWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'thelanterndaily' }),
+      })
+      const data = await response.json()
+      return NextResponse.json(data, { status: response.status })
     }
 
-    const { count } = await supabase
-      .from("lantern_subscribers")
-      .select("*", { count: "exact", head: true });
-
-    const operatorNumber = (count ?? 0) + 1;
-
-    const { error } = await supabase.from("lantern_subscribers").insert({
+    // Fallback if n8n is not configured
+    return NextResponse.json({
+      message: 'Subscription received',
       email,
-      operator_number: operatorNumber,
-      tier: "free",
-      subscribed_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      console.error("Subscribe insert error:", error);
-      return NextResponse.json(
-        { error: "Failed to subscribe. Please try again." },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({ operator_number: operatorNumber });
+      note: 'n8n not configured — subscription queued',
+    })
   } catch (err) {
-    console.error("Subscribe error:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    console.error('Subscribe error:', err)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
