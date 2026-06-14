@@ -34,10 +34,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = {
-  themeColor: "#07080f",
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -48,13 +44,12 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${spaceMono.variable} antialiased`}
     >
+      <head>
+        <meta name="theme-color" content="#07080f" />
+      </head>
       <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
         {children}
       </body>
     </html>
-<<<<<<< HEAD
   );
-=======
-  )
->>>>>>> 8132911 (fix: add not-found.tsx fallback page)
 }
