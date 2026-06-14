@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
 
-<<<<<<< HEAD
 /* ===== THE LANTERN DAILY — DARK EDITORIAL DESIGN SYSTEM ===== */
 
 :root {
@@ -147,46 +146,3 @@ body > * {
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-border); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-red); }
-=======
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --bg-base: #07080F;
-  --bg-card: #0D0F1C;
-  --bg-card-hover: #151828;
-  --bg-card-2: #11142A;
-  --red: #D42535;
-  --red-dim: rgba(212, 37, 53, 0.15);
-  --red-border: rgba(212, 37, 53, 0.3);
-  --white: #FFFFFF;
-  --off-white: #E8E9EF;
-  --muted: #7A8299;
-  --dim: #3A3F57;
-  --border: rgba(255,255,255,0.06);
-  --border-bright: rgba(255,255,255,0.12);
-  --gold: #C8A96E;
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Space Mono', monospace;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { background: var(--bg-base); color: var(--off-white); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-
-.atmo-1 { background: radial-gradient(ellipse at 30% 40%, rgba(30,20,60,0.9) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #0A0818 0%, #14102A 50%, #07080F 100%); }
-.atmo-2 { background: radial-gradient(ellipse at 70% 30%, rgba(50,10,20,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150810 0%, #200A15 50%, #07080F 100%); }
-.atmo-3 { background: radial-gradient(ellipse at 50% 60%, rgba(10,25,50,0.9) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #080E1F 0%, #0F1830 50%, #07080F 100%); }
-.atmo-4 { background: radial-gradient(ellipse at 20% 80%, rgba(20,40,20,0.7) 0%, rgba(7,8,15,0.98) 70%), linear-gradient(135deg, #080F08 0%, #0D1A0D 50%, #07080F 100%); }
-.atmo-5 { background: radial-gradient(ellipse at 80% 20%, rgba(40,20,10,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150F08 0%, #1F1408 50%, #07080F 100%); }
-.atmo-6 { background: radial-gradient(ellipse at 40% 50%, rgba(30,10,40,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #110820 0%, #180D28 50%, #07080F 100%); }
-
-.mesh::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
-
-@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
-.animate-fade-in-up-delay-1 { animation: fadeInUp 0.6s ease-out 0.15s forwards; opacity: 0; }
-.animate-fade-in-up-delay-2 { animation: fadeInUp 0.6s ease-out 0.3s forwards; opacity: 0; }
->>>>>>> origin/main

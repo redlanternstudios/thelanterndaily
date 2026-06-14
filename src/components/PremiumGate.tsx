@@ -1,6 +1,12 @@
-export default function PremiumGate() {
+export default function PremiumGate({
+  children,
+}: {
+  children?: React.ReactNode;
+  previewWords?: number;
+}) {
   return (
     <div style={{ position: 'relative' }}>
+      {children}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
         background: 'linear-gradient(transparent, #07080F 60%)',
