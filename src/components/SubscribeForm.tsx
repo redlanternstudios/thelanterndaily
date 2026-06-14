@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { motion } from "framer-motion";
+import { useState, type FormEvent } from "react";
+import { SOCIAL_PROOF } from "@/lib/content";
 
-export default function SubscribeForm() {
+export default function SubscribeForm({ compact = false }: { compact?: boolean }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -12,7 +12,6 @@ export default function SubscribeForm() {
     e.preventDefault();
     setStatus("loading");
     setMessage("");
-
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
@@ -22,7 +21,7 @@ export default function SubscribeForm() {
       const data = await res.json();
       if (res.ok) {
         setStatus("success");
-        setMessage("You're in. Check your inbox for the welcome email.");
+        setMessage("You're in. Check your inbox for the welcome briefing.");
         setEmail("");
       } else {
         setStatus("error");
@@ -35,61 +34,44 @@ export default function SubscribeForm() {
   };
 
   return (
-    <section id="subscribe" className="scroll-mt-24">
-      <div className="mx-auto max-w-2xl text-center">
-        <span className="mono inline-block text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent-gold)] mb-4">
-          Stay Ahead
-        </span>
-        <h2 className="serif text-3xl md:text-4xl font-bold text-[var(--color-text-primary)]">
-          Get The Lantern Daily
-        </h2>
-        <p className="mt-4 text-[var(--color-text-secondary)] max-w-md mx-auto">
-          Join 24K+ readers getting signal before consensus. Free daily briefings
-          delivered to your inbox every morning.
-        </p>
-
-        <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-8 flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+    <div className={compact ? "" : "text-center"}>
+      <form
+        onSubmit={handleSubmit}
+        className={`flex flex-col sm:flex-row gap-2 ${compact ? "" : "max-w-md mx-auto"}`}
+      >
+        <label htmlFor="subscribe-email" className="sr-only">
+          Email address
+        </label>
+        <input
+          id="subscribe-email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@company.com"
+          required
+          className="flex-1 border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-red)] focus:outline-none transition-colors"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="bg-[var(--color-red)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] font-bold text-[var(--color-text)] hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap"
         >
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            required
-            className="subscribe-input flex-1 rounded-full border border-[var(--color-border)] bg-white px-5 py-3 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-muted)]"
-          />
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="rounded-full bg-[var(--color-accent-gold)] px-6 py-3 text-sm font-semibold text-white hover:bg-[var(--color-accent-gold)]/90 disabled:opacity-50 transition-all whitespace-nowrap"
-          >
-            {status === "loading" ? "Subscribing..." : "Subscribe Free"}
-          </button>
-        </motion.form>
-
-        {message && (
-          <motion.p
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`mt-4 text-sm ${
-              status === "success"
-                ? "text-green-600"
-                : "text-[var(--color-accent-red)]"
-            }`}
-          >
-            {message}
-          </motion.p>
-        )}
-
-        <p className="mt-4 text-xs text-[var(--color-muted)]">
-          No spam. Unsubscribe anytime.
+          {status === "loading" ? "Joining…" : "Join Free"}
+        </button>
+      </form>
+      {message ? (
+        <p
+          className={`mt-3 text-sm ${
+            status === "success" ? "text-[var(--color-blue)]" : "text-[var(--color-red)]"
+          }`}
+        >
+          {message}
         </p>
-      </div>
-    </section>
+      ) : (
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
+          Join {SOCIAL_PROOF.split(" ")[0]}+ · No spam · Unsubscribe anytime
+        </p>
+      )}
+    </div>
   );
 }

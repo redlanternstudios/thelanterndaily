@@ -1,24 +1,37 @@
-import Nav from "@/components/Nav";
-import TickerStrip from "@/components/TickerStrip";
-import HeroSection from "@/components/HeroSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import IssuesSection from "@/components/IssuesSection";
-import SubscribeForm from "@/components/SubscribeForm";
+import Masthead from "@/components/Masthead";
+import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
+import ArticleCard from "@/components/ArticleCard";
+import SectionDivider from "@/components/SectionDivider";
+import Hero from "@/components/home/Hero";
+import SecondRow from "@/components/home/SecondRow";
+import PullQuote from "@/components/home/PullQuote";
+import SignalsAndStack from "@/components/home/SignalsAndStack";
+import SubscribeCTA from "@/components/home/SubscribeCTA";
+import { GRID_ARTICLES } from "@/lib/content";
 
 export default function HomePage() {
   return (
     <>
-      <Nav />
-      <main>
-        <HeroSection />
-        <TickerStrip />
+      <Masthead />
+      <Ticker />
+      <main className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 py-6 sm:py-8">
+        <div className="flex flex-col gap-12 sm:gap-16">
+          <Hero />
+          <SecondRow />
 
-        {/* Main content area */}
-        <div className="mx-auto max-w-[var(--max-w-content)] px-6 py-16 space-y-24">
-          <FeaturesSection />
-          <IssuesSection />
-          <SubscribeForm />
+          <section>
+            <SectionDivider label="Latest Dispatches" href="/archive" />
+            <div className="mt-0.5 grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
+              {GRID_ARTICLES.map((article) => (
+                <ArticleCard key={article.slug} article={article} />
+              ))}
+            </div>
+          </section>
+
+          <PullQuote />
+          <SignalsAndStack />
+          <SubscribeCTA />
         </div>
       </main>
       <Footer />

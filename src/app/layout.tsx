@@ -1,20 +1,39 @@
 import type { Metadata } from "next";
+import { Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "The Lantern Daily — Signal Before Consensus",
+  title: "The Lantern Daily — AI & Tech for Muslim Builders",
   description:
-    "AI-curated intelligence for the signal-driven reader. Daily briefings on AI, markets, geopolitics, and the future of work.",
+    "A Muslim-founded AI and tech newsletter for founders, builders, and operators. Field notes, market signals, and the operator stack. 18,472+ builders, investors, and operators.",
   openGraph: {
     title: "The Lantern Daily",
-    description: "Signal Before Consensus",
+    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "The Lantern Daily",
-    description: "Signal Before Consensus",
+    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
   },
+};
+
+export const viewport = {
+  themeColor: "#07080f",
 };
 
 export default function RootLayout({
@@ -23,16 +42,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text-primary)]">
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceMono.variable} bg-background antialiased`}
+    >
+      <body className="min-h-screen bg-background text-[var(--color-text)] font-body">
         {children}
       </body>
     </html>
