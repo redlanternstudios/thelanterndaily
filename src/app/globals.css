@@ -22,18 +22,20 @@
   --max-w: 1400px;
 }
 
-@theme inline {
-  --color-bg: var(--color-bg);
-  --color-text: var(--color-text);
-  --color-text-dim: var(--color-text-dim);
-  --color-red: var(--color-red);
-  --color-blue: var(--color-blue);
-  --color-card: var(--color-card);
-  --color-border: var(--color-border);
-  --color-border-soft: var(--color-border-soft);
-  --font-headline: var(--font-headline);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
+@theme {
+  --color-bg: #07080f;
+  --color-text: #f7f2ea;
+  --color-text-dim: #9aa0b0;
+  --color-red: #d42535;
+  --color-blue: #2f8fd8;
+  --color-card: #0d0f1c;
+  --color-border: #252b3b;
+  --color-border-soft: #1a1f2e;
+  --color-background: #07080f;
+  --color-foreground: #f7f2ea;
+  --font-headline: Georgia, "Times New Roman", serif;
+  --font-body: var(--font-inter), "Inter", -apple-system, sans-serif;
+  --font-mono: var(--font-space-mono), "Space Mono", monospace;
   --radius: 0px;
 }
 

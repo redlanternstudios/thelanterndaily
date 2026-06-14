@@ -44,9 +44,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceMono.variable} bg-background antialiased`}
+      className={`${inter.variable} ${spaceMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-background text-[var(--color-text)] font-body">
+      <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
         {children}
       </body>
     </html>
