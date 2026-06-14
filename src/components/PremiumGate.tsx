@@ -1,24 +1,31 @@
-import Link from 'next/link';
-
 export default function PremiumGate() {
   return (
-    <div className="premium-blur rounded-xl border border-lantern-border/30 p-8 text-center">
-      <div className="premium-content mb-6">
-        <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-lantern-accent/10 flex items-center justify-center">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-lantern-accent">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-          </svg>
+    <div style={{ position: 'relative' }}>
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
+        background: 'linear-gradient(transparent, #07080F 60%)',
+        padding: '60px 0 40px', textAlign: 'center',
+      }}>
+        <div style={{ border: '1px solid rgba(212,37,53,0.3)', background: 'rgba(212,37,53,0.15)', padding: 28, maxWidth: 400, margin: '0 auto' }}>
+          <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, fontWeight: 700, color: '#FFFFFF', margin: '0 0 8px' }}>
+            Unlock the Full Brief
+          </h3>
+          <p style={{ fontSize: 12, color: '#7A8299', lineHeight: 1.5, margin: '0 0 16px' }}>
+            You&apos;re reading a preview. Premium operators get the full Weekly Brief, all signals, and the intelligence archive.
+          </p>
+          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 22, fontWeight: 700, color: '#FFFFFF', marginBottom: 4 }}>
+            $15 <span style={{ fontSize: 12, color: '#7A8299' }}>/ month</span>
+          </div>
+          <button style={{
+            width: '100%', background: '#D42535', color: '#FFFFFF',
+            fontFamily: "'Space Mono', monospace", fontSize: 9, fontWeight: 700,
+            letterSpacing: '0.12em', textTransform: 'uppercase',
+            padding: '12px 0', border: 'none', cursor: 'pointer', marginTop: 14,
+          }}>
+            Upgrade Now
+          </button>
         </div>
-        <p className="text-sm text-lantern-muted-text">
-          Premium content is locked. Subscribe to unlock the full briefing.
-        </p>
       </div>
-      <Link
-        href="/"
-        className="inline-block bg-lantern-accent text-lantern-black font-semibold px-6 py-3 rounded-lg text-sm hover:bg-lantern-accent/90 transition-all"
-      >
-        Upgrade to Premium
-      </Link>
     </div>
   );
 }

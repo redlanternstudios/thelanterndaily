@@ -1,17 +1,19 @@
-interface ShortsCardProps {
-  tag: string;
-  date: string;
+interface Props {
+  title: string;
   body: string;
+  date: string;
+  tag: string;
 }
 
-export default function ShortsCard({ tag, date, body }: ShortsCardProps) {
+export default function ShortsCard({ title, body, date, tag }: Props) {
   return (
-    <article className="atmos-card border border-lantern-border/30 rounded-xl p-5 hover:border-lantern-accent/20 transition-all duration-300">
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-xs font-mono text-lantern-accent uppercase tracking-wider">{tag}</span>
-        <time className="text-xs text-lantern-muted-text">{date}</time>
+    <div style={{ padding: '28px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#3A3F57' }}>{date}</span>
+        <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#7A8299', padding: '2px 7px', border: '1px solid rgba(255,255,255,0.12)' }}>{tag}</span>
       </div>
-      <p className="text-sm text-lantern-text leading-relaxed">{body}</p>
-    </article>
+      <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, fontWeight: 600, lineHeight: 1.3, color: '#E8E9EF', margin: '0 0 12px' }}>{title}</h3>
+      <div style={{ fontSize: 14, lineHeight: 1.8, color: '#7A8299' }} dangerouslySetInnerHTML={{ __html: body }} />
+    </div>
   );
 }
