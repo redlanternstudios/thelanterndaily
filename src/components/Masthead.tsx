@@ -12,7 +12,7 @@ function Logo() {
         aria-hidden="true"
       >
         <span className="text-[var(--color-text)]">The </span>
-        <span className="text-[var(--color-red)]">Lantern </span>
+        <span className="text-[var(--color-text)]">Lantern </span>
         <span className="text-[var(--color-text)]">D</span>
         <span className="text-[var(--color-red)]">AI</span>
         <span className="text-[var(--color-text)]">LY</span>
