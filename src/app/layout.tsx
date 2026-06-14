@@ -16,6 +16,8 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "The Lantern Daily — AI & Tech for Muslim Builders",
   description:
@@ -50,5 +52,9 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+<<<<<<< HEAD
   );
+=======
+  )
+>>>>>>> 8132911 (fix: add not-found.tsx fallback page)
 }

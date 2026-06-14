@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // No custom turbopack config needed
+  output: 'standalone',
+  skipTrailingSlashRedirect: true,
 };
 
 export default nextConfig;
