@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import SubscribeForm from '@/components/SubscribeForm'
-import IssueCard from '@/components/IssueCard'
 import type { Issue, Short } from '@/lib/types'
 import { getSubscriberCount, getRecentIssues, getRecentShorts } from '@/lib/supabase-queries'
 

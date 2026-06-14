@@ -1,4 +1,5 @@
 import Link from "next/link"
+import SubscribeForm from "@/components/SubscribeForm"
 import TickerStrip from "@/components/TickerStrip"
 
 export default function AboutPage() {

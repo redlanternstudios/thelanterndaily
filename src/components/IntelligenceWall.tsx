@@ -49,10 +49,10 @@ const wallCards = [
     tierClass: "tier-premium",
   },
   {
-    href: "/issues/halal-finance-ai",
+    href: "/issues/islamic-finance-ai",
     imgClass: "atmo-3",
     category: "Market Signal",
-    title: "Halal Finance Meets AI Infrastructure",
+    title: "Islamic Finance Meets AI Infrastructure",
     issue: "Signal #007",
     tier: "Premium",
     tierClass: "tier-premium",
