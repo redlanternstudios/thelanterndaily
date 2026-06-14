@@ -1,30 +1,54 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import TickerStrip from '@/components/TickerStrip'
-import Footer from '@/components/Footer'
+import type { Metadata } from "next";
+import { Inter, Space_Mono } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: 'The Lantern Daily — Signal Before Consensus',
-  description: 'The daily intelligence brief for serious Muslim operators and AI-native builders. No noise. No consensus. Just signal.',
-  metadataBase: new URL('https://thelanterndaily.com'),
+  title: "The Lantern Daily — AI & Tech for Muslim Builders",
+  description:
+    "A Muslim-founded AI and tech newsletter for founders, builders, and operators. Field notes, market signals, and the operator stack. 18,472+ builders, investors, and operators.",
   openGraph: {
-    title: 'The Lantern Daily — Signal Before Consensus',
-    description: 'The daily intelligence brief for Muslim founders and builders shaping the future of halal tech.',
-    type: 'website',
-    siteName: 'The Lantern Daily',
+    title: "The Lantern Daily",
+    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
+    type: "website",
   },
-  icons: { icon: '/favicon.ico' },
-}
+  twitter: {
+    card: "summary_large_image",
+    title: "The Lantern Daily",
+    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
+  },
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const viewport = {
+  themeColor: "#07080f",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body>
-        
-        <TickerStrip />
-        <main className="pt-[88px]">{children}</main>
-        <Footer />
+    <html
+      lang="en"
+      className={`${inter.variable} ${spaceMono.variable} antialiased`}
+    >
+      <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
+        {children}
       </body>
     </html>
-  )
+  );
 }
