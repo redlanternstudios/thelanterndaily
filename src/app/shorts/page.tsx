@@ -110,7 +110,7 @@ export default function ShortsPage() {
                       <p className="text-[13px] text-center mb-4" style={{color: 'var(--muted)'}}>
                         Get the full daily brief delivered to your inbox.
                       </p>
-                      <SubscribeForm variant="inline" buttonText="Subscribe" placeholder="your@email.com" />
+                      <SubscribeForm variant="inline" />
                     </div>
                   )}
                 </div>

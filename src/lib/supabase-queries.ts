@@ -1,7 +1,8 @@
-import { supabase } from './supabase'
+import { getSupabase } from './supabase'
 import type { Issue, Short } from './types'
 
 export async function getSubscriberCount(): Promise<number> {
+  const supabase = getSupabase()
   const { count, error } = await supabase
     .from('lantern_subscribers')
     .select('*', { count: 'exact', head: true })
@@ -13,6 +14,7 @@ export async function getSubscriberCount(): Promise<number> {
 }
 
 export async function getRecentIssues(limit = 3): Promise<Issue[]> {
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('lantern_issues')
     .select('*')
@@ -26,6 +28,7 @@ export async function getRecentIssues(limit = 3): Promise<Issue[]> {
 }
 
 export async function getRecentShorts(limit = 3): Promise<Short[]> {
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('lantern_content_queue')
     .select('*')
@@ -40,6 +43,7 @@ export async function getRecentShorts(limit = 3): Promise<Short[]> {
 }
 
 export async function getIssueBySlug(slug: string): Promise<Issue | null> {
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('lantern_issues')
     .select('*')
@@ -53,6 +57,7 @@ export async function getIssueBySlug(slug: string): Promise<Issue | null> {
 }
 
 export async function getIssues(tier?: string, page = 1, perPage = 12): Promise<{ issues: Issue[]; total: number }> {
+  const supabase = getSupabase()
   let query = supabase
     .from('lantern_issues')
     .select('*', { count: 'exact' })
@@ -69,6 +74,7 @@ export async function getIssues(tier?: string, page = 1, perPage = 12): Promise<
 }
 
 export async function getShorts(page = 1, perPage = 10): Promise<Short[]> {
+  const supabase = getSupabase()
   const from = (page - 1) * perPage
   const to = from + perPage - 1
   const { data, error } = await supabase

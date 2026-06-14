@@ -20,8 +20,8 @@ export async function POST(request: Request) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (url && key) {
-      const { supabase } = await import("@/lib/supabase");
-      await supabase.from("subscribers").upsert({ email }, { onConflict: "email" });
+      const { getSupabase } = await import("@/lib/supabase");
+      await getSupabase().from("subscribers").upsert({ email }, { onConflict: "email" });
     }
   } catch (err) {
     console.log("[v0] subscribe persist skipped:", (err as Error).message);
