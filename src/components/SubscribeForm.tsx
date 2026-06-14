@@ -4,10 +4,19 @@ import { useState, FormEvent } from 'react';
 
 type SubscribeState = 'idle' | 'loading' | 'success' | 'error';
 
-export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' | 'inline' | 'footer' }) {
+interface SubscribeFormProps {
+  variant?: 'hero' | 'inline' | 'footer';
+  buttonText?: string;
+  placeholder?: string;
+}
+
+export default function SubscribeForm({ variant = 'hero', buttonText, placeholder }: SubscribeFormProps) {
   const [email, setEmail] = useState('');
   const [state, setState] = useState<SubscribeState>('idle');
   const [message, setMessage] = useState('');
+
+  const btnText = buttonText || 'Subscribe';
+  const placeholderText = placeholder || 'you@example.com';
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -31,7 +40,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={placeholderText}
             required
             disabled={state === 'loading' || state === 'success'}
             className="subscribe-input flex-1"
@@ -41,7 +50,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
             disabled={state === 'loading' || state === 'success'}
             className="btn-primary"
           >
-            {state === 'loading' ? 'Subscribing…' : state === 'success' ? 'Subscribed ✓' : 'Subscribe'}
+            {state === 'loading' ? 'Subscribing…' : state === 'success' ? 'Subscribed ✓' : btnText}
           </button>
         </form>
         {message && (
@@ -66,7 +75,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder={placeholderText}
             required
             disabled={state === 'loading' || state === 'success'}
             className="subscribe-input text-sm py-2"
@@ -76,7 +85,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
             disabled={state === 'loading' || state === 'success'}
             className="btn-primary text-sm py-2"
           >
-            {state === 'loading' ? '…' : state === 'success' ? '✓' : 'Subscribe'}
+            {state === 'loading' ? '…' : state === 'success' ? '✓' : btnText}
           </button>
         </form>
         {message && <p className="text-xs text-accent-green">{message}</p>}
@@ -91,7 +100,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@example.com"
+        placeholder={placeholderText}
         required
         disabled={state === 'loading' || state === 'success'}
         className="subscribe-input"
@@ -101,7 +110,7 @@ export default function SubscribeForm({ variant = 'hero' }: { variant?: 'hero' |
         disabled={state === 'loading' || state === 'success'}
         className="btn-primary"
       >
-        {state === 'loading' ? '…' : 'Subscribe'}
+        {state === 'loading' ? '…' : btnText}
       </button>
     </form>
   );

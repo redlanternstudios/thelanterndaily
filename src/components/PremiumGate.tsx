@@ -1,6 +1,14 @@
-export default function PremiumGate() {
+import { ReactNode } from 'react';
+
+interface PremiumGateProps {
+  children: ReactNode;
+  previewWords?: number;
+}
+
+export default function PremiumGate({ children }: PremiumGateProps) {
   return (
     <div style={{ position: 'relative' }}>
+      <div style={{ maxHeight: 400, overflow: 'hidden' }}>{children}</div>
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
         background: 'linear-gradient(transparent, #07080F 60%)',
