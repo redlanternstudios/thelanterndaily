@@ -1,6 +1,6 @@
-import { UserSpotlightCard } from "@/components/lantern/UserSpotlightCard";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import UserSpotlightCard from "@/components/lantern/UserSpotlightCard";
+// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"; // uncomment when DB is live
+// import { cookies } from "next/headers"; // needed only when DB block is uncommented
 
 // Temporary seed data — replace with Supabase query when DB is live
 const seedSpotlights = [
