@@ -1,111 +1,98 @@
-import Image from "next/image";
-import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
-import Footer from "@/components/Footer";
-import SubscribeCTA from "@/components/home/SubscribeCTA";
-import { OPERATOR_STACK, SOCIAL_PROOF } from "@/lib/content";
+import { StackToolCard } from "@/components/lantern/StackToolCard";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
-const INFO_ROW = [
-  { stat: "5", label: "Layers mapped", sub: "Infra to governance" },
-  { stat: "20+", label: "Tools profiled", sub: "Updated monthly" },
-  { stat: SOCIAL_PROOF.split(" ")[0], label: "Operators reading", sub: "And growing" },
-];
+export default async function StackPage() {
+  // Check subscription status (simplified — expand with real check)
+  const isSubscribed = false;
+  // const supabase = createServerComponentClient({ cookies });
+  // const { data: { session } } = await supabase.auth.getSession();
+  // ... check session for active subscription
 
-export default function StackPage() {
   return (
-    <>
-      <Masthead />
-      <Ticker />
-      <main>
-        {/* Hero: text + image */}
-        <section className="grid gap-0.5 lg:grid-cols-2 bg-[var(--color-border)]">
-          <div className="bg-[var(--color-bg)] flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-            <span className="kicker">The Operator Stack</span>
-            <h1 className="font-headline text-balance mt-4 text-4xl sm:text-5xl leading-[1.08] text-[var(--color-text)]">
-              The tools running the companies we cover.
-            </h1>
-            <p className="mt-5 max-w-md text-lg text-[var(--color-text-dim)] leading-relaxed text-pretty">
-              A living map of the infrastructure, models, data, apps, and
-              governance layers that principled builders actually ship with —
-              curated by The Lantern Daily.
-            </p>
-          </div>
-          <div className="img-zoom relative min-h-[300px] lg:min-h-[460px] bg-[var(--color-card)]">
-            <Image
-              src="/images/stack-hero.png"
-              alt="A systems architect studying infrastructure topology"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+    <div className="min-h-screen bg-[#07080D] text-[#F7F2EE]">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <h1 className="text-3xl font-bold mb-2">The Stack</h1>
+        <p className="text-gray-400 mb-8">
+          Tools we build with — vetted, in production, recommended.
+        </p>
+
+        {/* Free teaser section */}
+        <section className="mb-12">
+          <h2 className="text-xl font-semibold mb-4 text-[#2D7A4F]">Quick Stack</h2>
+          <p className="text-sm text-gray-400 mb-6">
+            Free every Thursday. Three tools, one-liner descriptions, external links.
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
+            <StackToolCard
+              toolName="Claude (Anthropic)"
+              toolUrl="https://anthropic.com/claude"
+              category="ai"
+              tier="paid"
+              isOpenSource={false}
+              oneLineDesc="AI assistant for code, writing, and analysis."
+              tierPlacement="free_teaser"
+              hasAffiliate={false}
+            />
+            <StackToolCard
+              toolName="Supabase"
+              toolUrl="https://supabase.com"
+              category="backend"
+              tier="freemium"
+              isOpenSource={true}
+              oneLineDesc="Open-source backend with Postgres, auth, and storage."
+              tierPlacement="free_teaser"
+              hasAffiliate={false}
+            />
+            <StackToolCard
+              toolName="Next.js"
+              toolUrl="https://nextjs.org"
+              category="frontend"
+              tier="free"
+              isOpenSource={true}
+              oneLineDesc="React framework for production web apps."
+              tierPlacement="free_teaser"
+              hasAffiliate={false}
             />
           </div>
         </section>
 
-        {/* 3-col info row */}
-        <section className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 mt-0.5">
-          <div className="grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-3">
-            {INFO_ROW.map((item) => (
-              <div key={item.label} className="bg-[var(--color-card)] p-7">
-                <p className="font-headline text-5xl text-[var(--color-red)]">
-                  {item.stat}
-                </p>
-                <p className="mt-3 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--color-text)]">
-                  {item.label}
-                </p>
-                <p className="mt-1 text-sm text-[var(--color-text-dim)]">{item.sub}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 5 stack sections */}
-        <section className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 py-12 sm:py-16 flex flex-col gap-0.5">
-          {OPERATOR_STACK.map((cat) => (
-            <div
-              key={cat.label}
-              className="grid gap-0.5 lg:grid-cols-[160px_1fr] bg-[var(--color-border)]"
-            >
-              {/* Vertical category label */}
-              <div className="bg-[var(--color-card)] flex lg:flex-col items-start justify-between p-6">
-                <span
-                  className="font-headline text-3xl text-[var(--color-red)] lg:[writing-mode:vertical-rl] lg:rotate-180"
-                  aria-hidden="true"
-                >
-                  {cat.label}
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--color-text-dim)] max-w-[8rem] lg:mt-0 mt-auto self-end lg:self-start">
-                  {cat.blurb}
-                </span>
-              </div>
-              {/* 4 tool cards */}
-              <div className="grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
-                {cat.tools.map((tool) => (
-                  <div
-                    key={tool.name}
-                    className="card-hover bg-[var(--color-bg)] p-6 flex flex-col"
-                  >
-                    <span className="label-mono text-[var(--color-blue)]">
-                      {tool.tag}
-                    </span>
-                    <h3 className="font-headline text-xl mt-2 text-[var(--color-text)]">
-                      {tool.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-[var(--color-text-dim)] leading-relaxed">
-                      {tool.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
+        {/* Paid full section */}
+        <section>
+          <h2 className="text-xl font-semibold mb-4 text-[#B8922A]">Full Stack</h2>
+          {isSubscribed ? (
+            <div className="grid gap-4 md:grid-cols-2">
+              <StackToolCard
+                toolName="Make.com"
+                toolUrl="https://make.com"
+                category="automation"
+                tier="paid"
+                isOpenSource={false}
+                oneLineDesc="Visual automation platform."
+                fullBreakdown="Used for content pipeline: RSS intake, Groq scoring, Telegram approval, Supabase insert. 5 scenarios in production."
+                operatorContext="Runs daily 6am curation + Stripe webhook handling."
+                tierPlacement="paid_full"
+                hasAffiliate={false}
+                isSubscribed={true}
+              />
+              {/* More tools rendered when subscribed */}
             </div>
-          ))}
+          ) : (
+            <div className="p-6 rounded-lg bg-[#0D0F14] border border-[#2A2D35] text-center">
+              <p className="text-gray-300 mb-4">
+                Full breakdown of 12 tools with cost comparison, operator context, and &quot;avoid&quot; notes.
+              </p>
+              <p className="text-lg font-semibold text-[#B8922A] mb-2">$15/mo or $120/yr</p>
+              <a
+                href="/subscribe"
+                className="inline-block px-6 py-2 rounded bg-[#2D7A4F] text-white hover:bg-green-700 transition-colors"
+              >
+                Subscribe for Full Access
+              </a>
+            </div>
+          )}
         </section>
-
-        <div className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 pb-16">
-          <SubscribeCTA />
-        </div>
-      </main>
-      <Footer />
-    </>
+      </div>
+    </div>
   );
 }
