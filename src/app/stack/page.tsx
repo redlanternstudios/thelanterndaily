@@ -1,6 +1,6 @@
-import { StackToolCard } from "@/components/lantern/StackToolCard";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import StackToolCard from "@/components/lantern/StackToolCard";
+// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { cookies } from "next/headers";
 
 export default async function StackPage() {
   // Check subscription status (simplified — expand with real check)
