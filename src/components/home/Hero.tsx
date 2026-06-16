@@ -15,7 +15,7 @@ export default function Hero() {
           {a.excerpt}
         </p>
         <div className="mt-6 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
-          <span>{a.author}</span>
+          <span>The Lantern Daily</span>
           <span className="opacity-40">·</span>
           <span>{a.date}</span>
           <span className="opacity-40">·</span>

@@ -73,7 +73,7 @@ export default function SubscribeForm({
       {message ? (
         <p
           className={`mt-3 text-sm ${
-            status === "success" ? "text-[var(--color-blue)]" : "text-[var(--color-red)]"
+            status === "success" ? "text-[var(--color-gold)]" : "text-[var(--color-red)]"
           }`}
         >
           {message}

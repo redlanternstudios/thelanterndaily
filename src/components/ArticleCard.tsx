@@ -38,7 +38,9 @@ export default function ArticleCard({
           </p>
         )}
         <div className="mt-auto pt-3 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
-          <span>{article.author}</span>
+          <span>The Lantern Daily</span>
+          <span className="opacity-40">·</span>
+          <span>{article.date}</span>
           <span className="opacity-40">·</span>
           <span>{article.readTime}</span>
         </div>

@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           <p>When you subscribe to The Lantern Daily, we collect your email address and assign you an operator number. That's it.</p>
 
           <h2>How We Use It</h2>
-          <p>We send you the daily brief. We may occasionally send you product updates related to RedLantern Studios. We will never sell your email address.</p>
+          <p>We send you the daily brief. We may occasionally send you product updates related to The Lantern Daily. We will never sell your email address.</p>
 
           <h2>Data Storage</h2>
           <p>Your data is stored in Supabase, hosted in US-based data centers. We use industry-standard encryption for data in transit and at rest.</p>

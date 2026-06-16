@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 interface PremiumGateProps {
   children: ReactNode;
@@ -7,30 +7,59 @@ interface PremiumGateProps {
 
 export default function PremiumGate({ children }: PremiumGateProps) {
   return (
-    <div style={{ position: 'relative' }}>
-      <div style={{ maxHeight: 400, overflow: 'hidden' }}>{children}</div>
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
-        background: 'linear-gradient(transparent, #07080F 60%)',
-        padding: '60px 0 40px', textAlign: 'center',
-      }}>
-        <div style={{ border: '1px solid rgba(212,37,53,0.3)', background: 'rgba(212,37,53,0.15)', padding: 28, maxWidth: 400, margin: '0 auto' }}>
-          <h3 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, fontWeight: 700, color: '#FFFFFF', margin: '0 0 8px' }}>
-            Unlock the Full Brief
+    <div className="relative">
+      <div style={{ maxHeight: 400, overflow: "hidden" }}>{children}</div>
+      <div
+        className="absolute bottom-0 left-0 right-0 z-10"
+        style={{
+          background: "linear-gradient(transparent, #07080D 55%)",
+          padding: "80px 0 40px",
+          textAlign: "center",
+        }}
+      >
+        <div
+          className="mx-auto max-w-sm px-6 py-7"
+          style={{
+            border: "1px solid var(--color-gold)",
+            background: "rgba(201, 168, 76, 0.06)",
+          }}
+        >
+          <p className="label-gold mb-3">Premium Intelligence</p>
+          <h3
+            className="font-headline text-[var(--color-text)] mb-2"
+            style={{ fontSize: 20, fontWeight: 700 }}
+          >
+            Unlock Full Intelligence
           </h3>
-          <p style={{ fontSize: 12, color: '#7A8299', lineHeight: 1.5, margin: '0 0 16px' }}>
-            You&apos;re reading a preview. Premium operators get the full Weekly Brief, all signals, and the intelligence archive.
+          <p className="text-xs text-[var(--color-text-dim)] leading-relaxed mb-5">
+            Premium operators get the full Weekly Brief, all signals, and the complete intelligence archive.
           </p>
-          <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 22, fontWeight: 700, color: '#FFFFFF', marginBottom: 4 }}>
-            $15 <span style={{ fontSize: 12, color: '#7A8299' }}>/ month</span>
+
+          <div className="flex items-end justify-center gap-6 mb-5 font-mono">
+            <div className="text-center">
+              <div className="text-[var(--color-text)] font-bold text-lg">$9.99</div>
+              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">/ mo</div>
+            </div>
+            <div className="text-center">
+              <div className="text-[var(--color-gold)] font-bold text-lg">$99.99</div>
+              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">/ yr</div>
+            </div>
+            <div className="text-center">
+              <div className="text-[var(--color-text-dim)] font-bold text-lg">$199.99</div>
+              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">lifetime</div>
+            </div>
           </div>
-          <button style={{
-            width: '100%', background: '#D42535', color: '#FFFFFF',
-            fontFamily: "'Space Mono', monospace", fontSize: 9, fontWeight: 700,
-            letterSpacing: '0.12em', textTransform: 'uppercase',
-            padding: '12px 0', border: 'none', cursor: 'pointer', marginTop: 14,
-          }}>
-            Upgrade Now
+
+          <button
+            className="w-full font-mono text-[11px] font-bold uppercase tracking-[0.14em] py-3 transition-opacity hover:opacity-90"
+            style={{
+              background: "var(--color-gold)",
+              color: "#07080D",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            Unlock Full Intelligence
           </button>
         </div>
       </div>

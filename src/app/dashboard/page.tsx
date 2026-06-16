@@ -25,7 +25,7 @@ const ANALYTICS = [
 function StatusPill({ status }: { status: string }) {
   const color =
     status === "Scheduled"
-      ? "text-[var(--color-blue)] border-[var(--color-blue)]"
+      ? "text-[var(--color-gold)] border-[var(--color-gold)]"
       : status === "In review"
         ? "text-[var(--color-red)] border-[var(--color-red)]"
         : "text-[var(--color-text-dim)] border-[var(--color-border)]";
@@ -65,7 +65,7 @@ export default function DashboardPage() {
                 </p>
                 <p
                   className={`mt-2 font-mono text-[11px] uppercase tracking-[0.1em] ${
-                    kpi.up ? "text-[var(--color-blue)]" : "text-[var(--color-red)]"
+                    kpi.up ? "text-[var(--color-gold)]" : "text-[var(--color-red)]"
                   }`}
                 >
                   {kpi.change}
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                   <tr key={a.slug} className="border-t border-[var(--color-border-soft)]">
                     <td className="py-3 text-sm text-[var(--color-text)] pr-4">{a.title}</td>
                     <td className="py-3 text-sm text-[var(--color-text-dim)] hidden sm:table-cell">
-                      {a.author}
+                      {"The Lantern Daily"}
                     </td>
                     <td className="py-3 text-right font-mono text-sm text-[var(--color-text)]">
                       {(8200 - i * 1340).toLocaleString()}

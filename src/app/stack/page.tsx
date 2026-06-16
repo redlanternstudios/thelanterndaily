@@ -85,7 +85,7 @@ export default function StackPage() {
                     key={tool.name}
                     className="card-hover bg-[var(--color-bg)] p-6 flex flex-col"
                   >
-                    <span className="label-mono text-[var(--color-blue)]">
+                    <span className="label-mono text-[var(--color-gold)]">
                       {tool.tag}
                     </span>
                     <h3 className="font-headline text-xl mt-2 text-[var(--color-text)]">

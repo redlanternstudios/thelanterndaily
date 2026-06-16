@@ -29,7 +29,7 @@ export default function SignalsAndStack() {
                 </td>
                 <td
                   className={`py-3.5 text-right font-mono text-sm ${
-                    s.up ? "text-[var(--color-blue)]" : "text-[var(--color-red)]"
+                    s.up ? "text-[var(--color-gold)]" : "text-[var(--color-red)]"
                   }`}
                 >
                   {s.change}

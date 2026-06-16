@@ -31,9 +31,9 @@ export default function AboutPage() {
             A Muslim-founded newsletter for the builders of the agent economy.
           </h1>
           <p className="mt-6 text-xl text-[var(--color-text-dim)] leading-relaxed text-pretty">
-            The Lantern Daily is published by RedLantern Studios™ for founders,
-            builders, and operators who want signal before consensus. We cover AI,
-            markets, and tech through an Islamic lens — and we are read by{" "}
+            The Lantern Daily is an independent Muslim-founded publication for
+            founders, builders, and operators who want signal before consensus. We cover
+            AI, markets, and tech through an Islamic lens — and we are read by{" "}
             {SOCIAL_PROOF}.
           </p>
         </header>

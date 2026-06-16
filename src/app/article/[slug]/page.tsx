@@ -51,7 +51,7 @@ export default async function ArticlePage({
             {article.excerpt}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
-            <span className="text-[var(--color-text)]">{article.author}</span>
+            <span className="text-[var(--color-text)]">The Lantern Daily</span>
             <span className="opacity-40">·</span>
             <span>{article.date}</span>
             <span className="opacity-40">·</span>

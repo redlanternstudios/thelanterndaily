@@ -3,39 +3,41 @@
 /* ===== THE LANTERN DAILY — DARK EDITORIAL DESIGN SYSTEM ===== */
 
 :root {
-  /* Colors — exact from brief */
-  --color-bg: #07080f;
-  --color-text: #f7f2ea;
-  --color-text-dim: #9aa0b0;
-  --color-red: #d42535;
-  --color-blue: #2f8fd8;
-  --color-card: #0d0f1c;
-  --color-border: #252b3b;
-  --color-border-soft: #1a1f2e;
+  /* Colors — exact from brand spec */
+  --color-bg: #07080D;
+  --color-surface: #0F1117;
+  --color-border: #1E2028;
+  --color-border-soft: #16181f;
+  --color-text: #E8E6E1;
+  --color-text-dim: #6B7280;
+  --color-red: #D92532;
+  --color-gold: #C9A84C;
+  --color-card: #0F1117;
 
   /* Typography */
-  --font-headline: Georgia, "Times New Roman", serif;
+  --font-headline: var(--font-playfair), "Playfair Display", Georgia, serif;
   --font-body: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: var(--font-space-mono), "Space Mono", "SF Mono", Consolas, monospace;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", "IBM Plex Mono", "SF Mono", Consolas, monospace;
 
   /* Layout */
   --max-w: 1400px;
 }
 
 @theme {
-  --color-bg: #07080f;
-  --color-text: #f7f2ea;
-  --color-text-dim: #9aa0b0;
-  --color-red: #d42535;
-  --color-blue: #2f8fd8;
-  --color-card: #0d0f1c;
-  --color-border: #252b3b;
-  --color-border-soft: #1a1f2e;
-  --color-background: #07080f;
-  --color-foreground: #f7f2ea;
-  --font-headline: Georgia, "Times New Roman", serif;
+  --color-bg: #07080D;
+  --color-surface: #0F1117;
+  --color-border: #1E2028;
+  --color-border-soft: #16181f;
+  --color-text: #E8E6E1;
+  --color-text-dim: #6B7280;
+  --color-red: #D92532;
+  --color-gold: #C9A84C;
+  --color-card: #0F1117;
+  --color-background: #07080D;
+  --color-foreground: #E8E6E1;
+  --font-headline: var(--font-playfair), "Playfair Display", Georgia, serif;
   --font-body: var(--font-inter), "Inter", -apple-system, sans-serif;
-  --font-mono: var(--font-space-mono), "Space Mono", monospace;
+  --font-mono: var(--font-jetbrains), "JetBrains Mono", "IBM Plex Mono", monospace;
   --radius: 0px;
 }
 
@@ -59,7 +61,7 @@ body {
   position: relative;
 }
 
-/* Radial gradient accents behind everything */
+/* Subtle radial gradient accents */
 body::before {
   content: "";
   position: fixed;
@@ -67,9 +69,8 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(60vw 60vw at 12% -5%, rgba(212, 37, 53, 0.16), transparent 60%),
-    radial-gradient(55vw 55vw at 95% 8%, rgba(47, 143, 216, 0.14), transparent 60%),
-    radial-gradient(50vw 50vw at 80% 100%, rgba(212, 37, 53, 0.08), transparent 60%);
+    radial-gradient(60vw 60vw at 12% -5%, rgba(217, 37, 50, 0.12), transparent 60%),
+    radial-gradient(50vw 50vw at 80% 100%, rgba(217, 37, 50, 0.06), transparent 60%);
 }
 
 #__next,
@@ -80,9 +81,10 @@ body > * {
 
 /* ===== TYPOGRAPHY HELPERS ===== */
 .font-headline { font-family: var(--font-headline); }
-.font-body { font-family: var(--font-body); }
-.font-mono { font-family: var(--font-mono); }
+.font-body     { font-family: var(--font-body); }
+.font-mono     { font-family: var(--font-mono); }
 
+/* Category kickers — uppercase red monospace labels */
 .kicker {
   font-family: var(--font-mono);
   text-transform: uppercase;
@@ -92,6 +94,7 @@ body > * {
   font-weight: 700;
 }
 
+/* Dimmed mono labels */
 .label-mono {
   font-family: var(--font-mono);
   text-transform: uppercase;
@@ -100,24 +103,39 @@ body > * {
   color: var(--color-text-dim);
 }
 
+/* Gold premium label */
+.label-gold {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
 .text-balance { text-wrap: balance; }
-.text-pretty { text-wrap: pretty; }
+.text-pretty  { text-wrap: pretty; }
 
 /* ===== TICKER ===== */
 @keyframes ticker-scroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .ticker-track {
-  animation: ticker-scroll 32s linear infinite;
+  animation: ticker-scroll 40s linear infinite;
 }
 
 /* ===== CARD HOVER ===== */
 .card-hover {
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .card-hover:hover {
   border-color: var(--color-red);
+}
+
+/* ===== PREMIUM GOLD HOVER ===== */
+.card-hover-gold:hover {
+  border-color: var(--color-gold);
 }
 
 /* ===== IMAGE ZOOM ===== */
@@ -142,7 +160,7 @@ body > * {
 }
 
 /* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--color-bg); }
-::-webkit-scrollbar-thumb { background: var(--color-border); }
+::-webkit-scrollbar        { width: 10px; height: 10px; }
+::-webkit-scrollbar-track  { background: var(--color-bg); }
+::-webkit-scrollbar-thumb  { background: var(--color-border); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-red); }

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Mono } from "next/font/google";
-import "./globals.css";
+import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,12 +8,20 @@ const inter = Inter({
   display: "swap",
 });
 
-const spaceMono = Space_Mono({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
+  weight: ["400", "600", "700", "800", "900"],
+  variable: "--font-playfair",
   display: "swap",
 });
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-jetbrains",
+  display: "swap",
+});
+
 
 export const metadata: Metadata = {
   title: "The Lantern Daily — AI & Tech for Muslim Builders",
@@ -44,7 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceMono.variable} antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
         {children}

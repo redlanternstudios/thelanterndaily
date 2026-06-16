@@ -21,7 +21,7 @@ const MOCK_ARTICLES: Record<string, any> = {
       <h2>Looking Ahead</h2>
       <p>The next five years will determine whether AI becomes a tool of liberation or consolidation in creative industries. What's certain is that the digital renaissance is already here—and it's reshaping everything.</p>
     `,
-    author: "Sarah Chen",
+    author: "The Lantern Daily",
     category: "Technology",
     published_at: "2026-06-13T08:00:00Z",
     updated_at: null,
@@ -41,7 +41,7 @@ const MOCK_ARTICLES: Record<string, any> = {
       <p>The lesson? Adaptation is possible—but it requires political will, significant investment, and community buy-in.</p>
       <p>As other coastal cities from Bangkok to New York watch closely, the approaches pioneered by these front-line cities may well define how humanity copes with a changing climate.</p>
     `,
-    author: "Marcus Williams",
+    author: "The Lantern Daily",
     category: "Environment",
     published_at: "2026-06-12T10:30:00Z",
     updated_at: null,
@@ -68,7 +68,7 @@ export async function generateMetadata({
       description: article.excerpt,
       type: "article",
       publishedTime: article.published_at,
-      authors: [article.author],
+      authors: ["The Lantern Daily"],
     },
   };
 }
@@ -130,9 +130,7 @@ export default async function ArticlePage({
 
       {/* Meta */}
       <div className="flex flex-wrap items-center gap-3 font-sans text-sm text-lantern-muted mb-8 pb-8 border-b border-lantern-border">
-        {article.author && (
-          <span className="font-medium text-lantern-ink">{article.author}</span>
-        )}
+        <span className="font-medium text-lantern-ink">The Lantern Daily</span>
         <time dateTime={article.published_at}>{formattedDate}</time>
         {article.read_time && <span>{article.read_time} min read</span>}
       </div>
