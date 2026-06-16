@@ -139,7 +139,7 @@ body > * {
 }
 
 /* ===== IMAGE ZOOM ===== */
-.img-zoom { overflow: hidden; }
+.img-zoom { overflow: hidden; position: relative; }
 .img-zoom img {
   transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+// Fonts: Inter (body) · Playfair Display (headlines) · JetBrains Mono (labels)
 
 const inter = Inter({
   subsets: ["latin"],
