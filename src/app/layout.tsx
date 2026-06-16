@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
-// Fonts: Inter (body) · Playfair Display (headlines) · JetBrains Mono (labels)
+import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,6 +25,9 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#07080D",
+};
 
 export const metadata: Metadata = {
   title: "The Lantern Daily — AI & Tech for Muslim Builders",
@@ -38,10 +43,6 @@ export const metadata: Metadata = {
     title: "The Lantern Daily",
     description: "AI & tech intelligence for Muslim builders, founders, and operators.",
   },
-};
-
-export const viewport = {
-  themeColor: "#07080f",
 };
 
 export default function RootLayout({

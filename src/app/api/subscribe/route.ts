@@ -1,12 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function POST(request: Request) {
+function generateOperatorNumber(): string {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
+export async function POST(request: NextRequest) {
   let email = "";
+  let refCode: string | null = null;
+
   try {
     const body = await request.json();
     email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    refCode = typeof body.ref === "string" ? body.ref.trim() : null;
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
@@ -15,17 +22,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Please enter a valid email." }, { status: 400 });
   }
 
-  // Persist to Supabase when configured; otherwise accept gracefully.
+  // Persist to Supabase
   try {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (url && key) {
-      const { getSupabase } = await import("@/lib/supabase");
-      await getSupabase().from("subscribers").upsert({ email }, { onConflict: "email" });
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (supabaseUrl && serviceKey) {
+      const { createClient } = await import("@/lib/supabase/server");
+      const supabase = await createClient();
+
+      const payload: Record<string, unknown> = {
+        email,
+        tier: "free",
+        operator_number: generateOperatorNumber(),
+      };
+      if (refCode) {
+        payload.ref_code = refCode;
+      }
+
+      await supabase.from("lantern_subscribers").upsert(payload, { onConflict: "email" });
     }
   } catch (err) {
-    console.log("[v0] subscribe persist skipped:", (err as Error).message);
+    console.log("[subscribe] persist skipped:", (err as Error).message);
   }
 
-  return NextResponse.json({ ok: true }, { status: 200 });
+  return NextResponse.json({ ok: true, ref: refCode }, { status: 200 });
 }
