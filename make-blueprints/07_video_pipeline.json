@@ -1,0 +1,344 @@
+{
+  "name": "Lantern - Video Pipeline",
+  "_comment": "Created 2026-06-16. Monitors 5 curated YouTube channels for new Muslim tech content. Groq halal screen → filter pass-only → /api/admin/video-signal. Schedule: every 12h (06:00 and 18:00 UTC). Quota: ~1000 YouTube units/day (well within 10k free limit). Requires: GROQ_API_KEY, ADMIN_WEBHOOK_SECRET, YOUTUBE_DATA_API_KEY. IMPORTANT: channel IDs below need real values — replace UC_PLACEHOLDER_X with actual channel IDs from YouTube URLs.",
+  "flow": [
+    {
+      "id": 1,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": { "designer": { "x": -700, "y": 0 } },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 2,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://www.googleapis.com/youtube/v3/search",
+                "method": "get",
+                "headers": [],
+                "qs": [
+                  { "key": "key", "value": "{{YOUTUBE_DATA_API_KEY}}" },
+                  { "key": "channelId", "value": "UCmFSHeXGwGNyxf2Wg1RZPmQ" },
+                  { "key": "part", "value": "snippet" },
+                  { "key": "order", "value": "date" },
+                  { "key": "maxResults", "value": "3" },
+                  { "key": "type", "value": "video" },
+                  { "key": "publishedAfter", "value": "{{formatDate(addHours(now, -13), 'YYYY-MM-DDTHH:mm:ssZ')}}" }
+                ],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "",
+                "_channelNote": "Islamic Finance Guru — channel ID: UCmFSHeXGwGNyxf2Wg1RZPmQ (verify)"
+              },
+              "metadata": { "designer": { "x": -400, "y": -600 } }
+            },
+            {
+              "id": 3,
+              "module": "builtin:BasicIterator",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "array": "{{2.data.items}}"
+              },
+              "metadata": { "designer": { "x": -100, "y": -600 } }
+            },
+            {
+              "id": 4,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a halal content screener for The Lantern Daily, a Muslim tech newsletter.\\n\\nScreen this YouTube video for our Muslim tech audience.\\n\\nReturn ONLY valid JSON (no markdown):\\n{\\\"pass\\\":true,\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[],\\\"editorial\\\":\\\"2-3 sentence note for Muslim founders\\\"}\\n\\nMark fail if: music videos, mixed-gender dating, riba promotion, gambling, alcohol.\\nMark review if: unclear, needs human judgment.\\nMark pass if: educational tech content appropriate for Muslim audience.\"},{\"role\":\"user\",\"content\":\"Title: {{3.item.snippet.title}}\\nChannel: {{3.item.snippet.channelTitle}}\\nDescription: {{left(3.item.snippet.description, 300)}}\"}],\"max_tokens\":300,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 200, "y": -600 } }
+            },
+            {
+              "id": 5,
+              "module": "builtin:BasicFilter",
+              "version": 1,
+              "parameters": {
+                "condition": {
+                  "type": "text",
+                  "a": "{{parseJSON(4.data.choices[0].message.content).pass}}",
+                  "b": "true",
+                  "o": "text:equal"
+                }
+              },
+              "mapper": {},
+              "metadata": { "designer": { "x": 500, "y": -600 } }
+            },
+            {
+              "id": 6,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/video-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"video_id\":\"{{3.item.id.videoId}}\",\"title\":\"{{3.item.snippet.title}}\",\"channel_name\":\"{{3.item.snippet.channelTitle}}\",\"description\":\"{{left(3.item.snippet.description, 300)}}\",\"editorial\":\"{{parseJSON(4.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(4.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(4.data.choices[0].message.content).halal_score}},\"halal_flags\":\"{{parseJSON(4.data.choices[0].message.content).halal_flags}}\"}"
+              },
+              "metadata": { "designer": { "x": 800, "y": -600 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 7,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://www.googleapis.com/youtube/v3/search",
+                "method": "get",
+                "headers": [],
+                "qs": [
+                  { "key": "key", "value": "{{YOUTUBE_DATA_API_KEY}}" },
+                  { "key": "channelId", "value": "UCpvgmxTNKVlJELBmMGHBJ8A" },
+                  { "key": "part", "value": "snippet" },
+                  { "key": "order", "value": "date" },
+                  { "key": "maxResults", "value": "3" },
+                  { "key": "type", "value": "video" },
+                  { "key": "publishedAfter", "value": "{{formatDate(addHours(now, -13), 'YYYY-MM-DDTHH:mm:ssZ')}}" }
+                ],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "",
+                "_channelNote": "ProductiveMuslim — channel ID: UCpvgmxTNKVlJELBmMGHBJ8A (verify)"
+              },
+              "metadata": { "designer": { "x": -400, "y": -300 } }
+            },
+            {
+              "id": 8,
+              "module": "builtin:BasicIterator",
+              "version": 1,
+              "parameters": {},
+              "mapper": { "array": "{{7.data.items}}" },
+              "metadata": { "designer": { "x": -100, "y": -300 } }
+            },
+            {
+              "id": 9,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Halal content screener for The Lantern Daily. Return ONLY JSON: {\\\"pass\\\":true,\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[],\\\"editorial\\\":\\\"2-3 sentence note\\\"}. Mark fail if: music, dating, riba, gambling, alcohol.\"},{\"role\":\"user\",\"content\":\"Title: {{8.item.snippet.title}}\\nChannel: {{8.item.snippet.channelTitle}}\\nDescription: {{left(8.item.snippet.description, 300)}}\"}],\"max_tokens\":300,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 200, "y": -300 } }
+            },
+            {
+              "id": 10,
+              "module": "builtin:BasicFilter",
+              "version": 1,
+              "parameters": {
+                "condition": {
+                  "type": "text",
+                  "a": "{{parseJSON(9.data.choices[0].message.content).pass}}",
+                  "b": "true",
+                  "o": "text:equal"
+                }
+              },
+              "mapper": {},
+              "metadata": { "designer": { "x": 500, "y": -300 } }
+            },
+            {
+              "id": 11,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/video-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"video_id\":\"{{8.item.id.videoId}}\",\"title\":\"{{8.item.snippet.title}}\",\"channel_name\":\"{{8.item.snippet.channelTitle}}\",\"description\":\"{{left(8.item.snippet.description, 300)}}\",\"editorial\":\"{{parseJSON(9.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(9.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(9.data.choices[0].message.content).halal_score}},\"halal_flags\":\"{{parseJSON(9.data.choices[0].message.content).halal_flags}}\"}"
+              },
+              "metadata": { "designer": { "x": 800, "y": -300 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 12,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://www.googleapis.com/youtube/v3/search",
+                "method": "get",
+                "headers": [],
+                "qs": [
+                  { "key": "key", "value": "{{YOUTUBE_DATA_API_KEY}}" },
+                  { "key": "channelId", "value": "UCVd9lFKNuSSGkI08lJvgqAw" },
+                  { "key": "part", "value": "snippet" },
+                  { "key": "order", "value": "date" },
+                  { "key": "maxResults", "value": "3" },
+                  { "key": "type", "value": "video" },
+                  { "key": "publishedAfter", "value": "{{formatDate(addHours(now, -13), 'YYYY-MM-DDTHH:mm:ssZ')}}" }
+                ],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "",
+                "_channelNote": "Yaqeen Institute — channel ID: UCVd9lFKNuSSGkI08lJvgqAw (verify)"
+              },
+              "metadata": { "designer": { "x": -400, "y": 0 } }
+            },
+            {
+              "id": 13,
+              "module": "builtin:BasicIterator",
+              "version": 1,
+              "parameters": {},
+              "mapper": { "array": "{{12.data.items}}" },
+              "metadata": { "designer": { "x": -100, "y": 0 } }
+            },
+            {
+              "id": 14,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"Halal content screener for The Lantern Daily. Return ONLY JSON: {\\\"pass\\\":true,\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[],\\\"editorial\\\":\\\"2-3 sentence note\\\"}. Mark fail if: music, dating, riba, gambling, alcohol.\"},{\"role\":\"user\",\"content\":\"Title: {{13.item.snippet.title}}\\nChannel: {{13.item.snippet.channelTitle}}\\nDescription: {{left(13.item.snippet.description, 300)}}\"}],\"max_tokens\":300,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 200, "y": 0 } }
+            },
+            {
+              "id": 15,
+              "module": "builtin:BasicFilter",
+              "version": 1,
+              "parameters": {
+                "condition": {
+                  "type": "text",
+                  "a": "{{parseJSON(14.data.choices[0].message.content).pass}}",
+                  "b": "true",
+                  "o": "text:equal"
+                }
+              },
+              "mapper": {},
+              "metadata": { "designer": { "x": 500, "y": 0 } }
+            },
+            {
+              "id": 16,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/video-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"video_id\":\"{{13.item.id.videoId}}\",\"title\":\"{{13.item.snippet.title}}\",\"channel_name\":\"{{13.item.snippet.channelTitle}}\",\"description\":\"{{left(13.item.snippet.description, 300)}}\",\"editorial\":\"{{parseJSON(14.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(14.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(14.data.choices[0].message.content).halal_score}},\"halal_flags\":\"{{parseJSON(14.data.choices[0].message.content).halal_flags}}\"}"
+              },
+              "metadata": { "designer": { "x": 800, "y": 0 } }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] },
+    "scheduling": {
+      "type": "INDEFINITELY",
+      "interval": 43200,
+      "_note": "Every 12 hours — 06:00 and 18:00 UTC"
+    }
+  }
+}

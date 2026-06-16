@@ -1,0 +1,389 @@
+{
+  "name": "Lantern - Market Signal",
+  "_comment": "Created 2026-06-16. Pulls weekly halal-tracked stock data from Yahoo Finance, generates editorial via Groq (llama-4-maverick), sends to /api/admin/market-signal. Schedule: Fridays 12:00 UTC (7am EST). IMPORTANT: Never include buy/sell signals or price targets per Lantern editorial rules. Requires: GROQ_API_KEY, ADMIN_WEBHOOK_SECRET",
+  "flow": [
+    {
+      "id": 1,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": { "designer": { "x": -600, "y": 0 } },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 2,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AMZN?range=5d&interval=1d",
+                "method": "get",
+                "headers": [
+                  { "name": "User-Agent", "value": "Mozilla/5.0" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": -800 } }
+            },
+            {
+              "id": 3,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim tech newsletter for halal investors.\\n\\nWrite a 3-4 sentence market context note for Amazon (AMZN).\\n\\nRULES (non-negotiable):\\n- Never say buy, sell, invest, or give price targets\\n- Always end with: This is not investment advice. Verify halal compliance via Musaffa before investing.\\n- Frame as educational context for Muslim investors tracking halal tech\\n- Calm, informative tone. No hype.\\n\\nReturn ONLY valid JSON (no markdown):\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{2.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{2.data.chart.result[0].meta.chartPreviousClose}}. Week data available.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+              },
+              "metadata": { "designer": { "x": 0, "y": -800 } }
+            },
+            {
+              "id": 4,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"AMZN\",\"company_name\":\"Amazon.com Inc.\",\"market_data\":{\"current_price\":\"{{2.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{2.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(3.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(3.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(3.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": -800 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL?range=5d&interval=1d",
+                "method": "get",
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": -600 } }
+            },
+            {
+              "id": 6,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim tech newsletter for halal investors.\\n\\nWrite a 3-4 sentence market context note for Alphabet/Google (GOOGL). RULES: Never say buy/sell/invest or give price targets. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Calm, informative tone.\\n\\nReturn ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{5.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{5.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+              },
+              "metadata": { "designer": { "x": 0, "y": -600 } }
+            },
+            {
+              "id": 7,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"GOOGL\",\"company_name\":\"Alphabet Inc.\",\"market_data\":{\"current_price\":\"{{5.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{5.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(6.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(6.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(6.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": -600 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 8,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=5d&interval=1d",
+                "method": "get",
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": -400 } }
+            },
+            {
+              "id": 9,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for Apple (AAPL). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{8.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{8.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+              },
+              "metadata": { "designer": { "x": 0, "y": -400 } }
+            },
+            {
+              "id": 10,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"AAPL\",\"company_name\":\"Apple Inc.\",\"market_data\":{\"current_price\":\"{{8.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{8.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(9.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(9.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(9.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": -400 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT?range=5d&interval=1d",
+                "method": "get",
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": -200 } }
+            },
+            {
+              "id": 12,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for Microsoft (MSFT). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{11.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{11.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+              },
+              "metadata": { "designer": { "x": 0, "y": -200 } }
+            },
+            {
+              "id": 13,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"MSFT\",\"company_name\":\"Microsoft Corporation\",\"market_data\":{\"current_price\":\"{{11.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{11.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(12.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(12.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(12.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": -200 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 14,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=5d&interval=1d",
+                "method": "get",
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": 0 } }
+            },
+            {
+              "id": 15,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for NVIDIA (NVDA). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{14.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{14.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+              },
+              "metadata": { "designer": { "x": 0, "y": 0 } }
+            },
+            {
+              "id": 16,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"NVDA\",\"company_name\":\"NVIDIA Corporation\",\"market_data\":{\"current_price\":\"{{14.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{14.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(15.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(15.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(15.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": 0 } }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] },
+    "scheduling": {
+      "type": "INDEFINITELY",
+      "interval": 604800,
+      "startDate": "2026-06-19T12:00:00.000Z",
+      "_note": "Fridays at 12:00 UTC (7am EST). startDate = next Friday from creation."
+    }
+  }
+}
