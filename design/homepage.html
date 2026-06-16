@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lantern Daily — Signal Before Consensus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #07080F;
+    --bg-card: #0D0F1C;
+    --bg-card-2: #11142A;
+    --bg-card-hover: #151828;
+    --red: #D42535;
+    --red-dim: rgba(212, 37, 53, 0.15);
+    --red-border: rgba(212, 37, 53, 0.3);
+    --white: #FFFFFF;
+    --off-white: #E8E9EF;
+    --muted: #7A8299;
+    --dim: #3A3F57;
+    --border: rgba(255,255,255,0.06);
+    --border-bright: rgba(255,255,255,0.12);
+    --gold: #C8A96E;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--off-white);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── ATMOSPHERIC IMAGE MIXIN ─── */
+  .atmo-1 { background: radial-gradient(ellipse at 30% 40%, rgba(30,20,60,0.9) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #0A0818 0%, #14102A 50%, #07080F 100%); }
+  .atmo-2 { background: radial-gradient(ellipse at 70% 30%, rgba(50,10,20,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150810 0%, #200A15 50%, #07080F 100%); }
+  .atmo-3 { background: radial-gradient(ellipse at 50% 60%, rgba(10,25,50,0.9) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #080E1F 0%, #0F1830 50%, #07080F 100%); }
+  .atmo-4 { background: radial-gradient(ellipse at 20% 80%, rgba(20,40,20,0.7) 0%, rgba(7,8,15,0.98) 70%), linear-gradient(135deg, #080F08 0%, #0D1A0D 50%, #07080F 100%); }
+  .atmo-5 { background: radial-gradient(ellipse at 80% 20%, rgba(40,20,10,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #150F08 0%, #1F1408 50%, #07080F 100%); }
+  .atmo-6 { background: radial-gradient(ellipse at 40% 50%, rgba(30,10,40,0.8) 0%, rgba(7,8,15,0.95) 70%), linear-gradient(135deg, #110820 0%, #180D28 50%, #07080F 100%); }
+
+  /* ─── GRID MESH OVERLAY ─── */
+  .mesh::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 60px;
+    background: rgba(7,8,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    text-decoration: none;
+  }
+  .nav-logo-name {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo-daily {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+  .nav-logo-daily span {
+    color: var(--red);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--white); }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-subscribe {
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 9px 20px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-subscribe:hover { opacity: 0.85; }
+
+  .label-rls {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  /* ─── TICKER ─── */
+  .ticker {
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    z-index: 99;
+    background: var(--red);
+    padding: 6px 0;
+    overflow: hidden;
+  }
+  .ticker-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    padding: 0 40px;
+  }
+  .ticker-sep {
+    color: rgba(255,255,255,0.4);
+    padding: 0 8px;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── PAGE WRAPPER ─── */
+  .page { padding-top: 88px; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    padding: 80px 48px 64px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 50%, rgba(212,37,53,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(30,20,80,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .hero-headline {
+    font-family: var(--font-serif);
+    font-size: 60px;
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--off-white);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-form {
+    display: flex;
+    gap: 0;
+  }
+  .subscribe-form input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-bright);
+    border-right: none;
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    padding: 13px 20px;
+    width: 260px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .subscribe-form input::placeholder { color: var(--muted); }
+  .subscribe-form input:focus { border-color: var(--red); }
+  .subscribe-form button {
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 13px 24px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 13px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-ghost::after { content: '→'; }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-item {}
+  .stat-number {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-number span { color: var(--red); }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Hero feature card */
+  .hero-feature {
+    position: relative;
+    border: 1px solid var(--border-bright);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  .hero-feature:hover { border-color: rgba(212,37,53,0.4); }
+
+  .feature-img {
+    height: 280px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-img-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease;
+  }
+  .hero-feature:hover .feature-img-inner { transform: scale(1.03); }
+
+  /* Realistic image overlay simulation */
+  .feature-img-inner.img-governance {
+    background:
+      radial-gradient(circle at 30% 40%, rgba(212,37,53,0.25) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(50,30,100,0.4) 0%, transparent 40%),
+      linear-gradient(135deg, #0A0818 0%, #1A1040 30%, #0F0820 60%, #080510 100%);
+  }
+  /* Overlaid circuit/signal lines */
+  .feature-img-inner.img-governance::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(212,37,53,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,37,53,0.08) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .feature-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--red);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    padding: 5px 10px;
+    z-index: 2;
+  }
+
+  .feature-content {
+    padding: 28px;
+    background: var(--bg-card);
+  }
+  .feature-category {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .feature-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .feature-excerpt {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .feature-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .feature-date {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .feature-cta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .feature-cta::after { content: '→'; }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 48px 24px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-line {
+    width: 40px;
+    height: 1px;
+    background: var(--border-bright);
+  }
+  .section-link {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .section-link::after { content: '→'; }
+  .section-link:hover { color: var(--white); }
+
+  /* ─── INTELLIGENCE WALL ─── */
+  .intelligence-wall {
+    padding: 0 48px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .wall-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .wall-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .wall-card-img {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .wall-card-img-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+    position: relative;
+  }
+  .wall-card:hover .wall-card-img-inner { transform: scale(1.04); }
+
+  /* Atmospheric card images */
+  .img-ai-systems {
+    background: radial-gradient(circle at 50% 30%, rgba(30,60,200,0.3) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(100,30,200,0.2) 0%, transparent 40%),
+                linear-gradient(160deg, #060A1F 0%, #0D1235 50%, #06080F 100%);
+  }
+  .img-product-calls {
+    background: radial-gradient(circle at 40% 50%, rgba(212,37,53,0.2) 0%, transparent 60%),
+                radial-gradient(circle at 70% 20%, rgba(200,60,20,0.15) 0%, transparent 40%),
+                linear-gradient(160deg, #150808 0%, #220D0D 50%, #0F0606 100%);
+  }
+  .img-operator-stack {
+    background: radial-gradient(circle at 60% 40%, rgba(20,120,80,0.2) 0%, transparent 60%),
+                radial-gradient(circle at 20% 70%, rgba(10,80,60,0.15) 0%, transparent 40%),
+                linear-gradient(160deg, #060F0A 0%, #0A1A10 50%, #050A07 100%);
+  }
+  .img-field-notes {
+    background: radial-gradient(circle at 30% 60%, rgba(200,169,110,0.15) 0%, transparent 60%),
+                linear-gradient(160deg, #130F06 0%, #1E1608 50%, #0A0905 100%);
+  }
+  .img-governance {
+    background: radial-gradient(circle at 50% 50%, rgba(212,37,53,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(80,10,30,0.2) 0%, transparent 40%),
+                linear-gradient(160deg, #0F0608 0%, #1A080C 50%, #0A0507 100%);
+  }
+  .img-market-signal {
+    background: radial-gradient(circle at 70% 50%, rgba(50,120,200,0.2) 0%, transparent 60%),
+                radial-gradient(circle at 30% 30%, rgba(100,160,220,0.1) 0%, transparent 40%),
+                linear-gradient(160deg, #060C14 0%, #0A1520 50%, #06080F 100%);
+  }
+
+  /* Mesh overlay on cards */
+  .wall-card-img-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Signal dots on cards */
+  .signal-dots {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 4px;
+    z-index: 2;
+  }
+  .signal-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--red);
+    opacity: 0.8;
+  }
+  .signal-dot:nth-child(2) { opacity: 0.4; }
+  .signal-dot:nth-child(3) { opacity: 0.2; }
+
+  .wall-card-body {
+    padding: 20px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+  }
+  .wall-card:hover .wall-card-body { background: var(--bg-card-hover); }
+
+  .wall-card-cat {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wall-card-cat::before {
+    content: '';
+    width: 12px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .wall-card-title {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--off-white);
+    margin-bottom: 8px;
+  }
+  .wall-card:hover .wall-card-title { color: var(--white); }
+
+  .wall-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+  }
+  .wall-card-issue {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .wall-card-tier {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border: 1px solid;
+  }
+  .tier-free {
+    color: var(--muted);
+    border-color: var(--dim);
+  }
+  .tier-premium {
+    color: var(--red);
+    border-color: var(--red-border);
+  }
+
+  /* ─── RECENT SIGNALS LIST ─── */
+  .signals-section {
+    padding: 0 48px 64px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .signal-list {}
+  .signal-item {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .signal-item:last-child { border-bottom: none; }
+  .signal-item:hover .signal-item-title { color: var(--white); }
+
+  .signal-number {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dim);
+    min-width: 24px;
+    padding-top: 3px;
+  }
+
+  .signal-item-content {}
+  .signal-item-cat {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .signal-item-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--off-white);
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+  .signal-item-excerpt {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .signal-item-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .signal-date {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .signal-tag {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 2px 7px;
+    border: 1px solid var(--border-bright);
+  }
+
+  /* Sidebar */
+  .sidebar {}
+
+  .sidebar-operator {
+    border: 1px solid var(--red-border);
+    background: var(--red-dim);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .sidebar-operator-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+  .sidebar-operator-number {
+    font-family: var(--font-mono);
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .sidebar-operator-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .sidebar-operator-cta {
+    display: block;
+    margin-top: 16px;
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 11px 0;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .sidebar-widget {
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .sidebar-widget-title {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-topic {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .sidebar-topic:last-child { border-bottom: none; }
+  .sidebar-topic-name {
+    font-size: 12px;
+    color: var(--off-white);
+  }
+  .sidebar-topic-count {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--dim);
+  }
+
+  /* ─── SUBSCRIBE SECTION ─── */
+  .subscribe-section {
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .subscribe-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(212,37,53,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .subscribe-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 20px;
+  }
+  .subscribe-headline {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .subscribe-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+  .subscribe-form-large {
+    display: flex;
+    justify-content: center;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .subscribe-form-large input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-bright);
+    border-right: none;
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 15px 20px;
+    outline: none;
+  }
+  .subscribe-form-large input::placeholder { color: var(--muted); }
+  .subscribe-form-large button {
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 15px 28px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .subscribe-note {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-top: 16px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-brand {}
+  .footer-logo {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .footer-sub {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-right {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: right;
+  }
+
+  /* ─── PAGE SEPARATOR ─── */
+  .page-sep {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(212,37,53,0.03);
+  }
+  .page-sep-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    background: var(--bg-base);
+    padding: 0 20px;
+  }
+
+  /* ─── DASHBOARD ─── */
+  .dashboard {
+    padding: 40px 48px;
+  }
+
+  .dashboard-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dashboard-greeting {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .dashboard-title {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .dashboard-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .operator-badge {
+    border: 1px solid var(--red-border);
+    background: var(--red-dim);
+    padding: 16px 24px;
+    text-align: right;
+  }
+  .operator-badge-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .operator-badge-number {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* Dashboard grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 32px;
+  }
+
+  .brief-content {}
+
+  .brief-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brief-tab {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .brief-tab.active {
+    color: var(--white);
+    border-bottom-color: var(--red);
+  }
+
+  .brief-article {}
+  .brief-article-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brief-article-label::before {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: var(--red);
+  }
+  .brief-article-headline {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .brief-article-body {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .brief-article-body strong {
+    color: var(--off-white);
+    font-weight: 500;
+  }
+  .brief-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  .brief-signal-row {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .brief-signal-icon {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--red);
+  }
+  .brief-signal-content {}
+  .brief-signal-title {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--off-white);
+    margin-bottom: 4px;
+  }
+  .brief-signal-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* Dashboard sidebar */
+  .brief-sidebar {}
+
+  .sidebar-card {
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .sidebar-card-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sidebar-card-body {
+    padding: 16px;
+  }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-name {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .metric-value.up { color: #4ADE80; }
+  .metric-value.down { color: var(--red); }
+
+  .upgrade-card {
+    border: 1px solid var(--red-border);
+    background: var(--red-dim);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .upgrade-title {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .upgrade-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .upgrade-price {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .upgrade-price span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .upgrade-btn {
+    display: block;
+    width: 100%;
+    background: var(--red);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 12px 0;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 14px;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────── HOMEPAGE ─────────────────── -->
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-name">The Lantern</span>
+    <span class="nav-logo-daily">D<span>AI</span>LY</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Today</a></li>
+    <li><a href="#">Intelligence</a></li>
+    <li><a href="#">Stack</a></li>
+    <li><a href="#">Archive</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-cta">
+    <span class="label-rls">RedLantern Studios™</span>
+    <button class="btn-subscribe">Subscribe</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Signal Before Consensus <span class="ticker-sep">·</span> Issue #007 <span class="ticker-sep">·</span> Muslim-Built. AI-Native. <span class="ticker-sep">·</span> Agent Governance Is the New Product Layer <span class="ticker-sep">·</span> 247 Operators <span class="ticker-sep">·</span> 03 Signals Today <span class="ticker-sep">·</span> Signal Before Consensus <span class="ticker-sep">·</span> Issue #007 <span class="ticker-sep">·</span> Muslim-Built. AI-Native. <span class="ticker-sep">·</span> Agent Governance Is the New Product Layer <span class="ticker-sep">·</span> 247 Operators <span class="ticker-sep">·</span> 03 Signals Today</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">Muslim-Built. AI-Native.</div>
+      <h1 class="hero-headline">Signal<br><em>before</em><br>consensus.</h1>
+      <p class="hero-sub">The daily intelligence brief for serious Muslim operators and AI-native builders. No noise. No consensus. Just signal.</p>
+      <div class="hero-actions">
+        <div class="subscribe-form">
+          <input type="email" placeholder="your@email.com">
+          <button>Join the Daily</button>
+        </div>
+        <a href="#" class="btn-ghost">Today's signal</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number"><span>247</span></div>
+          <div class="stat-label">Operators</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">07</div>
+          <div class="stat-label">Signals</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">01</div>
+          <div class="stat-label">Brief</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-feature">
+        <div class="feature-img">
+          <div class="feature-img-inner img-governance"></div>
+          <span class="feature-badge">Today's Lead</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-category">AI Governance · Signal</div>
+          <h3 class="feature-title">Agent Governance Is the New Product Layer</h3>
+          <p class="feature-excerpt">The teams that build governance infrastructure now will own the trust layer that determines which AI products survive the next 18 months.</p>
+          <div class="feature-meta">
+            <span class="feature-date">Jun 13 · Issue #007</span>
+            <a href="#" class="feature-cta">Read signal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTELLIGENCE WALL -->
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-line"></div>
+      <span class="section-label">Live Intelligence Wall</span>
+    </div>
+    <a href="#" class="section-link">View all signals</a>
+  </div>
+
+  <div class="intelligence-wall">
+    <div class="wall-grid">
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-ai-systems">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">AI Systems</div>
+          <div class="wall-card-title">Memory, Agents, Architecture</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #012</span>
+            <span class="wall-card-tier tier-free">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-product-calls">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">Product Calls</div>
+          <div class="wall-card-title">What Operators Are Actually Shipping</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #009</span>
+            <span class="wall-card-tier tier-premium">Premium</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-operator-stack">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">Operator Stack</div>
+          <div class="wall-card-title">Tools the Serious Builders Use</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #011</span>
+            <span class="wall-card-tier tier-free">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-field-notes">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">Field Notes</div>
+          <div class="wall-card-title">From the Ground in Muslim Tech</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #008</span>
+            <span class="wall-card-tier tier-free">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-governance">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">Governance</div>
+          <div class="wall-card-title">Who Controls the Control Layer</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #010</span>
+            <span class="wall-card-tier tier-premium">Premium</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="wall-card">
+        <div class="wall-card-img">
+          <div class="wall-card-img-inner img-market-signal">
+            <div class="signal-dots"><span class="signal-dot"></span><span class="signal-dot"></span><span class="signal-dot"></span></div>
+          </div>
+        </div>
+        <div class="wall-card-body">
+          <div class="wall-card-cat">Market Signal</div>
+          <div class="wall-card-title">Halal Finance Meets AI Infrastructure</div>
+          <div class="wall-card-meta">
+            <span class="wall-card-issue">Signal #007</span>
+            <span class="wall-card-tier tier-premium">Premium</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- RECENT SIGNALS + SIDEBAR -->
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-line"></div>
+      <span class="section-label">Recent Signals</span>
+    </div>
+    <a href="#" class="section-link">Full archive</a>
+  </div>
+
+  <div class="signals-section">
+    <div class="signal-list">
+
+      <a href="#" class="signal-item">
+        <div class="signal-number">01</div>
+        <div class="signal-item-content">
+          <div class="signal-item-cat">AI Systems</div>
+          <div class="signal-item-title">Why Every Serious Operator Is Building a Memory Layer Now</div>
+          <div class="signal-item-excerpt">The difference between a demo and a product isn't the model. It's whether the system remembers what happened last time.</div>
+          <div class="signal-item-footer">
+            <span class="signal-date">Jun 12, 2026</span>
+            <span class="signal-tag">Free</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="signal-item">
+        <div class="signal-number">02</div>
+        <div class="signal-item-content">
+          <div class="signal-item-cat">Field Notes</div>
+          <div class="signal-item-title">What the Alif Summit Said About Where Muslim Tech Is Going</div>
+          <div class="signal-item-excerpt">Three patterns from the room that don't show up in the coverage but tell you everything about the next 24 months.</div>
+          <div class="signal-item-footer">
+            <span class="signal-date">Jun 11, 2026</span>
+            <span class="signal-tag">Premium</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="signal-item">
+        <div class="signal-number">03</div>
+        <div class="signal-item-content">
+          <div class="signal-item-cat">Operator Stack</div>
+          <div class="signal-item-title">The Real Self-Hosted Stack: n8n on Railway, Supabase, and Why Make.com Doesn't Scale</div>
+          <div class="signal-item-excerpt">What serious Muslim builders are actually running under the hood and why the cloud tax is the first thing to cut.</div>
+          <div class="signal-item-footer">
+            <span class="signal-date">Jun 10, 2026</span>
+            <span class="signal-tag">Free</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-operator">
+        <div class="sidebar-operator-label">Become an Operator</div>
+        <div class="sidebar-operator-number">#0248</div>
+        <div class="sidebar-operator-sub">Join 247 Muslim builders, founders, and operators getting signal before consensus.</div>
+        <a href="#" class="sidebar-operator-cta">Claim Your Number</a>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Intelligence by Category</div>
+        <div class="sidebar-topic">
+          <span class="sidebar-topic-name">AI Systems</span>
+          <span class="sidebar-topic-count">12 signals</span>
+        </div>
+        <div class="sidebar-topic">
+          <span class="sidebar-topic-name">Governance</span>
+          <span class="sidebar-topic-count">8 signals</span>
+        </div>
+        <div class="sidebar-topic">
+          <span class="sidebar-topic-name">Market Signal</span>
+          <span class="sidebar-topic-count">7 signals</span>
+        </div>
+        <div class="sidebar-topic">
+          <span class="sidebar-topic-name">Field Notes</span>
+          <span class="sidebar-topic-count">6 signals</span>
+        </div>
+        <div class="sidebar-topic">
+          <span class="sidebar-topic-name">Operator Stack</span>
+          <span class="sidebar-topic-count">5 signals</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIBE SECTION -->
+  <div class="subscribe-section">
+    <div class="subscribe-bg"></div>
+    <div class="subscribe-eyebrow">Signal Before Consensus</div>
+    <h2 class="subscribe-headline">Built for the operators who don't wait for permission.</h2>
+    <p class="subscribe-sub">The Lantern Daily is the intelligence brief for Muslim founders, builders, and operators in AI and halal tech. Free to start. Serious when you're ready.</p>
+    <div class="subscribe-form-large">
+      <input type="email" placeholder="your@email.com">
+      <button>Get the Daily</button>
+    </div>
+    <div class="subscribe-note">Free · No spam · Unsubscribe anytime · Operator number assigned on join</div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">The Lantern Daily</div>
+      <div class="footer-sub">A RedLantern Studios™ Publication · By Red LLC</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Archive</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Shorts</a></li>
+      <li><a href="#">Privacy</a></li>
+    </ul>
+    <div class="footer-right">
+      Muslim-Built. AI-Native.<br>
+      © 2026 By Red, LLC
+    </div>
+  </footer>
+
+</div>
+
+<!-- ─── PAGE SEPARATOR ─── -->
+<div class="page-sep">
+  <span class="page-sep-label">↓ Dashboard — Premium Subscriber View ↓</span>
+</div>
+
+<!-- ─────────────────── DASHBOARD ─────────────────── -->
+<div class="page">
+  <nav>
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-name">The Lantern</span>
+      <span class="nav-logo-daily">D<span>AI</span>LY</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="active">My Brief</a></li>
+      <li><a href="#">Intelligence</a></li>
+      <li><a href="#">Stack</a></li>
+      <li><a href="#">Archive</a></li>
+    </ul>
+    <div class="nav-cta">
+      <span class="label-rls">Operator #0042</span>
+    </div>
+  </nav>
+
+  <div class="dashboard" style="padding-top: 100px;">
+    <div class="dashboard-header">
+      <div>
+        <div class="dashboard-greeting">Your Weekly Brief · Issue #007</div>
+        <div class="dashboard-title">Today's Intelligence.</div>
+        <div class="dashboard-date" id="dashboard-date">Saturday, June 13 · 2026</div>
+      </div>
+      <div class="operator-badge">
+        <div class="operator-badge-label">Operator</div>
+        <div class="operator-badge-number">#0042</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="brief-content">
+        <div class="brief-tabs">
+          <div class="brief-tab active">Weekly Brief</div>
+          <div class="brief-tab">Shorts</div>
+          <div class="brief-tab">Archive</div>
+          <div class="brief-tab">Saved</div>
+        </div>
+
+        <div class="brief-article">
+          <div class="brief-article-label">Lead Signal · AI Governance</div>
+          <h2 class="brief-article-headline">Agent Governance Is the New Product Layer</h2>
+          <p class="brief-article-body">
+            The teams building AI products right now are making a mistake that will cost them. <strong>They're optimizing for capability when they should be optimizing for control.</strong>
+            <br><br>
+            The next 18 months will determine which AI products earn lasting institutional trust. And the ones that do won't win on model quality — they'll win on governance infrastructure. They'll win because they built control layers before anyone asked them to.
+            <br><br>
+            This is not a compliance story. It's a product strategy story. The operators who understand this now will own the trust layer that everyone else is trying to retrofit later.
+          </p>
+
+          <div class="brief-divider"></div>
+
+          <div class="brief-signal-row">
+            <div class="brief-signal-icon">01</div>
+            <div class="brief-signal-content">
+              <div class="brief-signal-title">Alif Summit: Three Patterns the Coverage Missed</div>
+              <div class="brief-signal-text">What the room actually said about Islamic fintech, AI infrastructure, and why the next Muslim unicorn isn't where most people are looking.</div>
+            </div>
+          </div>
+
+          <div class="brief-signal-row">
+            <div class="brief-signal-icon">02</div>
+            <div class="brief-signal-content">
+              <div class="brief-signal-title">The Halal Stack Report: What Serious Builders Are Running</div>
+              <div class="brief-signal-text">Self-hosted n8n on Railway, Supabase over Firebase, and why the cloud tax is the first cost Muslim builders should eliminate.</div>
+            </div>
+          </div>
+
+          <div class="brief-signal-row">
+            <div class="brief-signal-icon">03</div>
+            <div class="brief-signal-content">
+              <div class="brief-signal-title">Market Signal: Islamic Finance Meets AI Infrastructure</div>
+              <div class="brief-signal-text">The $341B market that Silicon Valley hasn't touched and the Muslim founders who are building the picks and shovels right now.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brief-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">This Week's Metrics</div>
+          <div class="sidebar-card-body">
+            <div class="metric-row">
+              <span class="metric-name">New Operators</span>
+              <span class="metric-value up">+23</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Signals Published</span>
+              <span class="metric-value">07</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Open Rate</span>
+              <span class="metric-value up">68%</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Total Operators</span>
+              <span class="metric-value">247</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-card-header">Today's Stack Picks</div>
+          <div class="sidebar-card-body">
+            <div class="metric-row">
+              <span class="metric-name">n8n (self-hosted)</span>
+              <span class="metric-value" style="color: var(--red); font-size:10px;">↗ Trending</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Railway</span>
+              <span class="metric-value" style="color: var(--muted); font-size:10px;">Operator pick</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Supabase</span>
+              <span class="metric-value" style="color: var(--muted); font-size:10px;">Operator pick</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="upgrade-card">
+          <div class="upgrade-title">Unlock the Full Brief</div>
+          <div class="upgrade-sub">You're reading a preview. Premium operators get the full Weekly Brief, all signals, and the intelligence archive.</div>
+          <div class="upgrade-price">$15 <span>/ month</span></div>
+          <button class="upgrade-btn">Upgrade Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top: 40px;">
+    <div class="footer-brand">
+      <div class="footer-logo">The Lantern Daily</div>
+      <div class="footer-sub">A RedLantern Studios™ Publication · By Red LLC</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="#">Archive</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Privacy</a></li>
+    </ul>
+    <div class="footer-right">
+      Muslim-Built. AI-Native.<br>
+      © 2026 By Red, LLC
+    </div>
+  </footer>
+</div>
+
+
+<script>
+// ─── PRAYER TIMES (geolocated via Aladhan API) ───
+(function() {
+  const dateEl = document.getElementById('dashboard-date');
+  if (!dateEl) return;
+
+  // Format today's date label
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  });
+
+  // Set date first with loading state for prayer time
+  dateEl.textContent = dateLabel + ' · Loading prayer times…';
+
+  if (!navigator.geolocation) {
+    dateEl.textContent = dateLabel;
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      const { latitude, longitude } = pos.coords;
+      const today = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}`;
+
+      fetch(`https://api.aladhan.com/v1/timings/${today}?latitude=${latitude}&longitude=${longitude}&method=2`)
+        .then(r => r.json())
+        .then(data => {
+          const timings = data.data.timings;
+
+          // Build ordered prayer list for today
+          const prayers = [
+            { name: 'Fajr',    time: timings.Fajr },
+            { name: 'Dhuhr',   time: timings.Dhuhr },
+            { name: 'Asr',     time: timings.Asr },
+            { name: 'Maghrib', time: timings.Maghrib },
+            { name: 'Isha',    time: timings.Isha },
+          ];
+
+          // Find next prayer
+          const nowMinutes = now.getHours() * 60 + now.getMinutes();
+          let next = null;
+          for (const p of prayers) {
+            const [h, m] = p.time.split(':').map(Number);
+            const pMinutes = h * 60 + m;
+            if (pMinutes > nowMinutes) { next = p; break; }
+          }
+
+          // Also track last prayer (current period)
+          let current = null;
+          for (let i = prayers.length - 1; i >= 0; i--) {
+            const [h, m] = prayers[i].time.split(':').map(Number);
+            if (h * 60 + m <= nowMinutes) { current = prayers[i]; break; }
+          }
+
+          let prayerStr = '';
+          if (next) {
+            // Convert to 12h format
+            const [h, m] = next.time.split(':').map(Number);
+            const ampm = h >= 12 ? 'pm' : 'am';
+            const h12 = h % 12 || 12;
+            const mStr = String(m).padStart(2, '0');
+            prayerStr = ` · ${next.name}: ${h12}:${mStr}${ampm}`;
+          } else {
+            prayerStr = ' · Isha passed — Fajr tomorrow';
+          }
+
+          dateEl.textContent = dateLabel + prayerStr;
+        })
+        .catch(() => {
+          dateEl.textContent = dateLabel + ' · Prayer times unavailable';
+        });
+    },
+    function() {
+      // Geolocation denied/unavailable
+      dateEl.textContent = dateLabel + ' · Enable location for prayer times';
+    },
+    { timeout: 5000 }
+  );
+})();
+</script>
+</body>
+</html>

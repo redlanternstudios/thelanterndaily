@@ -1,0 +1,133 @@
+{
+  "name": "Lantern - Content Radar",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://salaamgateway.com/feed",
+        "serializeUrl": false,
+        "method": "get",
+        "headers": [
+          { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": false,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "30",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": ""
+      },
+      "metadata": {
+        "designer": { "x": -350, "y": 0 }
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer YOUR_GROQ_API_KEY_HERE" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "30",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content scorer for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles. For each article, score its relevance for Muslim founders, halal tech builders, and Islamic finance on a scale of 1-10. Return ONLY a valid JSON array (no markdown, no explanation) with this format: [{\\\"title\\\": \\\"...\\\", \\\"url\\\": \\\"...\\\", \\\"score\\\": 8, \\\"summary\\\": \\\"One sentence why this is relevant\\\"}]. Only include articles with score >= 7. Score high for: Islamic finance, halal tech, Muslim founders, MENA tech, shariah-compliant fintech, Muslim community apps.\"},{\"role\":\"user\",\"content\":\"{{left(1.data, 8000)}}\"}],\"max_tokens\":1000,\"temperature\":0.1}"
+      },
+      "metadata": {
+        "designer": { "x": -50, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://thelanterndaily.com/api/admin/content-radar",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" },
+          { "name": "X-Admin-Key", "value": "ld_admin_7xK2p9mNq_test" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"articles_json\": \"{{replace(2.data.choices[0].message.content, '\"', '\\\\\"')}}\", \"source\": \"salaamgateway.com\"}"
+      },
+      "metadata": {
+        "designer": { "x": 250, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] }
+  }
+}
