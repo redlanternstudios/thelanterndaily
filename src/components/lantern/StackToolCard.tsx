@@ -1,6 +1,6 @@
 "use client";
 
-interface StackToolCardProps {
+export interface StackToolCardProps {
   toolName: string;
   toolUrl: string;
   category: string;

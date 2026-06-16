@@ -1,22 +1,11 @@
-import type { Metadata } from "next";
-import { Inter, Space_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
-  display: "swap",
-});
-
 export const dynamic = 'force-dynamic'
+
+export const viewport: Viewport = {
+  themeColor: "#07080f",
+};
 
 export const metadata: Metadata = {
   title: "The Lantern Daily — AI & Tech for Muslim Builders",
@@ -40,13 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${spaceMono.variable} antialiased`}
-    >
-      <head>
-        <meta name="theme-color" content="#07080f" />
-      </head>
+    <html lang="en" className="antialiased">
       <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
         {children}
       </body>
