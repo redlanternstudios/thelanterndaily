@@ -168,6 +168,13 @@ function ContentQueueCard({
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Sync commentary when real-time update arrives (only if not actively editing)
+  useEffect(() => {
+    if (!editing) {
+      setCommentary(item.editorial_commentary ?? "");
+    }
+  }, [item.editorial_commentary, editing]);
+
   // Auto-resize textarea
   useEffect(() => {
     if (editing && textareaRef.current) {
@@ -522,6 +529,7 @@ function ContentQueueCard({
           <input
             type="datetime-local"
             value={scheduleDate}
+            min={new Date().toISOString().slice(0, 16)}
             onChange={(e) => setScheduleDate(e.target.value)}
             style={{
               background: "transparent",
