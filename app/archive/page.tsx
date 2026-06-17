@@ -1,31 +1,17 @@
-"use client";
-
-import { useState } from "react";
 import { LanternMasthead } from "@/components/LanternMasthead";
-import { ArticleCard } from "@/components/ArticleCard";
-import { lanternArticles } from "@/data/lanternArticles";
+import { getApprovedContent } from "@/lib/lantern/queries";
+import { ArchiveGrid } from "./ArchiveGrid";
 
-const FILTERS = [
-  "All",
-  "AI Infrastructure",
-  "Halal Fintech",
-  "Tech",
-  "Operator Stack",
-  "Field Notes",
-  "Video",
-];
+export const revalidate = 300; // revalidate every 5 minutes
 
-export default function ArchivePage() {
-  const [active, setActive] = useState("All");
-
-  const filtered =
-    active === "All"
-      ? lanternArticles
-      : active === "Video"
-      ? lanternArticles.filter((a) => a.video)
-      : lanternArticles.filter((a) => a.category === active);
-
-  const displayArticles = filtered;
+export default async function ArchivePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ category?: string }>;
+}) {
+  const articles = await getApprovedContent(200);
+  const resolvedParams = await searchParams;
+  const initialCategory = resolvedParams?.category;
 
   return (
     <>
@@ -44,48 +30,8 @@ export default function ArchivePage() {
           </p>
         </header>
 
-        {/* ── FILTER BAR ─────────────────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            gap: "4px",
-            flexWrap: "wrap",
-            padding: "24px 0",
-            borderBottom: "1px solid var(--border)",
-            marginBottom: "32px",
-          }}
-        >
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              className={`btn${active === f ? " active-filter" : " outline"}`}
-              onClick={() => setActive(f)}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-
-        {/* ── ARTICLE GRID ───────────────────────────────────────── */}
-        <section
-          className="article-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "2px",
-          }}
-        >
-          {displayArticles.map((article, i) => (
-            <ArticleCard key={`${article.id}-${i}`} article={article} imageHeight="190px" />
-          ))}
-        </section>
-
-        {/* ── LOAD MORE ──────────────────────────────────────────── */}
-        <div style={{ textAlign: "center", padding: "48px 0" }}>
-          <button className="btn outline" style={{ padding: "16px 40px" }}>
-            Load More
-          </button>
-        </div>
+        {/* ── FILTER + GRID (client) ──────────────────────────────── */}
+        <ArchiveGrid articles={articles} initialCategory={initialCategory} />
 
         {/* ── FOOTER ─────────────────────────────────────────────── */}
         <footer className="footer">

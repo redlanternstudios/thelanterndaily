@@ -1,6 +1,5 @@
 {
-  "name": "Lantern - Content Radar",
-  "_comment": "Updated 2026-06-16: Enhanced Groq prompt now returns halal_verdict + halal_score + halal_flags. Header updated to x-admin-secret standard. Route: /api/admin/content-radar",
+  "name": "Lantern C1 - Content Radar",
   "flow": [
     {
       "id": 1,
@@ -15,19 +14,29 @@
         "serializeUrl": false,
         "method": "get",
         "headers": [
-          { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+          {
+            "name": "Accept",
+            "value": "application/rss+xml, application/xml, text/xml"
+          }
         ],
         "qs": [],
         "bodyType": "raw",
         "parseResponse": false,
         "timeout": "30",
+        "shareCookies": false,
+        "rejectUnauthorized": true,
         "followRedirect": true,
+        "useQuerystring": false,
         "gzip": true,
+        "useMtls": false,
         "contentType": "application/json",
         "data": ""
       },
       "metadata": {
-        "designer": { "x": -350, "y": 0 }
+        "designer": {
+          "x": -350,
+          "y": 0
+        }
       }
     },
     {
@@ -39,24 +48,37 @@
         "useNewZLibDeCompress": true
       },
       "mapper": {
-        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "url": "https://api.deepseek.com/chat/completions",
         "serializeUrl": false,
         "method": "post",
         "headers": [
-          { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
-          { "name": "Content-Type", "value": "application/json" }
+          {
+            "name": "Authorization",
+            "value": "Bearer {{DEEPSEEK_API_KEY}}"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
         ],
         "qs": [],
         "bodyType": "raw",
         "parseResponse": true,
-        "timeout": "45",
+        "timeout": "30",
+        "shareCookies": false,
+        "rejectUnauthorized": true,
         "followRedirect": true,
+        "useQuerystring": false,
         "gzip": true,
+        "useMtls": false,
         "contentType": "application/json",
-        "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener and scorer for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nFor each article, return ONLY a valid JSON array (no markdown, no code fences, no explanation) with this exact format:\\n[{\\\"title\\\": \\\"...\\\", \\\"url\\\": \\\"...\\\", \\\"score\\\": 8, \\\"summary\\\": \\\"One sentence why this is relevant\\\", \\\"halal_verdict\\\": \\\"pass\\\", \\\"halal_score\\\": 85, \\\"halal_flags\\\": []}]\\n\\nRules:\\n- score: 1-10 relevance for Muslim founders, halal tech builders, Islamic finance\\n- Only include articles with score >= 7\\n- halal_verdict: \\\"pass\\\" (clearly halal), \\\"review\\\" (uncertain, needs human check), \\\"fail\\\" (riba, haram content, inappropriate)\\n- halal_score: 0-100 where 100 = fully halal, 0 = clearly haram\\n- halal_flags: array of specific concern strings, empty array [] if none\\n- Score high for: Islamic finance, halal tech, Muslim founders, MENA tech, shariah-compliant fintech, Muslim community apps\\n- Mark fail for: interest-based products promoted positively, gambling, alcohol, haram content\\n- summary: one sentence max\"},{\"role\":\"user\",\"content\":\"{{left(1.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+        "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content scorer for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles. For each article, score relevance for Muslim founders, halal tech builders, and Islamic finance (1-10). Also assess halal compliance. Return ONLY a valid JSON array (no markdown, no explanation) with this exact format: [{\\\"title\\\": \\\"...\\\", \\\"url\\\": \\\"...\\\", \\\"score\\\": 8, \\\"summary\\\": \\\"One sentence on relevance\\\", \\\"halal_verdict\\\": \\\"CLEAR|CAUTION|BLOCKED\\\", \\\"halal_score\\\": 9, \\\"halal_flags\\\": []}]. Only include articles with score >= 7. halal_verdict BLOCKED = riba, gambling, alcohol, haram content. Score high for: Islamic finance, halal tech, Muslim founders, MENA tech, shariah-compliant fintech.\"},{\"role\":\"user\",\"content\":\"{{left(1.data, 8000)}}\"}],\"max_tokens\":1200,\"temperature\":0.1}"
       },
       "metadata": {
-        "designer": { "x": -50, "y": 0 }
+        "designer": {
+          "x": -50,
+          "y": 0
+        }
       }
     },
     {
@@ -72,20 +94,33 @@
         "serializeUrl": false,
         "method": "post",
         "headers": [
-          { "name": "Content-Type", "value": "application/json" },
-          { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "name": "x-admin-secret",
+            "value": "{{ADMIN_WEBHOOK_SECRET}}"
+          }
         ],
         "qs": [],
         "bodyType": "raw",
         "parseResponse": true,
         "timeout": "30",
+        "shareCookies": false,
+        "rejectUnauthorized": true,
         "followRedirect": true,
+        "useQuerystring": false,
         "gzip": true,
+        "useMtls": false,
         "contentType": "application/json",
         "data": "{\"articles_json\": \"{{replace(2.data.choices[0].message.content, '\"', '\\\\\"')}}\", \"source\": \"salaamgateway.com\"}"
       },
       "metadata": {
-        "designer": { "x": 250, "y": 0 }
+        "designer": {
+          "x": 250,
+          "y": 0
+        }
       }
     }
   ],
@@ -102,6 +137,8 @@
       "dataloss": false,
       "dlq": false
     },
-    "designer": { "orphans": [] }
+    "designer": {
+      "orphans": []
+    }
   }
 }

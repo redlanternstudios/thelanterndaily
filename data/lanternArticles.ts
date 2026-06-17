@@ -7,11 +7,13 @@ export interface Article {
   date: string;
   readTime: string;
     halal_badge?: import('./lanternTypes').HalalBadgeType;
-  image: string;
+  image?: string;
   video?: boolean;
+  youtubeId?: string;
   duration?: string;
   body?: string; // HTML string — used in full article view
   premium?: boolean;
+  href?: string; // override link target for external articles
 }
 
 export const lanternArticles: Article[] = [

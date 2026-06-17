@@ -28,7 +28,7 @@ export function LanternMasthead() {
           <a href="/archive">Archive</a>
           <a href="/about">About</a>
         </nav>
-        <button className="join-button">Join</button>
+        <a href="/#subscribe" className="join-button">Join →</a>
       </header>
       <div className="editorial-ticker">
         <span>
