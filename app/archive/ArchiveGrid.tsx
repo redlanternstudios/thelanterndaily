@@ -15,10 +15,11 @@ const FILTERS = [
 
 interface ArchiveGridProps {
   articles: LanternArticle[];
+  initialCategory?: string;
 }
 
-export function ArchiveGrid({ articles }: ArchiveGridProps) {
-  const [active, setActive] = useState("All");
+export function ArchiveGrid({ articles, initialCategory }: ArchiveGridProps) {
+  const [active, setActive] = useState(initialCategory ?? "All");
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 24;
 

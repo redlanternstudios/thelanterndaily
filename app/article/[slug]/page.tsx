@@ -40,7 +40,7 @@ export async function generateMetadata({
   if (!article) return { title: "Not Found | The Lantern Daily" };
 
   return {
-    title: `${article.title} | The Lantern Daily`,
+    title: article.title,
     description: article.excerpt,
     openGraph: {
       title: article.title,
@@ -163,15 +163,34 @@ export default async function ArticleSlugPage({
         {/* ── HERO IMAGE ─────────────────────────────────────────── */}
         <div
           className="article-image"
-          style={{ height: "480px", margin: "0 auto 48px", maxWidth: "960px" }}
+          style={{ height: "480px", margin: "0 auto 48px", maxWidth: "960px", position: "relative" }}
         >
-          <Image
-            src={article.image}
-            alt={article.title}
-            fill
-            style={{ objectFit: "cover" }}
-            priority
-          />
+          {article.image ? (
+            <Image
+              src={article.image}
+              alt={article.title}
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "var(--surface)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--dim)",
+                fontSize: "12px",
+                fontFamily: "Space Mono, monospace",
+                letterSpacing: "0.15em",
+              }}
+            >
+              {article.category}
+            </div>
+          )}
         </div>
 
         {/* ── TWO-COLUMN: BODY + SIDEBAR ─────────────────────────── */}

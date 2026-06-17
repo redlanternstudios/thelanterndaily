@@ -2,11 +2,78 @@ import Image from "next/image";
 import { LanternMasthead } from "@/components/LanternMasthead";
 import { ArticleCard } from "@/components/ArticleCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
-import { lanternArticles } from "@/data/lanternArticles";
+import {
+  getApprovedContent,
+  articleHref,
+  formatDate,
+  readTime,
+  type LanternArticle,
+} from "@/lib/lantern/queries";
 
-export default function HomePage() {
-  const [lead, videoCard, article2, article3, article4, article5, article6] =
-    lanternArticles;
+// Supabase storage base for article images
+const STORAGE_BASE =
+  "https://endovljmaudnxdzdapmf.supabase.co/storage/v1/object/public/article-images";
+
+function articleImage(a: LanternArticle): string {
+  if (a.image_url) return a.image_url;
+  // Fallback: deterministic placeholder by category
+  const slug = (a.category ?? "tech").toLowerCase().replace(/\s+/g, "-");
+  return `${STORAGE_BASE}/${slug}-default.jpg`;
+}
+
+// Map Supabase row → shape ArticleCard expects
+function toCardShape(a: LanternArticle) {
+  return {
+    id: a.id,
+    category: a.category ?? "Intelligence",
+    title: a.title,
+    excerpt: a.excerpt ?? "",
+    author: a.author ?? "The Lantern Daily",
+    date: formatDate(a.published_at),
+    readTime: readTime(a.read_time_minutes),
+    image: articleImage(a),
+    video: a.content_type === "video",
+    youtubeId: a.youtube_video_id ?? undefined,
+    premium: a.is_premium,
+    href: articleHref(a),
+  };
+}
+
+export default async function HomePage() {
+  // Single query — get all approved content, split by type client-side
+  const content = await getApprovedContent(20);
+
+  const articles = content.filter((c) => c.content_type === "article");
+  const videos = content.filter((c) => c.content_type === "video");
+  const market = content.filter((c) => c.content_type === "market");
+
+  // Layout slots
+  const lead = articles[0] ?? content[0];
+  const videoCard = videos[0];
+  const article2 = articles[1];
+  const article3 = articles[2];
+  const gridArticles = articles.slice(3, 7); // up to 4 in bottom grid — start after article2/article3
+
+  if (!lead) {
+    // Graceful empty state — DB connected but no content yet
+    return (
+      <>
+        <LanternMasthead />
+        <div className="page-shell" style={{ padding: "120px 48px", textAlign: "center" }}>
+          <div className="kicker" style={{ marginBottom: "16px" }}>Coming Soon</div>
+          <h1 style={{ fontSize: "42px", fontFamily: "Georgia, serif" }}>
+            The Lantern Daily is warming up.
+          </h1>
+          <p className="excerpt" style={{ maxWidth: "440px", margin: "24px auto 40px" }}>
+            Subscribe to be the first to know when we go live.
+          </p>
+          <SubscribeForm variant="hero" />
+        </div>
+      </>
+    );
+  }
+
+  const leadCard = toCardShape(lead);
 
   return (
     <>
@@ -38,7 +105,7 @@ export default function HomePage() {
           >
             <div>
               <div className="kicker" style={{ marginBottom: "20px" }}>
-                {lead.category}
+                {leadCard.category}
               </div>
               <h1
                 style={{
@@ -49,27 +116,33 @@ export default function HomePage() {
                   fontWeight: 700,
                 }}
               >
-                {lead.title}
+                {leadCard.title}
               </h1>
               <p className="excerpt" style={{ fontSize: "17px", marginBottom: "28px" }}>
-                {lead.excerpt}
+                {leadCard.excerpt}
               </p>
             </div>
             <div>
               <div className="byline" style={{ marginBottom: "20px" }}>
-                {lead.author} · {lead.date} · {lead.readTime}
+                {leadCard.author} · {leadCard.date} · {leadCard.readTime}
               </div>
-              <a href={`/article/${lead.id}`} className="join-button" style={{ display: "inline-block" }}>
+              <a
+                href={leadCard.href}
+                className="join-button"
+                style={{ display: "inline-block" }}
+                target={leadCard.href.startsWith("http") ? "_blank" : undefined}
+                rel={leadCard.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              >
                 Read the story →
               </a>
             </div>
           </article>
 
           {/* Lead image — full bleed */}
-          <div className="article-image" style={{ minHeight: "430px" }}>
+          <div className="article-image" style={{ minHeight: "430px", position: "relative" }}>
             <Image
-              src={lead.image}
-              alt={lead.title}
+              src={leadCard.image}
+              alt={leadCard.title}
               fill
               style={{ objectFit: "cover" }}
               priority
@@ -78,19 +151,21 @@ export default function HomePage() {
         </section>
 
         {/* ── VIDEO + 2 ARTICLES ─────────────────────────────────── */}
-        <section
-          className="desktop-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr 0.7fr 0.7fr",
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
-          <ArticleCard article={videoCard} imageHeight="260px" />
-          <ArticleCard article={article2} imageHeight="260px" />
-          <ArticleCard article={article3} imageHeight="260px" />
-        </section>
+        {(videoCard || article2 || article3) && (
+          <section
+            className="desktop-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.1fr 0.7fr 0.7fr",
+              gap: "2px",
+              marginBottom: "2px",
+            }}
+          >
+            {videoCard && <ArticleCard article={toCardShape(videoCard)} imageHeight="260px" />}
+            {article2 && <ArticleCard article={toCardShape(article2)} imageHeight="260px" />}
+            {article3 && <ArticleCard article={toCardShape(article3)} imageHeight="260px" />}
+          </section>
+        )}
 
         {/* ── SECTION LABEL ──────────────────────────────────────── */}
         <div
@@ -101,36 +176,28 @@ export default function HomePage() {
             margin: "48px 0 24px",
           }}
         >
-          <div
-            className="kicker"
-            style={{ fontSize: "10px", letterSpacing: "0.2em" }}
-          >
+          <div className="kicker" style={{ fontSize: "10px", letterSpacing: "0.2em" }}>
             Latest Intelligence
           </div>
-          <div
-            style={{
-              flex: 1,
-              height: "1px",
-              background: "var(--border)",
-            }}
-          />
+          <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
         </div>
 
         {/* ── 4-COLUMN ARTICLE GRID ──────────────────────────────── */}
-        <section
-          className="article-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
-          <ArticleCard article={article5} imageHeight="190px" />
-          <ArticleCard article={article6} imageHeight="190px" />
-          <ArticleCard article={article2} imageHeight="190px" />
-          <ArticleCard article={article3} imageHeight="190px" />
-        </section>
+        {gridArticles.length > 0 && (
+          <section
+            className="article-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "2px",
+              marginBottom: "2px",
+            }}
+          >
+            {gridArticles.map((a) => (
+              <ArticleCard key={a.id} article={toCardShape(a)} imageHeight="190px" />
+            ))}
+          </section>
+        )}
 
         {/* ── PULL QUOTE ─────────────────────────────────────────── */}
         <div className="quote-block">
@@ -154,54 +221,78 @@ export default function HomePage() {
             marginBottom: "2px",
           }}
         >
-          {/* Market Signals */}
+          {/* Market Signals — from DB if available, static fallback */}
           <div className="card">
             <div className="card-body">
               <div className="kicker" style={{ marginBottom: "24px" }}>
                 Market Signals
               </div>
-              <table className="market-table">
-                <thead>
-                  <tr>
-                    <th>Asset</th>
-                    <th>Price</th>
-                    <th>24h</th>
-                    <th>Signal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>BTC/USD</td>
-                    <td>$68,420</td>
-                    <td className="val-up">+2.4%</td>
-                    <td><span className="signal-bullish">↑ BULLISH</span></td>
-                  </tr>
-                  <tr>
-                    <td>ETH/USD</td>
-                    <td>$3,812</td>
-                    <td className="val-up">+1.8%</td>
-                    <td><span className="signal-bullish">↑ BULLISH</span></td>
-                  </tr>
-                  <tr>
-                    <td>NVDA</td>
-                    <td>$1,142</td>
-                    <td className="val-down">-0.6%</td>
-                    <td><span className="signal-neutral">→ NEUTRAL</span></td>
-                  </tr>
-                  <tr>
-                    <td>MSFT</td>
-                    <td>$428</td>
-                    <td className="val-up">+0.9%</td>
-                    <td><span className="signal-bullish">↑ BULLISH</span></td>
-                  </tr>
-                  <tr>
-                    <td>AAPL</td>
-                    <td>$212</td>
-                    <td className="val-down">-1.1%</td>
-                    <td><span className="signal-neutral">→ NEUTRAL</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              {market.length > 0 ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {market.map((m) => (
+                    <div
+                      key={m.id}
+                      style={{
+                        padding: "12px 0",
+                        borderBottom: "1px solid var(--border)",
+                      }}
+                    >
+                      <div className="kicker" style={{ fontSize: "10px", marginBottom: "4px" }}>
+                        {m.category}
+                      </div>
+                      <div style={{ fontSize: "14px", fontWeight: 600 }}>{m.title}</div>
+                      {m.excerpt && (
+                        <p style={{ fontSize: "12px", color: "var(--muted)", marginTop: "4px" }}>
+                          {m.excerpt}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <table className="market-table">
+                  <thead>
+                    <tr>
+                      <th>Asset</th>
+                      <th>Price</th>
+                      <th>24h</th>
+                      <th>Signal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>BTC/USD</td>
+                      <td>$68,420</td>
+                      <td className="val-up">+2.4%</td>
+                      <td><span className="signal-bullish">↑ BULLISH</span></td>
+                    </tr>
+                    <tr>
+                      <td>ETH/USD</td>
+                      <td>$3,812</td>
+                      <td className="val-up">+1.8%</td>
+                      <td><span className="signal-bullish">↑ BULLISH</span></td>
+                    </tr>
+                    <tr>
+                      <td>NVDA</td>
+                      <td>$1,142</td>
+                      <td className="val-down">-0.6%</td>
+                      <td><span className="signal-neutral">→ NEUTRAL</span></td>
+                    </tr>
+                    <tr>
+                      <td>MSFT</td>
+                      <td>$428</td>
+                      <td className="val-up">+0.9%</td>
+                      <td><span className="signal-bullish">↑ BULLISH</span></td>
+                    </tr>
+                    <tr>
+                      <td>AAPL</td>
+                      <td>$212</td>
+                      <td className="val-down">-1.1%</td>
+                      <td><span className="signal-neutral">→ NEUTRAL</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
               <p
                 style={{
                   fontSize: "11px",
@@ -225,11 +316,11 @@ export default function HomePage() {
                 Tools the operators we cover are actually running in production.
               </p>
               {[
-                { cat: "Infra", tools: ["AWS", "Cloudflare", "Vercel", "GitHub"] },
-                { cat: "Models", tools: ["OpenAI", "Anthropic", "Google", "Perplexity"] },
-                { cat: "Data", tools: ["PostgreSQL", "Snowflake", "Hex", "Apify"] },
-                { cat: "Apps", tools: ["Notion", "Linear", "Figma", "Slack"] },
-                { cat: "Governance", tools: ["1Password", "Sentry", "Datadog", "Vanta"] },
+                { cat: "Infra", tools: ["Supabase", "Vercel", "n8n", "GitHub"] },
+                { cat: "Models", tools: ["Groq", "DeepSeek", "OpenAI", "Anthropic"] },
+                { cat: "Frontend", tools: ["Next.js", "Tailwind", "v0.dev", "Figma"] },
+                { cat: "Analytics", tools: ["PostHog", "Sentry", "Resend", "Beehiiv"] },
+                { cat: "Payments", tools: ["Stripe"] },
               ].map((row) => (
                 <div
                   key={row.cat}
@@ -242,10 +333,7 @@ export default function HomePage() {
                     gap: "12px",
                   }}
                 >
-                  <span
-                    className="kicker"
-                    style={{ fontSize: "9px", letterSpacing: "0.12em" }}
-                  >
+                  <span className="kicker" style={{ fontSize: "9px", letterSpacing: "0.12em" }}>
                     {row.cat}
                   </span>
                   <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
@@ -278,6 +366,7 @@ export default function HomePage() {
 
         {/* ── SUBSCRIBE CTA ──────────────────────────────────────── */}
         <section
+          id="subscribe"
           style={{
             background: "var(--surface)",
             border: "1px solid var(--border)",
@@ -328,7 +417,7 @@ export default function HomePage() {
               <a href="/privacy">Privacy Policy</a>
               <a href="/terms">Terms of Service</a>
               <a href="/disclosure">Affiliate Disclosure</a>
-              <a href="/halal">Halal Standards</a>
+              <a href="/halal/standards">Halal Standards</a>
             </div>
           </div>
           <div className="footer-bottom">

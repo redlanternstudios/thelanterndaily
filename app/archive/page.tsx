@@ -4,8 +4,13 @@ import { ArchiveGrid } from "./ArchiveGrid";
 
 export const revalidate = 300; // revalidate every 5 minutes
 
-export default async function ArchivePage() {
+export default async function ArchivePage({
+  searchParams,
+}: {
+  searchParams?: { category?: string };
+}) {
   const articles = await getApprovedContent(200);
+  const initialCategory = searchParams?.category;
 
   return (
     <>
@@ -25,7 +30,7 @@ export default async function ArchivePage() {
         </header>
 
         {/* ── FILTER + GRID (client) ──────────────────────────────── */}
-        <ArchiveGrid articles={articles} />
+        <ArchiveGrid articles={articles} initialCategory={initialCategory} />
 
         {/* ── FOOTER ─────────────────────────────────────────────── */}
         <footer className="footer">

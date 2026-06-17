@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { LanternMasthead } from "@/components/LanternMasthead";
 import { getStackEntries, type LanternStackEntry } from "@/lib/lantern/queries";
 
@@ -55,7 +54,7 @@ export default async function StackPage() {
               stack Muslim-led teams are running in production right now.
             </p>
             <div style={{ display: "flex", gap: "12px" }}>
-              <button className="join-button">Get Operator Access</button>
+              <a href="/#subscribe" className="join-button">Get Operator Access →</a>
               <a
                 href="/archive?category=Operator+Stack"
                 className="btn outline"
@@ -65,14 +64,26 @@ export default async function StackPage() {
               </a>
             </div>
           </div>
-          <div className="article-image" style={{ minHeight: "480px" }}>
-            <Image
-              src="/images/lantern/operator-stack-hero.jpg"
-              alt="Operator Stack"
-              fill
-              style={{ objectFit: "cover" }}
-              priority
-            />
+          <div
+            className="article-image"
+            style={{
+              minHeight: "480px",
+              background: "var(--surface)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Space Mono, monospace",
+                fontSize: "11px",
+                letterSpacing: "0.2em",
+                color: "var(--dim)",
+              }}
+            >
+              OPERATOR STACK
+            </span>
           </div>
         </section>
 
