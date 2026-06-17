@@ -18,47 +18,32 @@ export default function CategoryNav() {
 
   return (
     <div style={{
-      background: "#111113",
-      borderBottom: "1px solid #1F1F23",
+      background: "#f0ede8",
+      borderBottom: "1px solid #e5e0d8",
       overflowX: "auto",
-      padding: "10px 0",
-      whiteSpace: "nowrap",
+      paddingLeft: 24,
+      paddingRight: 24,
     }}>
       <div style={{
         maxWidth: 1400,
         margin: "0 auto",
-        padding: "0 24px",
         display: "flex",
         gap: 24,
+        padding: "12px 0",
       }}>
-        {categories.map((cat, idx) => (
-          <Link
-            key={cat}
-            href={`/archive?cat=${cat.replace(/\s+/g, "-").toLowerCase()}`}
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "#71717A",
-              transition: "color 0.2s",
-              textDecoration: "none",
-              borderBottom: "2px solid transparent",
-              paddingBottom: 2,
-              display: "inline-block",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "#D92532";
-              e.currentTarget.style.borderBottomColor = "#D92532";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "#71717A";
-              e.currentTarget.style.borderBottomColor = "transparent";
-            }}
-          >
+        {categories.map((cat, i) => (
+          <span key={cat} style={{
+            fontFamily: "var(--font-jetbrains), monospace",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#6b6b6b",
+            whiteSpace: "nowrap",
+          }}>
             {cat}
-            {idx < categories.length - 1 && <span style={{ color: "#1F1F23", marginLeft: 24 }}>|</span>}
-          </Link>
+            {i < categories.length - 1 && <span style={{ marginLeft: 24, color: "#e5e0d8" }}>•</span>}
+          </span>
         ))}
       </div>
     </div>

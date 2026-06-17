@@ -15,8 +15,8 @@ export default function HomePage() {
     <>
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background: #09090B; }
-        body { background: #09090B; color: #F4F4F5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; }
+        html { background: #faf8f5; }
+        body { background: #faf8f5; color: #1a1a1a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; }
         a { color: inherit; text-decoration: none; }
       `}</style>
       

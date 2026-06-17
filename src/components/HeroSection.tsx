@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function HeroSection() {
   return (
     <div style={{
-      background: "#09090B",
-      borderBottom: "1px solid #1F1F23",
+      background: "#faf8f5",
+      borderBottom: "1px solid #e5e0d8",
     }}>
       <div style={{
         maxWidth: 1400,
@@ -26,7 +26,7 @@ export default function HeroSection() {
           gap: 16,
         }}>
           <span style={{
-            color: "#D92532",
+            color: "#b91c1c",
             fontSize: 10,
             fontWeight: 700,
             letterSpacing: "0.2em",
@@ -39,7 +39,7 @@ export default function HeroSection() {
             fontFamily: "Georgia, serif",
             fontSize: 52,
             fontWeight: 700,
-            color: "#F4F4F5",
+            color: "#1a1a1a",
             lineHeight: 1.1,
             margin: 0,
           }}>
@@ -48,7 +48,7 @@ export default function HeroSection() {
 
           <p style={{
             fontSize: 18,
-            color: "#71717A",
+            color: "#6b6b6b",
             lineHeight: 1.6,
             margin: 0,
             maxWidth: "90%",
@@ -60,7 +60,7 @@ export default function HeroSection() {
             display: "flex",
             gap: 12,
             fontSize: 12,
-            color: "#71717A",
+            color: "#6b6b6b",
             marginTop: 8,
           }}>
             <span>by RedLantern Studios™</span>
@@ -71,7 +71,7 @@ export default function HeroSection() {
           </div>
 
           <Link href="/article/ai-infrastructure" style={{
-            color: "#D92532",
+            color: "#b91c1c",
             fontSize: 12,
             fontWeight: 700,
             letterSpacing: "0.1em",
@@ -87,7 +87,7 @@ export default function HeroSection() {
         <div style={{
           position: "relative",
           overflow: "hidden",
-          background: "#111113",
+          background: "#f0ede8",
         }}>
           <Image
             src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=480&fit=crop"

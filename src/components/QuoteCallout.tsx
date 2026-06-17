@@ -1,9 +1,9 @@
 export default function QuoteCallout() {
   return (
     <div style={{
-      background: "#111113",
-      borderTop: "1px solid #1F1F23",
-      borderBottom: "1px solid #1F1F23",
+      background: "#f0ede8",
+      borderTop: "1px solid #e5e0d8",
+      borderBottom: "1px solid #e5e0d8",
       padding: "56px 40px",
       maxWidth: 1400,
       margin: "0 auto",
@@ -15,7 +15,7 @@ export default function QuoteCallout() {
       <div>
         <div style={{
           fontSize: 72,
-          color: "#D92532",
+          color: "#b91c1c",
           lineHeight: 0.8,
           marginBottom: 16,
         }}>
@@ -25,7 +25,7 @@ export default function QuoteCallout() {
           fontFamily: "Georgia, serif",
           fontSize: 26,
           fontStyle: "italic",
-          color: "#F4F4F5",
+          color: "#1a1a1a",
           lineHeight: 1.5,
           margin: 0,
         }}>

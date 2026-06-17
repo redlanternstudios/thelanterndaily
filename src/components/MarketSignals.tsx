@@ -12,7 +12,7 @@ export default function MarketSignals() {
   const signalColor = (signal: string) => {
     if (signal === "Bullish") return "#10b981";
     if (signal === "Bearish") return "#ef4444";
-    return "#71717A";
+    return "#6b6b6b";
   };
 
   return (
@@ -28,7 +28,7 @@ export default function MarketSignals() {
           fontWeight: 700,
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: "#F4F4F5",
+          color: "#1a1a1a",
           margin: 0,
         }}>
           MARKET SIGNALS
@@ -38,7 +38,7 @@ export default function MarketSignals() {
           fontWeight: 700,
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: "#D92532",
+          color: "#b91c1c",
           textDecoration: "none",
         }}>
           View Archive →
@@ -50,13 +50,13 @@ export default function MarketSignals() {
         borderCollapse: "collapse",
       }}>
         <thead>
-          <tr style={{ borderBottom: "1px solid #1F1F23" }}>
+          <tr style={{ borderBottom: "1px solid #e5e0d8" }}>
             <th style={{
               fontSize: 10,
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#71717A",
+              color: "#6b6b6b",
               textAlign: "left",
               padding: "12px 0",
             }}>
@@ -67,7 +67,7 @@ export default function MarketSignals() {
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#71717A",
+              color: "#6b6b6b",
               textAlign: "right",
               padding: "12px 0",
             }}>
@@ -78,7 +78,7 @@ export default function MarketSignals() {
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#71717A",
+              color: "#6b6b6b",
               textAlign: "right",
               padding: "12px 0",
             }}>
@@ -89,7 +89,7 @@ export default function MarketSignals() {
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#71717A",
+              color: "#6b6b6b",
               textAlign: "right",
               padding: "12px 0",
             }}>
@@ -100,7 +100,7 @@ export default function MarketSignals() {
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#71717A",
+              color: "#6b6b6b",
               textAlign: "right",
               padding: "12px 0",
             }}>
@@ -110,10 +110,10 @@ export default function MarketSignals() {
         </thead>
         <tbody>
           {signals.map((row, idx) => (
-            <tr key={idx} style={{ borderBottom: "1px solid #1F1F23" }}>
+            <tr key={idx} style={{ borderBottom: "1px solid #e5e0d8" }}>
               <td style={{
                 fontSize: 12,
-                color: "#F4F4F5",
+                color: "#1a1a1a",
                 padding: "12px 0",
                 textAlign: "left",
               }}>
@@ -121,7 +121,7 @@ export default function MarketSignals() {
               </td>
               <td style={{
                 fontSize: 12,
-                color: "#F4F4F5",
+                color: "#1a1a1a",
                 padding: "12px 0",
                 textAlign: "right",
               }}>
@@ -129,7 +129,7 @@ export default function MarketSignals() {
               </td>
               <td style={{
                 fontSize: 12,
-                color: "#71717A",
+                color: "#6b6b6b",
                 padding: "12px 0",
                 textAlign: "right",
               }}>
@@ -137,7 +137,7 @@ export default function MarketSignals() {
               </td>
               <td style={{
                 fontSize: 12,
-                color: "#71717A",
+                color: "#6b6b6b",
                 padding: "12px 0",
                 textAlign: "right",
               }}>
@@ -167,7 +167,7 @@ export default function MarketSignals() {
 
       <p style={{
         fontSize: 10,
-        color: "#71717A",
+        color: "#6b6b6b",
         fontStyle: "italic",
         marginTop: 16,
         margin: "16px 0 0 0",

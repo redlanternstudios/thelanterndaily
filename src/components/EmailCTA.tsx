@@ -3,8 +3,8 @@
 export default function EmailCTA() {
   return (
     <div style={{
-      background: "#111113",
-      borderTop: "1px solid #1F1F23",
+      background: "#ffffff",
+      borderTop: "1px solid #e5e0d8",
       padding: "56px 40px",
       maxWidth: 1400,
       margin: "0 auto",
@@ -17,14 +17,14 @@ export default function EmailCTA() {
         <h2 style={{
           fontFamily: "Georgia, serif",
           fontSize: 28,
-          color: "#F4F4F5",
+          color: "#1a1a1a",
           margin: "0 0 8px 0",
         }}>
           Stay ahead with signal, not noise.
         </h2>
         <p style={{
           fontSize: 14,
-          color: "#71717A",
+          color: "#6b6b6b",
           margin: "0 0 24px 0",
           lineHeight: 1.6,
         }}>
@@ -49,16 +49,16 @@ export default function EmailCTA() {
               flex: 1,
               padding: "12px 16px",
               fontSize: 13,
-              background: "#1F1F23",
-              border: "1px solid #1F1F23",
-              color: "#F4F4F5",
+              background: "#e5e0d8",
+              border: "1px solid #e5e0d8",
+              color: "#1a1a1a",
               outline: "none",
               fontFamily: "inherit",
             }}
           />
           <button style={{
-            background: "#D92532",
-            color: "#F4F4F5",
+            background: "#b91c1c",
+            color: "#1a1a1a",
             border: "none",
             padding: "12px 24px",
             fontSize: 12,
@@ -76,7 +76,7 @@ export default function EmailCTA() {
         </div>
         <p style={{
           fontSize: 11,
-          color: "#71717A",
+          color: "#6b6b6b",
           margin: 0,
         }}>
           Join 18,472+ builders, investors, and operators.
