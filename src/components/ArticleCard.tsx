@@ -54,7 +54,7 @@ export default function ArticleCard({
   const [playing, setPlaying] = useState(false);
 
   const thumbnailSrc = article.youtubeId
-    ? `https://img.youtube.com/vi/${article.youtubeId}/maxresdefault.jpg`
+    ? `https://img.youtube.com/vi/${article.youtubeId}/hqdefault.jpg`
     : article.image;
 
   const sharedStyle: React.CSSProperties = {

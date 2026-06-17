@@ -82,7 +82,7 @@ export const VIDEO_ARTICLE: Article = {
   readTime: "24 min watch",
   category: "Stack",
   video: true,
-  youtubeId: "7dPT8cJRgfY",
+  youtubeId: "dQw4w9WgXcQ",
   duration: "12:04",
 };
 
