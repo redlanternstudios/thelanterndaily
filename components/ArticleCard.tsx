@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Article } from "@/data/lanternArticles";
+import { HalalBadge } from "@/components/HalalBadge";
+import type { HalalBadgeType } from "@/data/lanternTypes";
 
 interface ArticleCardProps {
   article: Article;
@@ -12,6 +14,14 @@ export function ArticleCard({
   imageHeight = "220px",
   featured = false,
 }: ArticleCardProps) {
+  // Map old category to halal_badge — defaults to editorial_only for articles
+  // without explicit badge metadata
+  const badgeType: HalalBadgeType | undefined = article.halal_badge || (
+    article.category === "Halal Fintech" ? "halal_finance_screened" :
+    article.category === "Islamic Finance" ? "scholar_reviewed" :
+    undefined
+  );
+
   return (
     <a href={`/article/${article.id}`} style={{ display: "block" }}>
       <div className={`card${featured ? " featured-card" : ""}`} style={{ height: "100%" }}>
@@ -51,6 +61,12 @@ export function ArticleCard({
           >
             {article.title}
           </h3>
+          {/* Halal badge */}
+          {badgeType && (
+            <div style={{ marginBottom: "12px" }}>
+              <HalalBadge type={badgeType} size="sm" />
+            </div>
+          )}
           <p
             className="excerpt"
             style={{

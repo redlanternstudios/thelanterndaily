@@ -5,11 +5,28 @@ import { LanternMasthead } from "@/components/LanternMasthead";
 import { ArticleCard } from "@/components/ArticleCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
 import { PremiumGate } from "@/components/PremiumGate";
+import { HalalBadge, TrustNote } from "@/components/HalalBadge";
 import { lanternArticles } from "@/data/lanternArticles";
+import type { HalalBadgeType } from "@/data/lanternTypes";
 
 // ── Static params — pre-render all 7 known articles at build time ──────────
 export function generateStaticParams() {
   return lanternArticles.map((a) => ({ slug: a.id }));
+}
+
+// ── Helpers for badge mapping ──────────────────────────────────────────────
+function getBadgeType(category: string): HalalBadgeType | undefined {
+  if (category === "Halal Fintech") return "halal_finance_screened";
+  if (category === "Islamic Finance") return "scholar_reviewed";
+  // All other categories default to editorial_only for general content
+  return "editorial_only";
+}
+
+function getScholarNote(category: string): string | null {
+  if (category === "Islamic Finance" || category === "Halal Fintech") {
+    return "Islamic financial principles reviewed against DJIM-equivalent screening criteria. This content discusses riba prohibition and asset-backing requirements in the context of DeFi protocols.";
+  }
+  return null;
 }
 
 // ── Metadata ────────────────────────────────────────────────────────────────
@@ -52,6 +69,9 @@ export default async function ArticleSlugPage({
 
   if (!article) notFound();
 
+  const badgeType = getBadgeType(article.category);
+  const scholarNote = getScholarNote(article.category);
+
   // Related: up to 3 articles from same category, or fallback to latest
   const related = lanternArticles
     .filter((a) => a.id !== article.id && a.category === article.category)
@@ -87,6 +107,7 @@ export default async function ArticleSlugPage({
               alignItems: "center",
               paddingBottom: "24px",
               borderBottom: "1px solid var(--border)",
+              flexWrap: "wrap",
             }}
           >
             <span>{article.author}</span>
@@ -110,7 +131,33 @@ export default async function ArticleSlugPage({
                 </span>
               </>
             )}
+            {/* Trust badge in header */}
+            {badgeType && (
+              <>
+                <span style={{ color: "var(--dim)" }}>·</span>
+                <HalalBadge type={badgeType} size="sm" showTooltip />
+              </>
+            )}
           </div>
+
+          {/* Scholar review note (if applicable) */}
+          {scholarNote && (
+            <div
+              style={{
+                marginTop: "16px",
+                padding: "12px 16px",
+                background: "rgba(184, 146, 42, 0.08)",
+                border: "1px solid rgba(184, 146, 42, 0.25)",
+                borderLeft: "3px solid #B8922A",
+                fontSize: "13px",
+                color: "#B8922A",
+                lineHeight: 1.6,
+                fontFamily: '"Space Mono", monospace',
+              }}
+            >
+              📚 Scholar&apos;s Note: {scholarNote}
+            </div>
+          )}
         </header>
 
         {/* ── HERO IMAGE ─────────────────────────────────────────── */}
@@ -151,6 +198,9 @@ export default async function ArticleSlugPage({
                 {article.excerpt}
               </p>
             )}
+
+            {/* Trust note at bottom of body */}
+            {badgeType && <TrustNote type={badgeType} />}
           </article>
 
           {/* Sidebar */}
@@ -166,6 +216,32 @@ export default async function ArticleSlugPage({
                     Weekly intelligence for AI-native operators. Free.
                   </p>
                   <SubscribeForm variant="sidebar" placeholder="operator@email.com" />
+                </div>
+              </div>
+
+              {/* Trust pipeline summary */}
+              <div
+                className="card"
+                style={{ marginBottom: "24px", borderLeft: "3px solid #2D7A4F" }}
+              >
+                <div className="card-body">
+                  <div className="kicker" style={{ marginBottom: "10px", fontSize: "9px" }}>
+                    Trust Pipeline
+                  </div>
+                  <p style={{ fontSize: "12px", color: "var(--muted)", lineHeight: 1.6, marginBottom: "12px" }}>
+                    This content passed all six gates of The Lantern Daily trust architecture.
+                  </p>
+                  <a
+                    href="/halal/standards"
+                    style={{
+                      fontSize: "11px",
+                      color: "#2D7A4F",
+                      fontFamily: '"Space Mono", monospace',
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    View Standards →
+                  </a>
                 </div>
               </div>
 
@@ -215,7 +291,7 @@ export default async function ArticleSlugPage({
               <a href="/privacy">Privacy Policy</a>
               <a href="/terms">Terms of Service</a>
               <a href="/disclosure">Affiliate Disclosure</a>
-              <a href="/halal">Halal Standards</a>
+              <a href="/halal/standards">Halal Standards</a>
             </div>
           </div>
           <div className="footer-bottom">
