@@ -27,17 +27,25 @@ const BADGE_CONFIG: Record<HalalStance, { label: string; color: string; bg: stri
   },
 };
 
+const SIZE_CLASSES = {
+  sm: "text-[9px] px-2 py-1",
+  md: "text-[10px] px-2.5 py-1.5",
+  lg: "text-[11px] px-3 py-2",
+};
+
 export default function HalalBadge({
   stance,
+  size = "md",
   position = "inline",
 }: {
   stance: HalalStance;
+  size?: "sm" | "md" | "lg";
   position?: "inline" | "overlay";
 }) {
   const config = BADGE_CONFIG[stance];
+  const sizeClass = SIZE_CLASSES[size];
 
-  const baseClasses =
-    "font-mono text-[10px] uppercase tracking-[0.12em] leading-none px-2.5 py-1.5 border";
+  const baseClasses = `font-mono uppercase tracking-[0.12em] leading-none border ${sizeClass}`;
 
   if (position === "overlay") {
     return (
