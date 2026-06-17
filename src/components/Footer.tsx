@@ -4,15 +4,31 @@ import { SOCIAL_PROOF } from "@/lib/content";
 const columns = [
   {
     title: "Sections",
-    links: ["Today", "AI", "Markets", "Tech", "Operator Stack", "Archive"],
+    links: [
+      { label: "Today", href: "/" },
+      { label: "AI", href: "/archive?cat=AI" },
+      { label: "Markets", href: "/archive?cat=Markets" },
+      { label: "Tech", href: "/archive?cat=Tech" },
+      { label: "Operator Stack", href: "/stack" },
+      { label: "Archive", href: "/archive" },
+    ],
   },
   {
     title: "Company",
-    links: ["About", "RedLantern Studios", "Editorial Standards", "Contact"],
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Editorial Standards", href: "/about/editorial-standards" },
+      { label: "Contact", href: "#" },
+    ],
   },
   {
     title: "Follow",
-    links: ["Newsletter", "X / Twitter", "LinkedIn", "RSS"],
+    links: [
+      { label: "Newsletter", href: "#" },
+      { label: "X / Twitter", href: "#" },
+      { label: "LinkedIn", href: "#" },
+      { label: "RSS", href: "#" },
+    ],
   },
 ];
 
@@ -41,12 +57,12 @@ export default function Footer() {
               <h3 className="label-mono mb-4">{col.title}</h3>
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <Link
-                      href="#"
+                      href={link.href}
                       className="text-sm text-[var(--color-text-dim)] hover:text-[var(--color-text)] transition-colors"
                     >
-                      {link}
+                      {link.label}
                     </Link>
                   </li>
                 ))}

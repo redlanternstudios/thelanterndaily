@@ -8,9 +8,21 @@ import SecondRow from "@/components/home/SecondRow";
 import PullQuote from "@/components/home/PullQuote";
 import SignalsAndStack from "@/components/home/SignalsAndStack";
 import SubscribeCTA from "@/components/home/SubscribeCTA";
-import { GRID_ARTICLES } from "@/lib/content";
+import { createClient } from "@/lib/supabase/server";
+import type { Post } from "@/lib/supabase/types";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+
+  const { data: posts } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(12);
+
+  const articles: Post[] = posts ?? [];
+
   return (
     <>
       <Masthead />
@@ -23,9 +35,15 @@ export default function HomePage() {
           <section>
             <SectionDivider label="Latest Dispatches" href="/archive" />
             <div className="mt-0.5 grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
-              {GRID_ARTICLES.map((article) => (
-                <ArticleCard key={article.slug} article={article} />
-              ))}
+              {articles.length > 0 ? (
+                articles.map((article) => (
+                  <ArticleCard key={article.slug} post={article} />
+                ))
+              ) : (
+                <p className="col-span-full py-12 text-center text-[var(--color-text-dim)]">
+                  No published articles yet. Check back soon.
+                </p>
+              )}
             </div>
           </section>
 

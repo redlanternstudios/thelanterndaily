@@ -1,60 +1,48 @@
-# The Lantern Daily — Build Handoff
+# HANDOFF — TLD Alif Demo Scope Lock Execution
+**Date:** 2026-06-16  
+**Executed by:** RUNTIME  
+**Status:** Code changes complete, DB migration SQL ready (needs manual apply)
 
-**Date:** 2026-06-13
-**Commit:** 8bbb655
-**Branch:** main
-**Remote:** origin/main (pushed)
+---
 
-## What Was Built
+## Completed
 
-### Pages (11)
-- `/` — Landing page with hero, ticker, features, intelligence wall, issues grid, subscribe form
-- `/about` — About page
-- `/archive` — Archive listing
-- `/confirmed` — Confirmation page
-- `/intelligence` — Intelligence feed page
-- `/issues/[slug]` — Individual issue page
-- `/privacy` — Privacy policy
-- `/shorts` — Shorts feed
-- `/stack` — Tech stack page
-- `/global-error.tsx` — Global error boundary
-- `/layout.tsx` — Root layout
+### Database Migrations (SQL files, need Supabase Dashboard apply)
+- `supabase/schema.sql` — Signals, Posts, Shorts, Subscribers tables + RLS + indexes
+- `supabase/migration_001_halal_addendum.sql` — halal_stance + editorial_note columns on posts
 
-### Components (16)
-- `Nav.tsx`, `TickerStrip.tsx`, `HeroSection.tsx`, `IntelligenceWall.tsx`, `SignalsSection.tsx`, `RecentSignals.tsx`, `SubscribeForm.tsx`, `SubscribeSection.tsx`, `Footer.tsx`, `IssueCard.tsx`, `IssuesSection.tsx`, `FeaturesSection.tsx`, `PremiumGate.tsx`, `OperatorNumber.tsx`, `SharePrompt.tsx`, `ShortsCard.tsx`
+### New Components
+- `src/components/HalalBadge.tsx` — 4-stance badge (positive/critical/blocked/nuanced) with spec colors
+- `src/lib/supabase/types.ts` — Post, PostCard, Short, Signal TypeScript types including halal fields
 
-### API Routes (5)
-- `GET /api/issues` — List issues
-- `GET /api/issues/[slug]` — Get single issue
-- `POST /api/subscribe` — Subscribe form handler
-- `GET /api/shorts` — List shorts
-- `GET /api/subscriber-count` — Subscriber count
+### Updated Files
+- `src/lib/supabase/server.ts` — Added `getPublishedPosts()` helper querying Supabase
+- `src/components/ArticleCard.tsx` — Now accepts both `Article` (static) and `Post` (Supabase) types. Renders HalalBadge overlay on image when `halal_stance` present.
+- `src/app/page.tsx` — Reads from `getPublishedPosts()`. If DB returns data, renders from Supabase. Falls back to empty state if no posts seeded.
+- `src/app/article/[slug]/page.tsx` — Reads from Supabase by slug first, falls back to static. Displays badge in header + editorial note block ("Islamic Lens" / "Editor's Islamic Analysis") with red left border and italic text.
 
-### Design System
-- Dark theme (darkest gray #0a0a0a, accent copper/orange tones)
-- Playfair Display headings, Inter body
-- Responsive grid system: `brief-grid`, `card-grid`, `issue-grid`
-- CSS animations: `fadeIn`, `glow`, `pulse-dot`
+### New Pages
+- `src/app/about/editorial-standards/page.tsx` — Full Editorial Standards page with framework explanation, four stances breakdown, sources, editor bio, and feedback contact
 
-## Build Verification
-- `npx next build` — 17 routes, 16 components, 0 errors
-- Git push to origin/main at 8bbb655
+---
 
-## Pending / Known Issues
+## Still Needed (Blocked on User/Ro)
 
-### 🔴 Credentials
-- `.env.local` has placeholder values for Supabase (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
-- API routes that call Supabase will 401 until real credentials are set
-- Six pending SQL migrations (001–006) need to be run against a real Supabase project
+| Step | Blocker |
+|------|---------|
+| Apply schema.sql to Supabase DB | User needs to run via Supabase Dashboard SQL editor (no service_role key in env) |
+| Apply migration_001 | Same — run after schema.sql in the same session |
+| Ro writes 5-8 editorial notes | Manual human work — no AI drafts for seed |
+| Seed articles into `posts` table | Requires schema applied + editorial notes written |
+| Deploy to Vercel | After seeding, run `vercel --prod` |
+| Ro review | Final sign-off after deploy |
 
-### 🟡 Content Population
-- Issues, shorts, and intelligence data are empty until seeded via Supabase
-- Subscribe endpoint returns 201 but won't persist rows without real DB
+---
 
-## Next Phase Recommendation
-1. Provision real Supabase project credentials
-2. Run SQL migrations (001–006)
-3. Seed initial issues/shorts content
-4. Verify API routes return real data
-5. Deploy to Vercel or production host
-6. Set up OBSERVE monitoring for post-ship 24h
+## Architecture Notes
+- `signals → posts → shorts` is the confirmed schema path
+- `lantern_content_queue → lantern_issues` is deprecated, do not write to it
+- Halal badge design matches spec: green/amber/red/slate, uppercase mono, compact overlay on cards
+- Editorial note block uses red left border accent, "Islamic Lens" label, italic text
+- Market Signals section remains hardcoded for demo (no DB dependency yet)
+- ArchiveGrid remains static for demo — can be converted post-Alif

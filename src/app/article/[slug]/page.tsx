@@ -6,11 +6,12 @@ import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import SubscribeForm from "@/components/SubscribeForm";
+import HalalBadge from "@/components/halal/HalalBadge";
 import { ALL_ARTICLES, SOCIAL_PROOF } from "@/lib/content";
+import { createClient } from "@/lib/supabase/server";
+import type { Post } from "@/lib/supabase/types";
 
-export function generateStaticParams() {
-  return ALL_ARTICLES.map((a) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 const BODY = [
   "Across three continents and a dozen time zones, a pattern is emerging that the mainstream tech press has been slow to name. The builders shaping the next layer of AI infrastructure are not all in San Francisco, and they are not all working from the same playbook.",
@@ -25,10 +26,38 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = ALL_ARTICLES.find((a) => a.slug === slug);
-  if (!article) notFound();
 
-  const related = ALL_ARTICLES.filter((a) => a.slug !== slug).slice(0, 3);
+  // Try Supabase first
+  const supabase = await createClient();
+  const { data: dbPost } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  // Fallback to static content
+  const staticArticle = ALL_ARTICLES.find((a) => a.slug === slug);
+
+  const post: (Post & { halal_stance?: string | null; editorial_note?: string | null }) | null = dbPost ?? null;
+  const article = staticArticle;
+
+  // If neither exists, 404
+  if (!post && !article) notFound();
+
+  const title = post?.title ?? article?.title ?? "";
+  const excerpt = post?.summary ?? article?.excerpt ?? "";
+  const image = post?.hero_image_url ?? article?.image ?? "/placeholder.svg";
+  const kicker = article?.kicker ?? post?.category ?? "";
+  const author = article?.author ?? "";
+  const date = article?.date ?? (post?.published_at ? new Date(post.published_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "");
+  const readTime = article?.readTime ?? (post?.reading_time_minutes ? `${post.reading_time_minutes} min read` : "");
+
+  const halalStance = post?.halal_stance ?? null;
+  const editorialNote = post?.editorial_note ?? null;
+
+  // Related articles
+  const relatedStatic = article ? ALL_ARTICLES.filter((a) => a.slug !== slug).slice(0, 3) : [];
+  const related = relatedStatic;
 
   return (
     <>
@@ -38,24 +67,43 @@ export default async function ArticlePage({
       {/* Full-width header */}
       <header className="border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16 text-center">
-          <Link
-            href={`/archive?cat=${article.category}`}
-            className="kicker inline-block hover:opacity-80"
-          >
-            {article.kicker}
-          </Link>
+          <div className="flex items-center justify-center gap-3">
+            {kicker && (
+              <Link
+                href={`/archive?cat=${kicker}`}
+                className="kicker inline-block hover:opacity-80"
+              >
+                {kicker}
+              </Link>
+            )}
+            {halalStance && (
+              <HalalBadge
+                stance={halalStance as "positive" | "critical" | "blocked" | "nuanced"}
+              />
+            )}
+          </div>
           <h1 className="font-headline text-balance mt-4 text-3xl sm:text-4xl lg:text-5xl leading-[1.1] text-[var(--color-text)]">
-            {article.title}
+            {title}
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-[var(--color-text-dim)] leading-relaxed text-pretty">
-            {article.excerpt}
-          </p>
+          {excerpt && (
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-[var(--color-text-dim)] leading-relaxed text-pretty">
+              {excerpt}
+            </p>
+          )}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
-            <span className="text-[var(--color-text)]">{article.author}</span>
-            <span className="opacity-40">·</span>
-            <span>{article.date}</span>
-            <span className="opacity-40">·</span>
-            <span>{article.readTime}</span>
+            {author && (
+              <>
+                <span className="text-[var(--color-text)]">{author}</span>
+                <span className="opacity-40">·</span>
+              </>
+            )}
+            {date && <span>{date}</span>}
+            {readTime && (
+              <>
+                <span className="opacity-40">·</span>
+                <span>{readTime}</span>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -63,8 +111,8 @@ export default async function ArticlePage({
       {/* Hero image */}
       <div className="relative aspect-[21/9] w-full bg-[var(--color-card)]">
         <Image
-          src={article.image || "/placeholder.svg"}
-          alt={article.title}
+          src={image}
+          alt={title}
           fill
           priority
           sizes="100vw"
@@ -91,8 +139,8 @@ export default async function ArticlePage({
 
             <blockquote className="my-10 border-l-2 border-[var(--color-red)] bg-[var(--color-card)] px-7 py-8">
               <p className="font-headline italic text-2xl leading-snug text-[var(--color-text)]">
-                “Build the thing you needed, give away what you can, and measure
-                success on a longer horizon.”
+                &ldquo;Build the thing you needed, give away what you can, and measure
+                success on a longer horizon.&rdquo;
               </p>
             </blockquote>
 
@@ -101,6 +149,18 @@ export default async function ArticlePage({
                 {p}
               </p>
             ))}
+
+            {/* Islamic Lens — Editorial Note */}
+            {editorialNote && (
+              <div className="mt-10 border-l-4 border-[var(--color-red)] bg-[var(--color-card)] px-6 py-5">
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--color-red)] font-bold">
+                  Islamic Lens
+                </span>
+                <p className="mt-2 text-[var(--color-text-dim)] italic leading-relaxed text-base">
+                  {editorialNote}
+                </p>
+              </div>
+            )}
           </article>
 
           {/* Sidebar */}
@@ -113,16 +173,18 @@ export default async function ArticlePage({
               <SubscribeForm compact />
             </div>
 
-            <div>
-              <h2 className="kicker border-b border-[var(--color-border)] pb-3">
-                Related
-              </h2>
-              <div className="mt-0.5 flex flex-col gap-0.5 bg-[var(--color-border)]">
-                {related.map((a) => (
-                  <ArticleCard key={a.slug} article={a} size="compact" />
-                ))}
+            {related.length > 0 && (
+              <div>
+                <h2 className="kicker border-b border-[var(--color-border)] pb-3">
+                  Related
+                </h2>
+                <div className="mt-0.5 flex flex-col gap-0.5 bg-[var(--color-border)]">
+                  {related.map((a) => (
+                    <ArticleCard key={a.slug} article={a} size="compact" />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </aside>
         </div>
       </main>
