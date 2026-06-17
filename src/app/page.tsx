@@ -17,30 +17,47 @@ export default function HomePage() {
       <Ticker />
       <BadgeLegendStrip />
       <main style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }}>
+        <style>{`
+          @media (max-width: 1024px) {
+            main { padding: 0 20px; }
+          }
+          @media (max-width: 768px) {
+            main { padding: 0 16px; }
+          }
+          @media (max-width: 480px) {
+            main { padding: 0 12px; }
+          }
+        `}</style>
 
         {/* ── Hero ── */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "55% 45%",
-            minHeight: 460,
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
+        <style>{`
+          .hero-grid { display: grid; grid-template-columns: 55% 45%; min-height: 460px; gap: 2px; margin-bottom: 2px; }
+          .hero-text { position: relative; padding: 48px 40px; border-left: 3px solid #D92532; background: #0F1117; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+          .hero-text h1 { font-family: Playfair Display, Georgia, serif; font-size: 44px; font-weight: 800; color: #E8E6E1; line-height: 1.1; margin: 0; }
+          .hero-text p { font-family: Inter, sans-serif; font-size: 17px; color: #6B7280; line-height: 1.6; margin: 0; max-width: 480px; }
+          .hero-image { position: relative; overflow: hidden; }
+          @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-image { min-height: 320px; }
+          }
+          @media (max-width: 768px) {
+            .hero-grid { gap: 16px; margin-bottom: 24px; }
+            .hero-text { padding: 32px 24px; }
+            .hero-text h1 { font-size: 32px; }
+            .hero-text p { font-size: 15px; }
+            .hero-image { min-height: 300px; }
+          }
+          @media (max-width: 480px) {
+            .hero-grid { gap: 12px; margin-bottom: 16px; }
+            .hero-text { padding: 24px 16px; border-left-width: 2px; }
+            .hero-text h1 { font-size: 26px; }
+            .hero-text p { font-size: 14px; }
+            .hero-image { min-height: 240px; }
+          }
+        `}</style>
+        <div className="hero-grid">
           {/* Left: text */}
-          <div
-            style={{
-              position: "relative",
-              padding: "48px 40px",
-              borderLeft: "3px solid #D92532",
-              background: "#0F1117",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              gap: 16,
-            }}
-          >
+          <div className="hero-text">
             <span
               style={{
                 fontFamily: "var(--font-jetbrains), monospace",
@@ -111,7 +128,7 @@ export default function HomePage() {
           </div>
 
           {/* Right: image */}
-          <div style={{ position: "relative", overflow: "hidden" }}>
+          <div className="hero-image">
             <Image
               src={lead.image}
               alt={lead.title}
@@ -124,14 +141,16 @@ export default function HomePage() {
         </div>
 
         {/* ── Row 2: video + 2 articles ── */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr 0.85fr 0.85fr",
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
+        <style>{`
+          .row-2 { display: grid; grid-template-columns: 1.1fr 0.85fr 0.85fr; gap: 2px; margin-bottom: 2px; }
+          @media (max-width: 1024px) {
+            .row-2 { grid-template-columns: 1fr 1fr; }
+          }
+          @media (max-width: 768px) {
+            .row-2 { grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px; }
+          }
+        `}</style>
+        <div className="row-2">
           {videoCard && <ArticleCard article={videoCard} />}
           {article2 && <ArticleCard article={article2} />}
           {article3 && <ArticleCard article={article3} />}
@@ -163,30 +182,39 @@ export default function HomePage() {
         </div>
 
         {/* ── 4-column grid ── */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
+        <style>{`
+          .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 2px; }
+          @media (max-width: 1200px) {
+            .grid-4 { grid-template-columns: repeat(3, 1fr); }
+          }
+          @media (max-width: 768px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+          }
+          @media (max-width: 480px) {
+            .grid-4 { grid-template-columns: 1fr; gap: 12px; }
+          }
+        `}</style>
+        <div className="grid-4">
           {[article4, article5, article6, article7].filter(Boolean).map((a) => (
             <ArticleCard key={a!.id} article={a!} />
           ))}
         </div>
 
         {/* ── Subscribe CTA ── */}
-        <div
-          id="subscribe"
-          style={{
-            background: "#0F1117",
-            border: "1px solid #1E2028",
-            padding: "64px",
-            textAlign: "center",
-            margin: "40px 0",
-          }}
-        >
+        <style>{`
+          .subscribe-cta { background: #0F1117; border: 1px solid #1E2028; padding: 64px; text-align: center; margin: 40px 0; }
+          .subscribe-cta h2 { font-family: Playfair Display, Georgia, serif; font-size: 40px; font-weight: 800; color: #E8E6E1; line-height: 1.15; margin: 0 auto 24px; max-width: 640px; }
+          @media (max-width: 768px) {
+            .subscribe-cta { padding: 48px 32px; margin: 32px 0; }
+            .subscribe-cta h2 { font-size: 32px; }
+          }
+          @media (max-width: 480px) {
+            .subscribe-cta { padding: 32px 16px; margin: 24px 0; }
+            .subscribe-cta h2 { font-size: 24px; }
+            .subscribe-cta p { font-size: 9px; }
+          }
+        `}</style>
+        <div className="subscribe-cta">
           <p
             style={{
               fontFamily: "var(--font-jetbrains), monospace",
