@@ -5,11 +5,11 @@ const ADMIN_KEY = process.env.ADMIN_WEBHOOK_SECRET;
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const { searchParams } = new URL(req.url);
   const key = searchParams.get("key");
-  const { id } = params;
+  const { id } = await params;
 
   // ── Validate admin key ────────────────────────────────────────────────────
   if (!key || key !== ADMIN_KEY) {
