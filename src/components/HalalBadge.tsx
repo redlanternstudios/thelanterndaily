@@ -328,14 +328,19 @@ const LEGEND: Array<{ verdict: HalalVerdict; description: string }> = [
 export function BadgeLegendStrip() {
   return (
     <div style={{ background: "#0F1117", borderBottom: "1px solid #1E2028", padding: "32px 0" }}>
-      <div style={{
-        maxWidth: 1400,
-        margin: "0 auto",
-        padding: "0 48px",
-        display: "grid",
-        gridTemplateColumns: "repeat(4,1fr)",
-        gap: "24px",
-      }}>
+      <style>{`
+        .badge-legend-container { max-width: 1400px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+        @media (max-width: 1280px) {
+          .badge-legend-container { grid-template-columns: repeat(2,1fr); gap: 20px; padding: 0 40px; }
+        }
+        @media (max-width: 768px) {
+          .badge-legend-container { grid-template-columns: 1fr; gap: 16px; padding: 0 24px; }
+        }
+        @media (max-width: 480px) {
+          .badge-legend-container { gap: 12px; padding: 0 16px; }
+        }
+      `}</style>
+      <div className="badge-legend-container">
         {LEGEND.map(({ verdict, description }) => {
           const cfg = V[verdict];
           const { Icon } = cfg;
