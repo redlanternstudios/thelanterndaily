@@ -38,6 +38,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
                 src={videoCard.image}
                 alt={videoCard.title}
                 fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ objectFit: "cover" }}
               />
               <div style={{
@@ -143,6 +145,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
                 src={article.image}
                 alt={article.title}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ objectFit: "cover" }}
               />
             </div>
@@ -215,6 +218,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
                 src={article.image}
                 alt={article.title}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 style={{ objectFit: "cover" }}
               />
             </div>

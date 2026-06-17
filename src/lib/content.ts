@@ -26,6 +26,19 @@ export type Article = {
   };
 };
 
+// Image placeholder URLs — using Unsplash for dev/demo
+// In production, replace these with Supabase URLs after upload
+const IMG = {
+  heroFounder: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop&q=80",
+  videoThumb: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=480&fit=crop&q=80",
+  article1: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=480&fit=crop&q=80",
+  article2: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=480&fit=crop&q=80",
+  grid1: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
+  grid2: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop&q=80",
+  grid3: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
+  grid4: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop&q=80",
+};
+
 export const SOCIAL_PROOF = "18,472+ builders, investors, and operators";
 
 export const NAV_LINKS = [
@@ -56,7 +69,7 @@ export const HERO_ARTICLE: Article = {
   title: "The Quiet Rise of Muslim-Built AI Infrastructure",
   excerpt:
     "From Karachi to Cairo to Detroit, a new generation of founders is building the rails for the agent economy — and doing it on their own terms. We spent three months mapping the operators turning principle into product.",
-  image: "/images/hero-founder.png",
+  image: IMG.heroFounder,
   author: "The Lantern Daily",
   date: "June 14, 2026",
   readTime: "11 min read",
@@ -75,7 +88,7 @@ export const VIDEO_ARTICLE: Article = {
   title: "Inside the Operator Stack: A Live Teardown",
   excerpt:
     "We sit down with three builders to dissect the tools running their companies — and what they cut last quarter.",
-  image: "/images/video-thumb.png",
+  image: IMG.videoThumb,
   author: "The Lantern Daily",
   date: "June 13, 2026",
   originalDate: "June 10, 2026",
@@ -94,7 +107,7 @@ export const SECONDARY_ARTICLES: Article[] = [
     title: "Islamic Finance Meets On-Chain Settlement",
     excerpt:
       "Sharia-compliant rails are quietly going programmable. Here is what changed this month.",
-    image: "/images/article-1.png",
+    image: IMG.article1,
     author: "The Lantern Daily",
     date: "June 12, 2026",
     readTime: "7 min read",
@@ -107,7 +120,7 @@ export const SECONDARY_ARTICLES: Article[] = [
     title: "The Late-Night Build Log: Shipping Agents in Production",
     excerpt:
       "What breaks when autonomous agents touch real revenue — and the guardrails that hold.",
-    image: "/images/article-2.png",
+    image: IMG.article2,
     author: "The Lantern Daily",
     date: "June 11, 2026",
     readTime: "9 min read",
@@ -122,7 +135,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "AI",
     title: "The Architecture of Trust in Autonomous Systems",
     excerpt: "How leading teams design for accountability before scale.",
-    image: "/images/grid-1.png",
+    image: IMG.grid1,
     author: "The Lantern Daily",
     date: "June 10, 2026",
     readTime: "6 min read",
@@ -134,7 +147,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Tech",
     title: "Pair Programming With Models, Not Around Them",
     excerpt: "Two engineers on rebuilding their workflow from the terminal up.",
-    image: "/images/grid-2.png",
+    image: IMG.grid2,
     author: "The Lantern Daily",
     date: "June 9, 2026",
     readTime: "8 min read",
@@ -146,7 +159,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Markets",
     title: "The Patient Capital Thesis for AI-Native Founders",
     excerpt: "An investor on why conviction beats momentum in this cycle.",
-    image: "/images/grid-3.png",
+    image: IMG.grid3,
     author: "The Lantern Daily",
     date: "June 8, 2026",
     readTime: "10 min read",
@@ -158,7 +171,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Open Source",
     title: "Open Source as Strategy, Not Charity",
     excerpt: "Why a Detroit team gave away its agent runtime — and won.",
-    image: "/images/grid-4.png",
+    image: IMG.grid4,
     author: "The Lantern Daily",
     date: "June 7, 2026",
     readTime: "5 min read",
@@ -177,7 +190,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Field Notes",
     title: "The Zakat of Knowledge: Teaching the Next Cohort",
     excerpt: "Operators are reinvesting expertise into open cohorts. A field report.",
-    image: "/images/grid-2.png",
+    image: IMG.grid2,
     author: "The Lantern Daily",
     date: "June 6, 2026",
     readTime: "7 min read",
@@ -189,7 +202,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Markets",
     title: "Signals From the Gulf: Capital Meets Compute",
     excerpt: "Sovereign compute is reshaping where models get trained.",
-    image: "/images/grid-3.png",
+    image: IMG.grid3,
     author: "The Lantern Daily",
     date: "June 5, 2026",
     readTime: "9 min read",
@@ -201,7 +214,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Governance",
     title: "The Governance Layer Nobody Wants to Build",
     excerpt: "Why the boring controls decide who survives the next audit.",
-    image: "/images/grid-1.png",
+    image: IMG.grid1,
     author: "The Lantern Daily",
     date: "June 4, 2026",
     readTime: "6 min read",
