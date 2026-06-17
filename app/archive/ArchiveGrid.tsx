@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LanternArticle, formatDate, readTime, articleHref } from "@/lib/lantern/queries";
+import { LanternArticle, formatDate, readTime, articleHref } from "@/lib/lantern/types";
 
 const FILTERS = [
   "All",
