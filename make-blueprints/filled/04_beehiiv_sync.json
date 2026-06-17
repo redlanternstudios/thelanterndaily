@@ -1,0 +1,76 @@
+{
+  "name": "Lantern - Beehiiv Sync",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": -50, "y": 0 },
+        "restore": {
+          "parameters": {
+            "hook": { "label": "Lantern Beehiiv Published Hook" }
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://thelanterndaily.com/api/webhooks/beehiiv",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" },
+          { "name": "X-Admin-Key", "value": "ld_admin_7xK2p9mNq_test" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"beehiiv_post_id\":\"{{1.post_id}}\",\"title\":\"{{1.subject}}\",\"slug\":\"{{1.slug}}\",\"content\":\"{{1.content_html}}\",\"tier\":\"{{if(1.audience == 'premium', 'paid', 'free')}}\",\"category\":\"{{1.tags[0]}}\",\"published_at\":\"{{1.publish_date}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 250, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] }
+  }
+}

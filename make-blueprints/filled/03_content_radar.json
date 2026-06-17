@@ -100,7 +100,7 @@
           },
           {
             "name": "x-admin-secret",
-            "value": "{{ADMIN_WEBHOOK_SECRET}}"
+            "value": "606ca511175e02ad32fe9c1da761259e823b4351f2d4d671693465c1e8832489"
           }
         ],
         "qs": [],
