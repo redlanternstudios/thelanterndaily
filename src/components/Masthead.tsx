@@ -22,11 +22,11 @@ function Logo() {
           letterSpacing: "-0.01em",
         }}
       >
-        <span style={{ color: "#E8E6E1" }}>The </span>
-        <span style={{ color: "#D92532" }}>Lantern</span>
-        <span style={{ color: "#E8E6E1" }}> D</span>
-        <span style={{ color: "#D92532" }}>AI</span>
-        <span style={{ color: "#E8E6E1" }}>LY</span>
+        <span style={{ color: "#9CA3AF" }}>The </span>
+        <span style={{ color: "#D42535" }}>Lantern</span>
+        <span style={{ color: "#9CA3AF" }}> D</span>
+        <span style={{ color: "#D42535" }}>AI</span>
+        <span style={{ color: "#9CA3AF" }}>LY</span>
       </span>
     </Link>
   );
@@ -67,7 +67,7 @@ export default function Masthead() {
               style={{
                 fontFamily: "var(--font-jetbrains), monospace",
                 fontSize: 13,
-                color: "#6B7280",
+                color: "#9CA3AF",
                 textDecoration: "none",
                 letterSpacing: "0.05em",
               }}
@@ -78,7 +78,7 @@ export default function Masthead() {
           <Link
             href="/#subscribe"
             style={{
-              background: "#D92532",
+              background: "#D42535",
               color: "#ffffff",
               fontFamily: "var(--font-jetbrains), monospace",
               fontSize: 12,

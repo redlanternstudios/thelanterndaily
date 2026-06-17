@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer style={{
-      background: "#faf8f5",
-      borderTop: "1px solid #e5e0d8",
+      background: "#07080F",
+      borderTop: "1px solid #1A1F2E",
       padding: "48px 24px 32px",
     }}>
       <div style={{
@@ -21,17 +21,17 @@ export default function Footer() {
         <div>
           <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", gap: 2 }}>
             <div style={{ display: "flex", gap: 4, alignItems: "baseline", marginBottom: 12 }}>
-              <span style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 600, color: "#1a1a1a" }}>
+              <span style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 600, color: "#9CA3AF" }}>
                 The Lantern
               </span>
-              <span style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 600, color: "#b91c1c" }}>
+              <span style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 600, color: "#D42535" }}>
                 DAILY
               </span>
             </div>
           </Link>
           <p style={{
             fontSize: 12,
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             lineHeight: 1.6,
             margin: 0,
           }}>
@@ -46,7 +46,7 @@ export default function Footer() {
             fontWeight: 700,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             margin: "0 0 16px 0",
           }}>
             SECTIONS
@@ -58,7 +58,7 @@ export default function Footer() {
                 href={`/${link.toLowerCase()}`}
                 style={{
                   fontSize: 13,
-                  color: "#1a1a1a",
+                  color: "#9CA3AF",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
@@ -76,7 +76,7 @@ export default function Footer() {
             fontWeight: 700,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             margin: "0 0 16px 0",
           }}>
             RESOURCES
@@ -88,7 +88,7 @@ export default function Footer() {
                 href={`/${link.toLowerCase().replace(" ", "-")}`}
                 style={{
                   fontSize: 13,
-                  color: "#1a1a1a",
+                  color: "#9CA3AF",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
@@ -106,7 +106,7 @@ export default function Footer() {
             fontWeight: 700,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             margin: "0 0 16px 0",
           }}>
             COMPANY
@@ -118,7 +118,7 @@ export default function Footer() {
                 href={`/${link.toLowerCase()}`}
                 style={{
                   fontSize: 13,
-                  color: "#1a1a1a",
+                  color: "#9CA3AF",
                   textDecoration: "none",
                   transition: "color 0.2s",
                 }}
@@ -132,7 +132,7 @@ export default function Footer() {
 
       {/* Bottom Row */}
       <div style={{
-        borderTop: "1px solid #e5e0d8",
+        borderTop: "1px solid #1A1F2E",
         paddingTop: 24,
         display: "flex",
         justifyContent: "space-between",
@@ -140,7 +140,7 @@ export default function Footer() {
       }}>
         <p style={{
           fontSize: 11,
-          color: "#6b6b6b",
+          color: "#9CA3AF",
           margin: 0,
         }}>
           © 2025 RedLantern Studios™ · All rights reserved.
@@ -159,12 +159,12 @@ export default function Footer() {
               key={social.label}
               href={social.href}
               style={{
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 fontSize: 16,
                 transition: "color 0.2s",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#1a1a1a")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
             >
               {social.label === "X" ? "𝕏" : social.label === "Email" ? "✉" : social.label === "YouTube" ? "▶" : "in"}
             </a>

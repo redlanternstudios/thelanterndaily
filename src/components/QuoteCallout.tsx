@@ -1,9 +1,9 @@
 export default function QuoteCallout() {
   return (
     <div style={{
-      background: "#f0ede8",
-      borderTop: "1px solid #e5e0d8",
-      borderBottom: "1px solid #e5e0d8",
+      background: "#0D0F1C",
+      borderTop: "1px solid #1A1F2E",
+      borderBottom: "1px solid #1A1F2E",
       padding: "56px 40px",
       maxWidth: 1400,
       margin: "0 auto",
@@ -15,7 +15,7 @@ export default function QuoteCallout() {
       <div>
         <div style={{
           fontSize: 72,
-          color: "#b91c1c",
+          color: "#D42535",
           lineHeight: 0.8,
           marginBottom: 16,
         }}>
@@ -25,7 +25,7 @@ export default function QuoteCallout() {
           fontFamily: "Georgia, serif",
           fontSize: 26,
           fontStyle: "italic",
-          color: "#1a1a1a",
+          color: "#9CA3AF",
           lineHeight: 1.5,
           margin: 0,
         }}>
@@ -39,20 +39,20 @@ export default function QuoteCallout() {
         gap: 8,
       }}>
         <div style={{
-          color: "#D92532",
+          color: "#D42535",
           fontSize: 14,
           fontWeight: 600,
         }}>
           — RedLantern Studios™
         </div>
         <div style={{
-          color: "#F4F4F5",
+          color: "#F7F2EE",
           fontSize: 13,
         }}>
           Founder intelligence.
         </div>
         <div style={{
-          color: "#71717A",
+          color: "#9CA3AF",
           fontSize: 13,
         }}>
           Built for builders.

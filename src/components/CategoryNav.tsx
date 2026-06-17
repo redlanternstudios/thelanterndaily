@@ -18,8 +18,8 @@ export default function CategoryNav() {
 
   return (
     <div style={{
-      background: "#f0ede8",
-      borderBottom: "1px solid #e5e0d8",
+      background: "#0D0F1C",
+      borderBottom: "1px solid #1A1F2E",
       overflowX: "auto",
       paddingLeft: 24,
       paddingRight: 24,
@@ -38,11 +38,11 @@ export default function CategoryNav() {
             fontWeight: 700,
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             whiteSpace: "nowrap",
           }}>
             {cat}
-            {i < categories.length - 1 && <span style={{ marginLeft: 24, color: "#e5e0d8" }}>•</span>}
+            {i < categories.length - 1 && <span style={{ marginLeft: 24, color: "#1A1F2E" }}>•</span>}
           </span>
         ))}
       </div>

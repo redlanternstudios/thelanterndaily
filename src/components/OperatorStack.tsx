@@ -40,7 +40,7 @@ export default function OperatorStack() {
           fontWeight: 700,
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: "#1a1a1a",
+          color: "#9CA3AF",
           margin: 0,
         }}>
           OPERATOR STACK
@@ -50,7 +50,7 @@ export default function OperatorStack() {
           fontWeight: 700,
           letterSpacing: "0.15em",
           textTransform: "uppercase",
-          color: "#b91c1c",
+          color: "#D42535",
           textDecoration: "none",
         }}>
           Explore Stack →
@@ -63,7 +63,7 @@ export default function OperatorStack() {
             key={idx}
             style={{
               padding: "14px 0",
-              borderBottom: idx < stacks.length - 1 ? "1px solid #e5e0d8" : "none",
+              borderBottom: idx < stacks.length - 1 ? "1px solid #1A1F2E" : "none",
               display: "flex",
               gap: 16,
               alignItems: "flex-start",
@@ -74,13 +74,13 @@ export default function OperatorStack() {
                 style={{
                   width: 24,
                   height: 24,
-                  background: "#e5e0d8",
+                  background: "#1A1F2E",
                   borderRadius: 4,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: 12,
-                  color: "#b91c1c",
+                  color: "#D42535",
                 }}
               >
                 ⊞
@@ -90,14 +90,14 @@ export default function OperatorStack() {
               <div style={{
                 fontSize: 13,
                 fontWeight: 700,
-                color: "#1a1a1a",
+                color: "#9CA3AF",
                 marginBottom: 4,
               }}>
                 {stack.label}
               </div>
               <div style={{
                 fontSize: 11,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
               }}>
                 {stack.description}
               </div>
@@ -114,7 +114,7 @@ export default function OperatorStack() {
                   style={{
                     fontSize: 11,
                     fontWeight: 600,
-                    color: "#6b6b6b",
+                    color: "#9CA3AF",
                     maxWidth: 80,
                     textAlign: "right",
                     whiteSpace: "nowrap",

@@ -16,7 +16,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
       maxWidth: 1400,
       margin: "0 auto",
       padding: "48px 24px",
-      background: "#faf8f5",
+      background: "#07080F",
     }}>
       {/* Row 1: Video + 2 Articles */}
       <div style={{
@@ -28,8 +28,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
         {/* Video Card */}
         {videoCard && (
           <div style={{
-            background: "#ffffff",
-            border: "1px solid #e5e0d8",
+            background: "#0D0F1C",
+            border: "1px solid #1A1F2E",
             borderRadius: 8,
             overflow: "hidden",
           }}>
@@ -69,7 +69,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
                   bottom: 8,
                   right: 8,
                   background: "rgba(0,0,0,0.7)",
-                  color: "#1a1a1a",
+                  color: "#9CA3AF",
                   padding: "4px 8px",
                   borderRadius: 4,
                   fontSize: 11,
@@ -81,8 +81,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
             </div>
             <div style={{ padding: 16 }}>
               <span style={{
-                background: "#b91c1c",
-                color: "#1a1a1a",
+                background: "#D42535",
+                color: "#9CA3AF",
                 padding: "4px 8px",
                 borderRadius: 4,
                 fontSize: 9,
@@ -96,7 +96,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               <h3 style={{
                 fontFamily: "Georgia, serif",
                 fontSize: 22,
-                color: "#1a1a1a",
+                color: "#9CA3AF",
                 lineHeight: 1.3,
                 margin: "8px 0",
               }}>
@@ -104,7 +104,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </h3>
               <p style={{
                 fontSize: 14,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 lineHeight: 1.5,
                 margin: "8px 0",
               }}>
@@ -112,7 +112,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </p>
               <div style={{
                 fontSize: 11,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 marginTop: 8,
               }}>
                 by {videoCard.author} · {videoCard.readTime}
@@ -127,8 +127,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
             key={article.id}
             href={`/article/${article.slug}`}
             style={{
-              background: "#ffffff",
-              border: "1px solid #e5e0d8",
+              background: "#0D0F1C",
+              border: "1px solid #1A1F2E",
               borderRadius: 8,
               overflow: "hidden",
               textDecoration: "none",
@@ -137,8 +137,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               flexDirection: "column",
               transition: "border-color 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#b91c1c")}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e5e0d8")}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#D42535")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1A1F2E")}
           >
             <div style={{ position: "relative", paddingBottom: "66.67%", overflow: "hidden" }}>
               <Image
@@ -151,7 +151,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
             </div>
             <div style={{ padding: 16, flex: 1, display: "flex", flexDirection: "column" }}>
               <span style={{
-                color: "#b91c1c",
+                color: "#D42535",
                 fontSize: 9,
                 fontWeight: 700,
                 letterSpacing: "0.1em",
@@ -163,7 +163,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               <h3 style={{
                 fontFamily: "Georgia, serif",
                 fontSize: 18,
-                color: "#1a1a1a",
+                color: "#9CA3AF",
                 lineHeight: 1.3,
                 margin: "0 0 8px 0",
                 flex: 1,
@@ -172,7 +172,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </h3>
               <p style={{
                 fontSize: 13,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 lineHeight: 1.5,
                 margin: "0 0 8px 0",
               }}>
@@ -180,7 +180,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </p>
               <div style={{
                 fontSize: 11,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
               }}>
                 by {article.author} · {article.readTime}
               </div>
@@ -200,8 +200,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
             key={article.id}
             href={`/article/${article.slug}`}
             style={{
-              background: "#ffffff",
-              border: "1px solid #e5e0d8",
+              background: "#0D0F1C",
+              border: "1px solid #1A1F2E",
               borderRadius: 8,
               overflow: "hidden",
               textDecoration: "none",
@@ -210,8 +210,8 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               flexDirection: "column",
               transition: "border-color 0.2s",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#b91c1c")}
-            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e5e0d8")}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#D42535")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1A1F2E")}
           >
             <div style={{ position: "relative", paddingBottom: "66.67%", overflow: "hidden" }}>
               <Image
@@ -224,7 +224,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
             </div>
             <div style={{ padding: 16, flex: 1, display: "flex", flexDirection: "column" }}>
               <span style={{
-                color: "#b91c1c",
+                color: "#D42535",
                 fontSize: 9,
                 fontWeight: 700,
                 letterSpacing: "0.1em",
@@ -236,7 +236,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               <h3 style={{
                 fontFamily: "Georgia, serif",
                 fontSize: 16,
-                color: "#1a1a1a",
+                color: "#9CA3AF",
                 lineHeight: 1.3,
                 margin: "0 0 8px 0",
                 flex: 1,
@@ -245,7 +245,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </h3>
               <p style={{
                 fontSize: 13,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 lineHeight: 1.5,
                 margin: "0 0 8px 0",
               }}>
@@ -253,7 +253,7 @@ export default function ContentGrid({ articles }: ContentGridProps) {
               </p>
               <div style={{
                 fontSize: 11,
-                color: "#6b6b6b",
+                color: "#9CA3AF",
               }}>
                 by {article.author} · {article.readTime}
               </div>

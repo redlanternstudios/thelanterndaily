@@ -14,14 +14,14 @@ function Byline({ article }: { article: Article }) {
         paddingTop: 12,
         fontFamily: "var(--font-jetbrains), monospace",
         fontSize: 11,
-        color: "#6B7280",
+        color: "#9CA3AF",
         display: "flex",
         flexWrap: "wrap",
         alignItems: "center",
         gap: 6,
       }}
     >
-      <span style={{ color: "#E8E6E1" }}>THE LANTERN DAILY</span>
+      <span style={{ color: "#F7F2EE" }}>THE LANTERN DAILY</span>
       <span style={{ opacity: 0.4 }}>·</span>
       {article.originalDate ? (
         <>

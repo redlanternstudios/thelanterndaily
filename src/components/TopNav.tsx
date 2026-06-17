@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function TopNav() {
   return (
     <nav style={{
-      background: "#faf8f5",
-      borderBottom: "1px solid #e5e0d8",
+      background: "#07080F",
+      borderBottom: "1px solid #1A1F2E",
       padding: "16px 24px",
       position: "sticky",
       top: 0,
@@ -22,21 +22,21 @@ export default function TopNav() {
         {/* Logo */}
         <Link href="/" style={{ display: "flex", flexDirection: "column", gap: 2, textDecoration: "none" }}>
           <div style={{ display: "flex", gap: 0, alignItems: "baseline" }}>
-            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#1a1a1a", letterSpacing: "-0.01em" }}>
+            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#9CA3AF", letterSpacing: "-0.01em" }}>
               The Lantern 
             </span>
-            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#b91c1c", letterSpacing: "-0.01em" }}>
+            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#D42535", letterSpacing: "-0.01em" }}>
               D
             </span>
-            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#1a1a1a", letterSpacing: "-0.01em" }}>
+            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#9CA3AF", letterSpacing: "-0.01em" }}>
               AI
             </span>
-            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#b91c1c", letterSpacing: "-0.01em" }}>
+            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#D42535", letterSpacing: "-0.01em" }}>
               LY
             </span>
           </div>
-          <span style={{ fontSize: 10, color: "#6b6b6b", fontWeight: 500, letterSpacing: "0.05em" }}>
-            by <span style={{ color: "#b91c1c" }}>Red</span>Lantern Studios™
+          <span style={{ fontSize: 10, color: "#9CA3AF", fontWeight: 500, letterSpacing: "0.05em" }}>
+            by <span style={{ color: "#D42535" }}>Red</span>Lantern Studios™
           </span>
         </Link>
 
@@ -51,12 +51,12 @@ export default function TopNav() {
                 fontWeight: 600,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#6b6b6b",
+                color: "#9CA3AF",
                 transition: "color 0.2s",
                 textDecoration: "none",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#1a1a1a")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
             >
               {link}
             </Link>
@@ -68,19 +68,19 @@ export default function TopNav() {
           <button style={{
             background: "none",
             border: "none",
-            color: "#6b6b6b",
+            color: "#9CA3AF",
             fontSize: 16,
             cursor: "pointer",
             transition: "color 0.2s",
           }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#1a1a1a")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#6b6b6b")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
           >
             🔍
           </button>
           <button style={{
-            background: "#b91c1c",
-            color: "#ffffff",
+            background: "#D42535",
+            color: "#0D0F1C",
             border: "none",
             padding: "8px 16px",
             borderRadius: 4,

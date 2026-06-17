@@ -27,7 +27,7 @@ export default function Ticker() {
           animation: "marquee 40s linear infinite",
           fontFamily: "var(--font-jetbrains), monospace",
           fontSize: 10,
-          color: "#6B7280",
+          color: "#9CA3AF",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
         }}
