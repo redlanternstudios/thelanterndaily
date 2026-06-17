@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Article } from "@/lib/content";
-import { HalalBadge } from "@/components/HalalBadge";
+import { CardBadge } from "@/components/HalalBadge";
 
 function Byline({ article }: { article: Article }) {
   return (
@@ -69,23 +69,18 @@ export default function ArticleCard({
 
   const cardBody = (
     <div style={{ padding: "16px 20px 20px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-        <span
-          style={{
-            fontFamily: "var(--font-jetbrains), monospace",
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "#D92532",
-          }}
-        >
-          {article.category}
-        </span>
-        {article.halalReview && (
-          <HalalBadge verdict={article.halalReview.verdict} size="sm" />
-        )}
-      </div>
+      <span
+        style={{
+          fontFamily: "var(--font-jetbrains), monospace",
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          color: "#D92532",
+        }}
+      >
+        {article.category}
+      </span>
       <h3
         style={{
           fontFamily: "Playfair Display, Georgia, serif",
@@ -123,6 +118,9 @@ export default function ArticleCard({
       <div style={sharedStyle}>
         {/* Media area */}
         <div style={{ position: "relative", paddingBottom: "56.25%", overflow: "hidden", background: "#07080D" }}>
+          {article.halalReview && !playing && (
+            <CardBadge verdict={article.halalReview.verdict} />
+          )}
           {playing ? (
             <iframe
               src={`https://www.youtube.com/embed/${article.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
@@ -213,6 +211,9 @@ export default function ArticleCard({
       onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1E2028")}
     >
       <div style={{ position: "relative", paddingBottom: "56.25%", overflow: "hidden" }}>
+        {article.halalReview && (
+          <CardBadge verdict={article.halalReview.verdict} />
+        )}
         <Image
           src={article.image}
           alt={article.title}

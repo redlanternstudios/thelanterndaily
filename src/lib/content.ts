@@ -16,8 +16,13 @@ export type Article = {
   premium?: boolean;
   body?: string;
   halalReview?: {
-    verdict: "positive" | "critical" | "blocked" | "nuanced";
+    verdict: "positive" | "critical" | "blocked" | "nuanced" | "pending";
     editorialNote?: string;
+    rulingSummary?: string;
+    rulingDetail?: string;
+    reviewedBy?: string;
+    reviewedDate?: string;
+    methodologyUrl?: string;
   };
 };
 
