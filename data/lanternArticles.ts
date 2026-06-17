@@ -6,6 +6,7 @@ export interface Article {
   author: string;
   date: string;
   readTime: string;
+    halal_badge?: import('./lanternTypes').HalalBadgeType;
   image: string;
   video?: boolean;
   duration?: string;
