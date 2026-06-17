@@ -125,19 +125,20 @@ export function EditorialNote({ text }: { text: string }) {
 const LEGEND: Array<{ verdict: HalalVerdict; description: string }> = [
   {
     verdict: "positive",
-    description: "Reviewed and consistent with Islamic principles",
+    description: "Delivers genuine benefit; no prohibited mechanisms found",
   },
   {
     verdict: "critical",
-    description: "Requires caution; contains elements of concern",
+    description: "Contains design patterns that conflict with Islamic ethics",
   },
   {
     verdict: "blocked",
-    description: "Contains haram elements (riba, gambling, deception)",
+    description:
+      "Contains riba, maysir, or gharar — hard prohibitions under all major madhabs",
   },
   {
     verdict: "nuanced",
-    description: "Islamic scholars disagree; editorial analysis provided",
+    description: "Active scholarly disagreement; editorial analysis provided",
   },
 ];
 
