@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LanternLogoText } from "@/components/LanternMasthead";
-import { lanternArticles } from "@/data/lanternArticles";
+import { createClient } from "@/lib/supabase/client";
 
 const NAV_SECTIONS = [
   {
@@ -27,23 +27,97 @@ const NAV_SECTIONS = [
   },
 ];
 
-const QUEUE = [
-  { title: "The Infrastructure Collapse Nobody Is Talking About", status: "ready", readTime: "6 min" },
-  { title: "Agent Reliability: A Video Breakdown", status: "review", readTime: "12 min" },
-  { title: "The Real Agent Reliability Numbers", status: "scheduled", readTime: "8 min" },
-  { title: "The AI Product Playbook Muslim Founders Aren't Using", status: "draft", readTime: "7 min" },
-];
+type QueueItem = {
+  id: string;
+  title: string;
+  status: string;
+  content_type: string;
+  halal_score: number | null;
+  queued_at: string;
+  url: string | null;
+};
 
 function StatusBadge({ status }: { status: string }) {
-  return <span className={`badge ${status}`}>{status}</span>;
+  const colors: Record<string, string> = {
+    pending: "var(--gold)",
+    approved: "var(--green)",
+    rejected: "var(--red)",
+    published: "var(--blue)",
+  };
+  return (
+    <span
+      style={{
+        fontSize: "10px",
+        fontWeight: 700,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase" as const,
+        color: colors[status] ?? "var(--dim)",
+        fontFamily: "Space Mono, monospace",
+      }}
+    >
+      {status}
+    </span>
+  );
 }
 
 export default function DashboardPage() {
-  const featured = lanternArticles[0];
   const [today, setToday] = useState("");
+  const [queue, setQueue] = useState<QueueItem[]>([]);
+  const [counts, setCounts] = useState({ total: 0, pending: 0, approved: 0, rejected: 0 });
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    setToday(new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }));
+    setToday(
+      new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    );
+
+    async function load() {
+      const supabase = createClient();
+
+      // Fetch latest 10 queue items
+      const { data: queueData } = await supabase
+        .from("lantern_content_queue")
+        .select("id, title, status, content_type, halal_score, queued_at, url")
+        .order("queued_at", { ascending: false })
+        .limit(10);
+
+      if (queueData) setQueue(queueData as QueueItem[]);
+
+      // Count by status
+      const statuses = ["pending", "approved", "rejected"];
+      const countResults = await Promise.all(
+        statuses.map((s) =>
+          supabase
+            .from("lantern_content_queue")
+            .select("id", { count: "exact", head: true })
+            .eq("status", s)
+        )
+      );
+
+      const [pendingRes, approvedRes, rejectedRes] = countResults;
+      const totalRes = await supabase
+        .from("lantern_content_queue")
+        .select("id", { count: "exact", head: true });
+
+      setCounts({
+        total: totalRes.count ?? 0,
+        pending: pendingRes.count ?? 0,
+        approved: approvedRes.count ?? 0,
+        rejected: rejectedRes.count ?? 0,
+      });
+
+      setLoading(false);
+    }
+
+    load();
   }, []);
+
+  const lead = queue.find((q) => q.status === "approved") ?? queue[0];
 
   return (
     <div
@@ -67,17 +141,9 @@ export default function DashboardPage() {
           overflowY: "auto",
         }}
       >
-        {/* Logo */}
-        <div
-          style={{
-            padding: "24px 20px",
-            borderBottom: "1px solid var(--border)",
-          }}
-        >
+        <div style={{ padding: "24px 20px", borderBottom: "1px solid var(--border)" }}>
           <LanternLogoText />
         </div>
-
-        {/* Nav */}
         <nav style={{ flex: 1, paddingBottom: "24px" }}>
           {NAV_SECTIONS.map((section) => (
             <div key={section.label}>
@@ -94,8 +160,6 @@ export default function DashboardPage() {
             </div>
           ))}
         </nav>
-
-        {/* Beehiiv Sync Status */}
         <div
           style={{
             padding: "16px 20px",
@@ -118,13 +182,7 @@ export default function DashboardPage() {
             <div style={{ fontSize: "12px", color: "var(--muted)", fontWeight: 600 }}>
               Beehiiv Not Connected
             </div>
-            <div
-              style={{
-                fontSize: "10px",
-                color: "var(--dim)",
-                fontFamily: "Space Mono, monospace",
-              }}
-            >
+            <div style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "Space Mono, monospace" }}>
               Add BEEHIIV_API_KEY to connect
             </div>
           </div>
@@ -133,7 +191,6 @@ export default function DashboardPage() {
 
       {/* ── MAIN ─────────────────────────────────────────────────── */}
       <main>
-        {/* Header */}
         <header
           style={{
             height: "64px",
@@ -152,34 +209,15 @@ export default function DashboardPage() {
           <div>
             <span className="kicker">Dashboard</span>
             <span style={{ color: "var(--dim)", margin: "0 10px" }}>·</span>
-            <span style={{ fontSize: "13px", color: "var(--muted)" }}>
-              {today}
-            </span>
+            <span style={{ fontSize: "13px", color: "var(--muted)" }}>{today}</span>
           </div>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <span
-              style={{
-                fontSize: "12px",
-                color: "var(--muted)",
-                fontFamily: "Space Mono, monospace",
-              }}
-            >
-              Operator #0001
-            </span>
-            <div
-              style={{
-                width: "32px",
-                height: "32px",
-                background: "var(--red)",
-                display: "grid",
-                placeItems: "center",
-                fontWeight: 800,
-                fontSize: "12px",
-              }}
-            >
-              R
-            </div>
-          </div>
+          <a
+            href="/dashboard/content-queue"
+            className="btn outline"
+            style={{ fontSize: "11px", padding: "8px 16px" }}
+          >
+            Content Queue →
+          </a>
         </header>
 
         <div style={{ padding: "32px" }}>
@@ -193,10 +231,10 @@ export default function DashboardPage() {
             }}
           >
             {[
-              { label: "Total Subscribers", value: "—", delta: "Beehiiv sync required" },
-              { label: "Open Rate (30d avg)", value: "—", delta: "Beehiiv sync required" },
-              { label: "Articles Published", value: String(lanternArticles.length), delta: "from local data" },
-              { label: "Queue Ready", value: String(QUEUE.filter(q => q.status === "ready").length), delta: "→ ready to publish" },
+              { label: "Total in Queue", value: loading ? "…" : String(counts.total), delta: "all time" },
+              { label: "Pending Review", value: loading ? "…" : String(counts.pending), delta: "awaiting approval" },
+              { label: "Approved", value: loading ? "…" : String(counts.approved), delta: "live on site" },
+              { label: "Subscribers", value: "—", delta: "Beehiiv sync required" },
             ].map((kpi) => (
               <div key={kpi.label} className="kpi-card">
                 <div className="kpi-label">{kpi.label}</div>
@@ -206,7 +244,7 @@ export default function DashboardPage() {
             ))}
           </section>
 
-          {/* ── FEATURED + QUEUE GRID ──────────────────────────────── */}
+          {/* ── LEAD + QUEUE ───────────────────────────────────────── */}
           <section
             style={{
               display: "grid",
@@ -215,7 +253,7 @@ export default function DashboardPage() {
               marginBottom: "2px",
             }}
           >
-            {/* Featured Article */}
+            {/* Lead item */}
             <div className="card">
               <div className="card-body">
                 <div
@@ -226,38 +264,46 @@ export default function DashboardPage() {
                     marginBottom: "16px",
                   }}
                 >
-                  <div className="kicker">Today&apos;s Lead</div>
-                  <StatusBadge status="ready" />
+                  <div className="kicker">Latest Approved</div>
+                  {lead && <StatusBadge status={lead.status} />}
                 </div>
-                <h3 style={{ marginBottom: "12px", fontSize: "20px" }}>
-                  {featured.title}
-                </h3>
-                <p className="excerpt" style={{ fontSize: "14px", marginBottom: "20px" }}>
-                  {featured.excerpt}
-                </p>
-                <div
-                  className="byline"
-                  style={{ display: "flex", gap: "12px", marginBottom: "24px" }}
-                >
-                  <span>{featured.date}</span>
-                  <span style={{ color: "var(--dim)" }}>·</span>
-                  <span>{featured.readTime}</span>
-                </div>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <button className="join-button" style={{ fontSize: "11px", padding: "10px 18px" }}>
-                    Publish Now ↓
-                  </button>
-                  <button className="btn outline" style={{ fontSize: "11px", padding: "10px 18px" }}>
-                    Edit
-                  </button>
-                  <button className="btn outline" style={{ fontSize: "11px", padding: "10px 18px" }}>
-                    Preview
-                  </button>
-                </div>
+                {loading ? (
+                  <p style={{ color: "var(--dim)", fontSize: "14px" }}>Loading…</p>
+                ) : lead ? (
+                  <>
+                    <h3 style={{ marginBottom: "12px", fontSize: "18px" }}>{lead.title}</h3>
+                    <div className="byline" style={{ marginBottom: "20px" }}>
+                      {lead.content_type} · {new Date(lead.queued_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      {lead.halal_score ? ` · Halal: ${lead.halal_score}` : ""}
+                    </div>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      {lead.url && (
+                        <a
+                          href={lead.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn outline"
+                          style={{ fontSize: "11px", padding: "10px 18px" }}
+                        >
+                          Source →
+                        </a>
+                      )}
+                      <a
+                        href="/dashboard/content-queue"
+                        className="join-button"
+                        style={{ fontSize: "11px", padding: "10px 18px", display: "inline-block" }}
+                      >
+                        Review Queue →
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <p style={{ color: "var(--dim)", fontSize: "14px" }}>No content in queue yet.</p>
+                )}
               </div>
             </div>
 
-            {/* Content Queue */}
+            {/* Recent queue */}
             <div className="card">
               <div className="card-body">
                 <div
@@ -268,57 +314,61 @@ export default function DashboardPage() {
                     marginBottom: "20px",
                   }}
                 >
-                  <div className="kicker">Content Queue</div>
-                  <button className="btn outline" style={{ fontSize: "10px", padding: "8px 14px" }}>
-                    + New Article
-                  </button>
+                  <div className="kicker">Recent Queue</div>
+                  <a
+                    href="/dashboard/content-queue"
+                    className="btn outline"
+                    style={{ fontSize: "10px", padding: "8px 14px" }}
+                  >
+                    View All
+                  </a>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-                  {QUEUE.map((item, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "14px 0",
-                        borderBottom: i < QUEUE.length - 1 ? "1px solid var(--border)" : "none",
-                        gap: "16px",
-                      }}
-                    >
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div
-                          style={{
-                            fontSize: "13px",
-                            color: "var(--off)",
-                            fontWeight: 600,
-                            marginBottom: "4px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {item.title}
+                {loading ? (
+                  <p style={{ color: "var(--dim)", fontSize: "14px" }}>Loading…</p>
+                ) : queue.length === 0 ? (
+                  <p style={{ color: "var(--dim)", fontSize: "14px" }}>Queue is empty. C1 will populate it on its next run.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                    {queue.slice(0, 6).map((item, i) => (
+                      <div
+                        key={item.id}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "12px 0",
+                          borderBottom: i < Math.min(queue.length, 6) - 1 ? "1px solid var(--border)" : "none",
+                          gap: "16px",
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontSize: "13px",
+                              color: "var(--off)",
+                              fontWeight: 600,
+                              marginBottom: "2px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {item.title}
+                          </div>
+                          <div style={{ fontFamily: "Space Mono, monospace", fontSize: "10px", color: "var(--dim)" }}>
+                            {item.content_type} · {new Date(item.queued_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </div>
                         </div>
-                        <div
-                          style={{
-                            fontFamily: "Space Mono, monospace",
-                            fontSize: "10px",
-                            color: "var(--dim)",
-                          }}
-                        >
-                          {item.readTime}
-                        </div>
+                        <StatusBadge status={item.status} />
                       </div>
-                      <StatusBadge status={item.status} />
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>
 
-          {/* ── ANALYTICS + SYNC ROW ───────────────────────────────── */}
+          {/* ── PIPELINE STATUS ────────────────────────────────────── */}
           <section
             style={{
               display: "grid",
@@ -326,87 +376,46 @@ export default function DashboardPage() {
               gap: "2px",
             }}
           >
-            {/* Top Articles */}
+            {/* Queue breakdown */}
             <div className="card">
               <div className="card-body">
-                <div className="kicker" style={{ marginBottom: "20px" }}>Top Articles (30d)</div>
-                {lanternArticles.slice(0, 4).map((a, i) => (
+                <div className="kicker" style={{ marginBottom: "20px" }}>Queue Breakdown</div>
+                {[
+                  { label: "Pending review", value: loading ? "…" : String(counts.pending), color: "var(--gold)" },
+                  { label: "Approved (live)", value: loading ? "…" : String(counts.approved), color: "var(--green)" },
+                  { label: "Rejected", value: loading ? "…" : String(counts.rejected), color: "var(--red)" },
+                  { label: "Total processed", value: loading ? "…" : String(counts.total), color: "var(--off)" },
+                ].map((row) => (
                   <div
-                    key={a.id}
+                    key={row.label}
                     style={{
                       display: "flex",
-                      gap: "14px",
-                      alignItems: "flex-start",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                       padding: "12px 0",
-                      borderBottom: i < 3 ? "1px solid var(--border)" : "none",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontFamily: "Space Mono, monospace",
-                        fontSize: "11px",
-                        color: "var(--dim)",
-                        fontWeight: 700,
-                        flexShrink: 0,
-                        paddingTop: "2px",
-                      }}
-                    >
-                      0{i + 1}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "13px", color: "var(--off)", fontWeight: 600, marginBottom: "4px" }}>
-                        {a.title.slice(0, 48)}…
-                      </div>
-                      <div className="byline">{a.readTime} · {a.category}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Subscriber Growth */}
-            <div className="card">
-              <div className="card-body">
-                <div className="kicker" style={{ marginBottom: "20px" }}>Subscriber Growth</div>
-                {[
-                  { week: "Jun 7", subs: "+42", openRate: "58%" },
-                  { week: "Jun 14", subs: "+84", openRate: "61%" },
-                  { week: "Jun 21", subs: "—", openRate: "—" },
-                  { week: "Jun 28", subs: "—", openRate: "—" },
-                ].map((row, i) => (
-                  <div
-                    key={row.week}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr 1fr",
-                      gap: "12px",
-                      padding: "12px 0",
-                      borderBottom: i < 3 ? "1px solid var(--border)" : "none",
+                      borderBottom: "1px solid var(--border)",
                       fontSize: "13px",
                     }}
                   >
-                    <span style={{ color: "var(--muted)", fontFamily: "Space Mono, monospace", fontSize: "11px" }}>
-                      {row.week}
+                    <span style={{ color: "var(--muted)" }}>{row.label}</span>
+                    <span style={{ color: row.color, fontWeight: 700, fontFamily: "Space Mono, monospace" }}>
+                      {row.value}
                     </span>
-                    <span style={{ color: row.subs !== "—" ? "var(--green)" : "var(--dim)", fontWeight: 700 }}>
-                      {row.subs}
-                    </span>
-                    <span style={{ color: "var(--muted)", textAlign: "right" }}>{row.openRate}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Beehiiv Sync */}
+            {/* Automation status */}
             <div className="card">
               <div className="card-body">
-                <div className="kicker" style={{ marginBottom: "20px" }}>Beehiiv Sync</div>
+                <div className="kicker" style={{ marginBottom: "20px" }}>Automation Status</div>
                 {[
-                  { label: "Subscribers synced", value: "Not connected", ok: false },
-                  { label: "Last issue sent", value: "—", ok: false },
-                  { label: "Open rate sync", value: "—", ok: false },
-                  { label: "Pending tags", value: "—", ok: false },
-                  { label: "API status", value: "Awaiting key", ok: false },
+                  { label: "C1 Content Radar", value: "Active · 4h", ok: true },
+                  { label: "C2 Approval Digest", value: "Active · 18:00 UTC", ok: true },
+                  { label: "U1 Welcome Sequence", value: "Active", ok: true },
+                  { label: "D1 Beehiiv Sync", value: "Active", ok: true },
+                  { label: "Beehiiv API", value: "Not connected", ok: false },
                 ].map((row) => (
                   <div
                     key={row.label}
@@ -420,17 +429,42 @@ export default function DashboardPage() {
                     }}
                   >
                     <span style={{ color: "var(--muted)" }}>{row.label}</span>
-                    <span style={{ color: row.ok ? "var(--green)" : "var(--red)", fontWeight: 600 }}>
+                    <span style={{ color: row.ok ? "var(--green)" : "var(--red)", fontWeight: 600, fontSize: "11px" }}>
                       {row.value}
                     </span>
                   </div>
                 ))}
-                <button
-                  className="btn outline"
-                  style={{ width: "100%", marginTop: "16px", fontSize: "11px", padding: "10px" }}
-                >
-                  Force Sync
-                </button>
+              </div>
+            </div>
+
+            {/* Subscriber sync */}
+            <div className="card">
+              <div className="card-body">
+                <div className="kicker" style={{ marginBottom: "20px" }}>Subscriber Data</div>
+                {[
+                  { label: "Subscribers synced", value: "—" },
+                  { label: "Last issue sent", value: "—" },
+                  { label: "Open rate", value: "—" },
+                  { label: "API status", value: "Awaiting BEEHIIV_API_KEY" },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "11px 0",
+                      borderBottom: "1px solid rgba(37, 43, 59, 0.5)",
+                      fontSize: "13px",
+                    }}
+                  >
+                    <span style={{ color: "var(--muted)" }}>{row.label}</span>
+                    <span style={{ color: "var(--dim)", fontWeight: 600 }}>{row.value}</span>
+                  </div>
+                ))}
+                <p style={{ fontSize: "11px", color: "var(--dim)", marginTop: "16px", lineHeight: 1.5 }}>
+                  Add BEEHIIV_API_KEY to Vercel env vars to enable subscriber analytics.
+                </p>
               </div>
             </div>
           </section>

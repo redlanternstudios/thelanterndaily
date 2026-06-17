@@ -121,6 +121,38 @@ export async function getMarketContent(): Promise<LanternArticle[]> {
   return (data ?? []) as LanternArticle[];
 }
 
+// ── Market Signals ─────────────────────────────────────────────────────────────
+
+export interface LanternMarketSignal {
+  id: string;
+  ticker: string;
+  name: string | null;
+  asset_class: string;
+  price: number | null;
+  change_pct: number | null;
+  halal_status: string | null;
+  halal_source: string | null;
+  signal: string | null;
+  signal_note: string | null;
+  source_url: string | null;
+  as_of: string;
+}
+
+export async function getMarketSignals(limit = 5): Promise<LanternMarketSignal[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_market_signals')
+    .select('id, ticker, name, asset_class, price, change_pct, halal_status, halal_source, signal, signal_note, source_url, as_of')
+    .order('as_of', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getMarketSignals error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternMarketSignal[];
+}
+
 // ── Stack Entries ──────────────────────────────────────────────────────────────
 
 export async function getStackEntries(limit = 12): Promise<LanternStackEntry[]> {

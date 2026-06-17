@@ -22,21 +22,52 @@ export function ArticleCard({
     undefined
   );
 
+  const href = article.href ?? `/article/${article.id}`;
+  const isExternal = href.startsWith("http");
   return (
-    <a href={`/article/${article.id}`} style={{ display: "block" }}>
+    <a
+      href={href}
+      style={{ display: "block" }}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+    >
       <div className={`card${featured ? " featured-card" : ""}`} style={{ height: "100%" }}>
         {/* Image */}
         <div
           className={`article-image${article.video ? " video-thumb" : ""}`}
-          style={{ height: imageHeight }}
+          style={{ height: imageHeight, position: "relative" }}
         >
-          <Image
-            src={article.image}
-            alt={article.title}
-            fill
-            style={{ objectFit: "cover" }}
-            sizes="(max-width: 900px) 100vw, 50vw"
-          />
+          {article.image ? (
+            <Image
+              src={article.image}
+              alt={article.title}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 900px) 100vw, 50vw"
+            />
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "var(--surface)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Space Mono, monospace",
+                  fontSize: "9px",
+                  letterSpacing: "0.2em",
+                  color: "var(--dim)",
+                }}
+              >
+                {article.category?.toUpperCase() ?? "THE LANTERN"}
+              </span>
+            </div>
+          )}
           {article.video && (
             <>
               <div className="play-button">▶</div>

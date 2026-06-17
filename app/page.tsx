@@ -4,24 +4,21 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
 import {
   getApprovedContent,
+  getMarketSignals,
+  getStackEntries,
   articleHref,
   formatDate,
   readTime,
   type LanternArticle,
+  type LanternMarketSignal,
 } from "@/lib/lantern/queries";
 
-// Supabase storage base for article images
-const STORAGE_BASE =
-  "https://endovljmaudnxdzdapmf.supabase.co/storage/v1/object/public/article-images";
+export const revalidate = 300;
 
-function articleImage(a: LanternArticle): string {
-  if (a.image_url) return a.image_url;
-  // Fallback: deterministic placeholder by category
-  const slug = (a.category ?? "tech").toLowerCase().replace(/\s+/g, "-");
-  return `${STORAGE_BASE}/${slug}-default.jpg`;
+function articleImage(a: LanternArticle): string | null {
+  return a.image_url ?? null;
 }
 
-// Map Supabase row → shape ArticleCard expects
 function toCardShape(a: LanternArticle) {
   return {
     id: a.id,
@@ -31,7 +28,7 @@ function toCardShape(a: LanternArticle) {
     author: a.author ?? "The Lantern Daily",
     date: formatDate(a.published_at),
     readTime: readTime(a.read_time_minutes),
-    image: articleImage(a),
+    image: articleImage(a) ?? undefined,
     video: a.content_type === "video",
     youtubeId: a.youtube_video_id ?? undefined,
     premium: a.is_premium,
@@ -39,23 +36,154 @@ function toCardShape(a: LanternArticle) {
   };
 }
 
+function halalColor(status: string | null): string {
+  if (status === "compliant") return "var(--green, #16a34a)";
+  if (status === "questionable") return "var(--gold, #ca8a04)";
+  if (status === "non-compliant") return "var(--red)";
+  return "var(--dim)";
+}
+
+function halalLabel(status: string | null): string {
+  if (status === "compliant") return "COMPLIANT";
+  if (status === "questionable") return "QUESTIONABLE";
+  if (status === "non-compliant") return "NON-COMPLIANT";
+  return "UNSCREENED";
+}
+
+function SectionLabel({ label, href }: { label: string; href?: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "16px",
+        margin: "48px 0 24px",
+      }}
+    >
+      <div className="kicker" style={{ fontSize: "10px", letterSpacing: "0.2em", whiteSpace: "nowrap" }}>
+        {label}
+      </div>
+      <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+      {href && (
+        <a
+          href={href}
+          style={{
+            fontSize: "10px",
+            color: "var(--dim)",
+            textDecoration: "none",
+            fontFamily: "Space Mono, monospace",
+            letterSpacing: "0.08em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          VIEW ALL →
+        </a>
+      )}
+    </div>
+  );
+}
+
+function MarketRow({ s }: { s: LanternMarketSignal }) {
+  const up = (s.change_pct ?? 0) >= 0;
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "64px 1fr auto",
+        alignItems: "flex-start",
+        gap: "12px",
+        padding: "14px 0",
+        borderBottom: "1px solid var(--border)",
+      }}
+    >
+      {/* Ticker */}
+      <div>
+        <div
+          style={{
+            fontFamily: "Space Mono, monospace",
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "var(--off)",
+            marginBottom: "2px",
+          }}
+        >
+          {s.ticker}
+        </div>
+        <div style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "Space Mono, monospace" }}>
+          {s.asset_class.toUpperCase()}
+        </div>
+      </div>
+
+      {/* Note */}
+      <div>
+        <div style={{ fontSize: "12px", color: "var(--muted)", lineHeight: 1.5 }}>
+          {s.signal_note ?? s.name ?? ""}
+        </div>
+        <div
+          style={{
+            fontSize: "10px",
+            color: halalColor(s.halal_status),
+            fontFamily: "Space Mono, monospace",
+            letterSpacing: "0.06em",
+            marginTop: "3px",
+          }}
+        >
+          {halalLabel(s.halal_status)}
+          {s.halal_source ? ` · ${s.halal_source.toUpperCase()}` : ""}
+        </div>
+      </div>
+
+      {/* Price + change */}
+      <div style={{ textAlign: "right" }}>
+        {s.price != null && (
+          <div
+            style={{
+              fontFamily: "Space Mono, monospace",
+              fontSize: "12px",
+              color: "var(--off)",
+              marginBottom: "2px",
+            }}
+          >
+            {s.asset_class === "crypto"
+              ? `$${Number(s.price).toLocaleString()}`
+              : `$${Number(s.price).toFixed(2)}`}
+          </div>
+        )}
+        {s.change_pct != null && (
+          <div
+            style={{
+              fontFamily: "Space Mono, monospace",
+              fontSize: "11px",
+              fontWeight: 700,
+              color: up ? "var(--green, #16a34a)" : "var(--red)",
+            }}
+          >
+            {up ? "+" : ""}
+            {Number(s.change_pct).toFixed(2)}%
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default async function HomePage() {
-  // Single query — get all approved content, split by type client-side
-  const content = await getApprovedContent(20);
+  const [content, marketSignals, stackEntries] = await Promise.all([
+    getApprovedContent(20),
+    getMarketSignals(5),
+    getStackEntries(6),
+  ]);
 
   const articles = content.filter((c) => c.content_type === "article");
   const videos = content.filter((c) => c.content_type === "video");
-  const market = content.filter((c) => c.content_type === "market");
 
-  // Layout slots
   const lead = articles[0] ?? content[0];
   const videoCard = videos[0];
   const article2 = articles[1];
   const article3 = articles[2];
-  const gridArticles = articles.slice(3, 7); // up to 4 in bottom grid — start after article2/article3
+  const gridArticles = articles.slice(3, 7);
 
   if (!lead) {
-    // Graceful empty state — DB connected but no content yet
     return (
       <>
         <LanternMasthead />
@@ -80,18 +208,19 @@ export default async function HomePage() {
       <LanternMasthead />
 
       <div className="page-shell">
-        {/* ── HERO: TEXT PANEL LEFT + FULL BLEED IMAGE RIGHT ─────── */}
+
+        {/* ── TODAY'S LEAD ────────────────────────────────────────── */}
+        <SectionLabel label="Today's Lead" />
+
         <section
           className="desktop-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "0.95fr 1.15fr",
             gap: "2px",
-            marginTop: "2px",
             marginBottom: "2px",
           }}
         >
-          {/* Lead text panel */}
           <article
             className="card"
             style={{
@@ -138,80 +267,64 @@ export default async function HomePage() {
             </div>
           </article>
 
-          {/* Lead image — full bleed */}
-          <div className="article-image" style={{ minHeight: "430px", position: "relative" }}>
-            <Image
-              src={leadCard.image}
-              alt={leadCard.title}
-              fill
-              style={{ objectFit: "cover" }}
-              priority
-            />
-          </div>
+          {leadCard.image ? (
+            <div className="article-image" style={{ minHeight: "430px", position: "relative" }}>
+              <Image
+                src={leadCard.image}
+                alt={leadCard.title}
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </div>
+          ) : (
+            <div
+              className="article-image"
+              style={{
+                minHeight: "430px",
+                background: "var(--surface)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Space Mono, monospace",
+                  fontSize: "10px",
+                  letterSpacing: "0.2em",
+                  color: "var(--dim)",
+                }}
+              >
+                THE LANTERN DAILY
+              </span>
+            </div>
+          )}
         </section>
 
-        {/* ── VIDEO + 2 ARTICLES ─────────────────────────────────── */}
+        {/* ── FIELD NOTES ─────────────────────────────────────────── */}
         {(videoCard || article2 || article3) && (
-          <section
-            className="desktop-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.1fr 0.7fr 0.7fr",
-              gap: "2px",
-              marginBottom: "2px",
-            }}
-          >
-            {videoCard && <ArticleCard article={toCardShape(videoCard)} imageHeight="260px" />}
-            {article2 && <ArticleCard article={toCardShape(article2)} imageHeight="260px" />}
-            {article3 && <ArticleCard article={toCardShape(article3)} imageHeight="260px" />}
-          </section>
+          <>
+            <SectionLabel label="Field Notes" href="/archive" />
+            <section
+              className="desktop-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.1fr 0.7fr 0.7fr",
+                gap: "2px",
+                marginBottom: "2px",
+              }}
+            >
+              {videoCard && <ArticleCard article={toCardShape(videoCard)} imageHeight="260px" />}
+              {article2 && <ArticleCard article={toCardShape(article2)} imageHeight="260px" />}
+              {article3 && <ArticleCard article={toCardShape(article3)} imageHeight="260px" />}
+            </section>
+          </>
         )}
 
-        {/* ── SECTION LABEL ──────────────────────────────────────── */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            margin: "48px 0 24px",
-          }}
-        >
-          <div className="kicker" style={{ fontSize: "10px", letterSpacing: "0.2em" }}>
-            Latest Intelligence
-          </div>
-          <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
-        </div>
+        {/* ── MARKET WATCH ────────────────────────────────────────── */}
+        <SectionLabel label="Market Watch · Halal-Screened" href="/archive?category=Markets" />
 
-        {/* ── 4-COLUMN ARTICLE GRID ──────────────────────────────── */}
-        {gridArticles.length > 0 && (
-          <section
-            className="article-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "2px",
-              marginBottom: "2px",
-            }}
-          >
-            {gridArticles.map((a) => (
-              <ArticleCard key={a.id} article={toCardShape(a)} imageHeight="190px" />
-            ))}
-          </section>
-        )}
-
-        {/* ── PULL QUOTE ─────────────────────────────────────────── */}
-        <div className="quote-block">
-          <p className="quote-text">
-            &ldquo;The builders who will define the next decade aren&apos;t in Silicon
-            Valley. They&apos;re in Karachi, Cairo, Amman, and Kuala Lumpur —
-            and they&apos;re building on their own terms.&rdquo;
-          </p>
-          <div className="byline" style={{ marginTop: "24px" }}>
-            The Lantern Daily Editorial · June 2026
-          </div>
-        </div>
-
-        {/* ── MARKET SIGNALS + OPERATOR STACK ───────────────────── */}
         <section
           className="two-column"
           style={{
@@ -221,138 +334,146 @@ export default async function HomePage() {
             marginBottom: "2px",
           }}
         >
-          {/* Market Signals — from DB if available, static fallback */}
           <div className="card">
             <div className="card-body">
-              <div className="kicker" style={{ marginBottom: "24px" }}>
-                Market Signals
-              </div>
-              {market.length > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {market.map((m) => (
-                    <div
-                      key={m.id}
-                      style={{
-                        padding: "12px 0",
-                        borderBottom: "1px solid var(--border)",
-                      }}
-                    >
-                      <div className="kicker" style={{ fontSize: "10px", marginBottom: "4px" }}>
-                        {m.category}
-                      </div>
-                      <div style={{ fontSize: "14px", fontWeight: 600 }}>{m.title}</div>
-                      {m.excerpt && (
-                        <p style={{ fontSize: "12px", color: "var(--muted)", marginTop: "4px" }}>
-                          {m.excerpt}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <table className="market-table">
-                  <thead>
-                    <tr>
-                      <th>Asset</th>
-                      <th>Price</th>
-                      <th>24h</th>
-                      <th>Signal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>BTC/USD</td>
-                      <td>$68,420</td>
-                      <td className="val-up">+2.4%</td>
-                      <td><span className="signal-bullish">↑ BULLISH</span></td>
-                    </tr>
-                    <tr>
-                      <td>ETH/USD</td>
-                      <td>$3,812</td>
-                      <td className="val-up">+1.8%</td>
-                      <td><span className="signal-bullish">↑ BULLISH</span></td>
-                    </tr>
-                    <tr>
-                      <td>NVDA</td>
-                      <td>$1,142</td>
-                      <td className="val-down">-0.6%</td>
-                      <td><span className="signal-neutral">→ NEUTRAL</span></td>
-                    </tr>
-                    <tr>
-                      <td>MSFT</td>
-                      <td>$428</td>
-                      <td className="val-up">+0.9%</td>
-                      <td><span className="signal-bullish">↑ BULLISH</span></td>
-                    </tr>
-                    <tr>
-                      <td>AAPL</td>
-                      <td>$212</td>
-                      <td className="val-down">-1.1%</td>
-                      <td><span className="signal-neutral">→ NEUTRAL</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              )}
-              <p
+              <div
                 style={{
-                  fontSize: "11px",
-                  color: "var(--dim)",
-                  marginTop: "16px",
-                  fontFamily: "Space Mono, monospace",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  marginBottom: "8px",
                 }}
               >
-                Data delayed · Not financial advice · For informational purposes only
-              </p>
+                <div className="kicker">Daily Signals</div>
+                <span
+                  style={{
+                    fontFamily: "Space Mono, monospace",
+                    fontSize: "9px",
+                    color: "var(--dim)",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  HALAL-SCREENED · NOT FINANCIAL ADVICE
+                </span>
+              </div>
+
+              {marketSignals.length > 0 ? (
+                <div>
+                  {marketSignals.map((s) => (
+                    <MarketRow key={s.id} s={s} />
+                  ))}
+                  <p
+                    style={{
+                      fontSize: "10px",
+                      color: "var(--dim)",
+                      marginTop: "12px",
+                      fontFamily: "Space Mono, monospace",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Halal screening via Musaffa / Zoya. Prices delayed.
+                    Scholarly disagreement noted where applicable. Informational only.
+                  </p>
+                </div>
+              ) : (
+                <div style={{ padding: "32px 0" }}>
+                  <p style={{ fontSize: "14px", color: "var(--dim)", lineHeight: 1.6 }}>
+                    Market Watch is coming online. TradeSwarm integration in progress —
+                    daily halal-screened signals launching soon.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Operator Stack Showcase */}
+          {/* From the Stack */}
           <div className="card">
             <div className="card-body">
               <div className="kicker" style={{ marginBottom: "6px" }}>
-                Operator Stack Showcase
+                From the Stack
               </div>
               <p style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "20px", lineHeight: 1.5 }}>
-                Tools the operators we cover are actually running in production.
+                Tools the operators we cover are running in production — curated, not sponsored.
               </p>
-              {[
-                { cat: "Infra", tools: ["Supabase", "Vercel", "n8n", "GitHub"] },
-                { cat: "Models", tools: ["Groq", "DeepSeek", "OpenAI", "Anthropic"] },
-                { cat: "Frontend", tools: ["Next.js", "Tailwind", "v0.dev", "Figma"] },
-                { cat: "Analytics", tools: ["PostHog", "Sentry", "Resend", "Beehiiv"] },
-                { cat: "Payments", tools: ["Stripe"] },
-              ].map((row) => (
-                <div
-                  key={row.cat}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "80px 1fr",
-                    alignItems: "center",
-                    padding: "10px 0",
-                    borderBottom: "1px solid var(--border)",
-                    gap: "12px",
-                  }}
-                >
-                  <span className="kicker" style={{ fontSize: "9px", letterSpacing: "0.12em" }}>
-                    {row.cat}
-                  </span>
-                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                    {row.tools.map((t) => (
-                      <span
-                        key={t}
+
+              {stackEntries.length > 0 ? (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {stackEntries.slice(0, 5).map((tool) => (
+                    <a
+                      key={tool.tool_name}
+                      href={tool.tool_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      <div
                         style={{
-                          fontSize: "12px",
-                          color: "var(--off)",
-                          fontFamily: "Space Mono, monospace",
-                          fontWeight: 400,
+                          display: "grid",
+                          gridTemplateColumns: "80px 1fr",
+                          alignItems: "center",
+                          padding: "10px 0",
+                          borderBottom: "1px solid var(--border)",
+                          gap: "12px",
                         }}
                       >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                        <span className="kicker" style={{ fontSize: "9px", letterSpacing: "0.12em" }}>
+                          {tool.category}
+                        </span>
+                        <div>
+                          <span
+                            style={{
+                              fontSize: "13px",
+                              color: "var(--off)",
+                              fontFamily: "Space Mono, monospace",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {tool.tool_name}
+                          </span>
+                          {tool.one_line_desc && (
+                            <span
+                              style={{
+                                fontSize: "12px",
+                                color: "var(--dim)",
+                                marginLeft: "8px",
+                              }}
+                            >
+                              — {tool.one_line_desc}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {[
+                    { cat: "Infra",     tools: "Supabase · Vercel · n8n · GitHub" },
+                    { cat: "Models",    tools: "DeepSeek · Anthropic · OpenAI" },
+                    { cat: "Frontend",  tools: "Next.js · Tailwind · v0.dev" },
+                    { cat: "Analytics", tools: "PostHog · Sentry" },
+                  ].map((row) => (
+                    <div
+                      key={row.cat}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "80px 1fr",
+                        alignItems: "center",
+                        padding: "10px 0",
+                        borderBottom: "1px solid var(--border)",
+                        gap: "12px",
+                      }}
+                    >
+                      <span className="kicker" style={{ fontSize: "9px" }}>{row.cat}</span>
+                      <span style={{ fontSize: "12px", color: "var(--dim)", fontFamily: "Space Mono, monospace" }}>
+                        {row.tools}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <a
                 href="/stack"
                 className="btn outline"
@@ -364,7 +485,39 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── SUBSCRIBE CTA ──────────────────────────────────────── */}
+        {/* ── LATEST INTELLIGENCE ─────────────────────────────────── */}
+        {gridArticles.length > 0 && (
+          <>
+            <SectionLabel label="Latest Intelligence" href="/archive" />
+            <section
+              className="article-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: "2px",
+                marginBottom: "2px",
+              }}
+            >
+              {gridArticles.map((a) => (
+                <ArticleCard key={a.id} article={toCardShape(a)} imageHeight="190px" />
+              ))}
+            </section>
+          </>
+        )}
+
+        {/* ── PULL QUOTE ──────────────────────────────────────────── */}
+        <div className="quote-block">
+          <p className="quote-text">
+            &ldquo;The builders who will define the next decade aren&apos;t in Silicon
+            Valley. They&apos;re in Karachi, Cairo, Amman, and Kuala Lumpur —
+            and they&apos;re building on their own terms.&rdquo;
+          </p>
+          <div className="byline" style={{ marginTop: "24px" }}>
+            The Lantern Daily Editorial · June 2026
+          </div>
+        </div>
+
+        {/* ── SUBSCRIBE CTA ───────────────────────────────────────── */}
         <section
           id="subscribe"
           style={{
@@ -388,7 +541,7 @@ export default async function HomePage() {
           <SubscribeForm variant="hero" />
         </section>
 
-        {/* ── FOOTER ─────────────────────────────────────────────── */}
+        {/* ── FOOTER ──────────────────────────────────────────────── */}
         <footer className="footer">
           <div className="footer-grid">
             <div className="footer-col">
