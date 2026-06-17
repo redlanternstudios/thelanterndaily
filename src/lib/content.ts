@@ -7,7 +7,8 @@ export type Article = {
   excerpt: string;
   image: string;
   author: string;
-  date: string;
+  date: string;          // date The Lantern Daily posted it
+  originalDate?: string; // date the original content was published/created
   readTime: string;
   video?: boolean;
   youtubeId?: string;
@@ -63,6 +64,7 @@ export const VIDEO_ARTICLE: Article = {
   image: "/images/video-thumb.png",
   author: "The Lantern Daily",
   date: "June 13, 2026",
+  originalDate: "June 10, 2026",
   readTime: "24 min watch",
   category: "Stack",
   video: true,

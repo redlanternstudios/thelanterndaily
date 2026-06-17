@@ -53,7 +53,15 @@ export default async function ArticlePage({
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
             <span className="text-[var(--color-text)]">The Lantern Daily</span>
             <span className="opacity-40">·</span>
-            <span>{article.date}</span>
+            {article.originalDate ? (
+              <>
+                <span title="Date originally published">Orig. {article.originalDate}</span>
+                <span className="opacity-40">·</span>
+                <span title="Date posted by The Lantern Daily">Posted {article.date}</span>
+              </>
+            ) : (
+              <span>{article.date}</span>
+            )}
             <span className="opacity-40">·</span>
             <span>{article.readTime}</span>
           </div>
