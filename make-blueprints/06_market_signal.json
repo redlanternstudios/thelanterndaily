@@ -1,0 +1,66 @@
+{
+  "id": "06_market_signal",
+  "name": "Daily Market Signal Update",
+  "description": "Daily ingestion of market signals from Musaffa, analyzed by DeepSeek for halal compliance and sentiment",
+  "version": "1.0.0",
+  "schedule": {
+    "type": "interval",
+    "interval": 86400,
+    "timezone": "UTC"
+  },
+  "steps": [
+    {
+      "id": "fetch_market_data",
+      "name": "Fetch Market Data from Musaffa",
+      "action": "http",
+      "method": "GET",
+      "url": "https://musaffa.com/api/market/signals?limit=50&sort=momentum",
+      "headers": {
+        "Authorization": "Bearer {{MUSAFFA_API_KEY}}"
+      },
+      "output": "market_data"
+    },
+    {
+      "id": "analyze_signals",
+      "name": "Analyze with DeepSeek",
+      "action": "ai",
+      "model": "deepseek-chat",
+      "endpoint": "https://api.deepseek.com/chat/completions",
+      "headers": {
+        "Authorization": "Bearer {{DEEPSEEK_API_KEY}}"
+      },
+      "prompt": "Analyze these market signals for halal compliance and investment sentiment. For each signal, provide: ticker, sentiment (bullish/neutral/bearish), halal_verdict (pass/review/fail), and a brief investment note.\n\nMarket data: {{market_data}}",
+      "output": "analysis"
+    },
+    {
+      "id": "store_signals",
+      "name": "Store Market Signals",
+      "action": "http",
+      "method": "POST",
+      "url": "{{API_BASE}}/api/admin/market-signal",
+      "headers": {
+        "x-admin-key": "{{ADMIN_SECRET_KEY}}",
+        "Content-Type": "application/json"
+      },
+      "body": "{{analysis}}",
+      "output": "result"
+    },
+    {
+      "id": "log_completion",
+      "name": "Log Completion",
+      "action": "log",
+      "message": "Daily market signal update completed. Processed {{analysis.count}} signals.",
+      "level": "info"
+    }
+  ],
+  "errorHandling": {
+    "onFailure": "retry",
+    "maxRetries": 3,
+    "retryDelay": 300
+  },
+  "notifications": {
+    "onSuccess": false,
+    "onFailure": true,
+    "channel": "slack"
+  }
+}
