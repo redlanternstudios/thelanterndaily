@@ -327,26 +327,26 @@ const LEGEND: Array<{ verdict: HalalVerdict; description: string }> = [
 
 export function BadgeLegendStrip() {
   return (
-    <div style={{ background: "#0F1117", borderBottom: "1px solid #1E2028", padding: "12px 0" }}>
+    <div style={{ background: "#0F1117", borderBottom: "1px solid #1E2028", padding: "32px 0" }}>
       <div style={{
         maxWidth: 1400,
         margin: "0 auto",
         padding: "0 48px",
         display: "grid",
         gridTemplateColumns: "repeat(4,1fr)",
-        gap: "16px 24px",
+        gap: "24px",
       }}>
         {LEGEND.map(({ verdict, description }) => {
           const cfg = V[verdict];
           const { Icon } = cfg;
           return (
-            <div key={verdict} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <div style={{ color: cfg.color, display: "flex", marginTop: 1, flexShrink: 0 }}><Icon /></div>
+            <div key={verdict} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+              <div style={{ color: cfg.color, display: "flex", marginTop: 2, flexShrink: 0, fontSize: 18 }}><Icon /></div>
               <div>
-                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 9, fontWeight: 700, letterSpacing: "0.14em", color: cfg.color, textTransform: "uppercase", display: "block" }}>
+                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: cfg.color, textTransform: "uppercase", display: "block", marginBottom: 6 }}>
                   {cfg.label}
                 </span>
-                <span style={{ fontSize: 11, color: "#6b7280", lineHeight: 1.5 }}>
+                <span style={{ fontSize: 14, color: "#9CA3AF", lineHeight: 1.6 }}>
                   {description}
                 </span>
               </div>
