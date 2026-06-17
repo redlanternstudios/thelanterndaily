@@ -37,3 +37,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 swarmclaw/LANTERN_KEYS_REFERENCE.md
+make-blueprints/filled/
