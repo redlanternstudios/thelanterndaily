@@ -4,6 +4,7 @@ import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import SubscribeForm from "@/components/SubscribeForm";
+import { BadgeLegendStrip } from "@/components/HalalBadge";
 import { lanternArticles } from "@/lib/content";
 
 export default function HomePage() {
@@ -14,6 +15,7 @@ export default function HomePage() {
     <>
       <Masthead />
       <Ticker />
+      <BadgeLegendStrip />
       <main style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }}>
 
         {/* ── Hero ── */}

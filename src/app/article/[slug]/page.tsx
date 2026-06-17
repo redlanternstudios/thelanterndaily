@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import SubscribeForm from "@/components/SubscribeForm";
 import { ALL_ARTICLES, SOCIAL_PROOF } from "@/lib/content";
+import { HalalBadge, EditorialNote } from "@/components/HalalBadge";
 
 export function generateStaticParams() {
   return ALL_ARTICLES.map((a) => ({ slug: a.slug }));
@@ -38,12 +39,17 @@ export default async function ArticlePage({
       {/* Full-width header */}
       <header className="border-b border-[var(--color-border)]">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16 text-center">
-          <Link
-            href={`/archive?cat=${article.category}`}
-            className="kicker inline-block hover:opacity-80"
-          >
-            {article.kicker}
-          </Link>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
+            <Link
+              href={`/archive?cat=${article.category}`}
+              className="kicker inline-block hover:opacity-80"
+            >
+              {article.kicker}
+            </Link>
+            {article.halalReview && (
+              <HalalBadge verdict={article.halalReview.verdict} size="md" />
+            )}
+          </div>
           <h1 className="font-headline text-balance mt-4 text-3xl sm:text-4xl lg:text-5xl leading-[1.1] text-[var(--color-text)]">
             {article.title}
           </h1>
@@ -109,6 +115,10 @@ export default async function ArticlePage({
                 {p}
               </p>
             ))}
+
+            {article.halalReview?.editorialNote && (
+              <EditorialNote text={article.halalReview.editorialNote} />
+            )}
           </article>
 
           {/* Sidebar */}

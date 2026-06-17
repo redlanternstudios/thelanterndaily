@@ -15,6 +15,10 @@ export type Article = {
   duration?: string;
   premium?: boolean;
   body?: string;
+  halalReview?: {
+    verdict: "positive" | "critical" | "blocked" | "nuanced";
+    editorialNote?: string;
+  };
 };
 
 export const SOCIAL_PROOF = "18,472+ builders, investors, and operators";
@@ -52,6 +56,11 @@ export const HERO_ARTICLE: Article = {
   date: "June 14, 2026",
   readTime: "11 min read",
   category: "AI",
+  halalReview: {
+    verdict: "positive",
+    editorialNote:
+      "The infrastructure layer being built here is structurally halal — equity-based funding, no interest-bearing instruments in the stack, and founders who are explicitly building away from VC models that require riba-adjacent growth metrics. The concern is downstream: once the rails are built, what rides on them? That question isn't answered by this generation of builders alone.",
+  },
 };
 
 export const VIDEO_ARTICLE: Article = {

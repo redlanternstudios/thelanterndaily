@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Article } from "@/lib/content";
+import { HalalBadge } from "@/components/HalalBadge";
 
 function Byline({ article }: { article: Article }) {
   return (
@@ -68,18 +69,23 @@ export default function ArticleCard({
 
   const cardBody = (
     <div style={{ padding: "16px 20px 20px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-      <span
-        style={{
-          fontFamily: "var(--font-jetbrains), monospace",
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "#D92532",
-        }}
-      >
-        {article.category}
-      </span>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <span
+          style={{
+            fontFamily: "var(--font-jetbrains), monospace",
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "#D92532",
+          }}
+        >
+          {article.category}
+        </span>
+        {article.halalReview && (
+          <HalalBadge verdict={article.halalReview.verdict} size="sm" />
+        )}
+      </div>
       <h3
         style={{
           fontFamily: "Playfair Display, Georgia, serif",
