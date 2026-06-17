@@ -23,7 +23,7 @@ function Logo() {
         }}
       >
         <span style={{ color: "#9CA3AF" }}>The </span>
-        <span style={{ color: "#D42535" }}>Lantern</span>
+        <span style={{ color: "#9CA3AF" }}>Lantern</span>
         <span style={{ color: "#9CA3AF" }}> D</span>
         <span style={{ color: "#D42535" }}>AI</span>
         <span style={{ color: "#9CA3AF" }}>LY</span>
