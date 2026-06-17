@@ -1,6 +1,46 @@
 // ─── THE LANTERN DAILY — TypeScript Types ───────────────────────────────────
-// Halal trust metadata, Post types, Spotlight types.
-// Mirrors supabase/migrations/001_initial_schema.sql enums.
+// Halal trust metadata, Post types, Spotlight types, Agent stack types.
+// Mirrors supabase/migrations/*.sql enums and tables.
+
+// ─── AI Agent Types (Phase 1 — Build 4) ────────────────────────────────────
+// Maps to migration 003_ai_agent_stack.sql
+
+export type AgentName = 'SIGNAL' | 'BRIEF' | 'SOURCE';
+
+export const AGENT_META: Record<AgentName, { label: string; color: string; domain: string }> = {
+  SIGNAL: {
+    label: 'SIGNAL',
+    color: '#1A1A2E',
+    domain: 'SEO · Content distribution · Discoverability',
+  },
+  BRIEF: {
+    label: 'BRIEF',
+    color: '#D92532',
+    domain: 'Lead automation · Outreach pipelines · CRM',
+  },
+  SOURCE: {
+    label: 'SOURCE',
+    color: '#2A2A2A',
+    domain: 'App creation · Web development · Open source',
+  },
+};
+
+export interface StackEntry {
+  id: string;
+  name: string;
+  category: string;
+  section: string;
+  description: string;
+  agent_name: AgentName | null;
+  agent_blurb: string | null;
+  tier: 'free' | 'operator';
+  image_url: string | null;
+  website_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
 
 // ─── Halal Badge Types ─────────────────────────────────────────────────────
 
