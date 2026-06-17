@@ -6,6 +6,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { SubscribeForm } from "@/components/SubscribeForm";
 import { PremiumGate } from "@/components/PremiumGate";
 import { HalalBadge, TrustNote } from "@/components/HalalBadge";
+import { LanternAction } from "@/components/LanternAction";
 import { lanternArticles } from "@/data/lanternArticles";
 import type { HalalBadgeType } from "@/data/lanternTypes";
 
@@ -216,6 +217,11 @@ export default async function ArticleSlugPage({
               <p className="excerpt" style={{ fontSize: "19px", lineHeight: 1.8 }}>
                 {article.excerpt}
               </p>
+            )}
+
+            {/* Action steps — topic-locked, specific, concrete */}
+            {article.action_steps && article.action_steps.length > 0 && (
+              <LanternAction steps={article.action_steps} />
             )}
 
             {/* Trust note at bottom of body */}

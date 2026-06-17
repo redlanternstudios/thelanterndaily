@@ -6,11 +6,13 @@ import {
   getApprovedContent,
   getMarketSignals,
   getStackEntries,
+  getHalalPortfolio,
   articleHref,
   formatDate,
   readTime,
   type LanternArticle,
   type LanternMarketSignal,
+  type LanternPortfolioPick,
 } from "@/lib/lantern/queries";
 
 export const revalidate = 300;
@@ -168,10 +170,11 @@ function MarketRow({ s }: { s: LanternMarketSignal }) {
 }
 
 export default async function HomePage() {
-  const [content, marketSignals, stackEntries] = await Promise.all([
+  const [content, marketSignals, stackEntries, portfolioPicks] = await Promise.all([
     getApprovedContent(20),
-    getMarketSignals(5),
+    getMarketSignals(6),
     getStackEntries(6),
+    getHalalPortfolio("Q3 2026"),
   ]);
 
   const articles = content.filter((c) => c.content_type === "article");
@@ -322,140 +325,255 @@ export default async function HomePage() {
           </>
         )}
 
-        {/* ── MARKET WATCH ────────────────────────────────────────── */}
+        {/* ── MARKET WATCH (full-width) ────────────────────────────── */}
         <SectionLabel label="Market Watch · Halal-Screened" href="/archive?category=Markets" />
 
-        <section
-          className="two-column"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "2px",
-            marginBottom: "2px",
-          }}
-        >
-          <div className="card">
-            <div className="card-body">
-              <div
+        <section className="card" style={{ marginBottom: "2px" }}>
+          <div className="card-body">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginBottom: "8px",
+              }}
+            >
+              <div className="kicker">Daily Signals</div>
+              <span
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  marginBottom: "8px",
+                  fontFamily: "Space Mono, monospace",
+                  fontSize: "9px",
+                  color: "var(--dim)",
+                  letterSpacing: "0.08em",
                 }}
               >
-                <div className="kicker">Daily Signals</div>
-                <span
-                  style={{
-                    fontFamily: "Space Mono, monospace",
-                    fontSize: "9px",
-                    color: "var(--dim)",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  HALAL-SCREENED · NOT FINANCIAL ADVICE
-                </span>
-              </div>
-
-              {marketSignals.length > 0 ? (
-                <div>
-                  {marketSignals.map((s) => (
-                    <MarketRow key={s.id} s={s} />
-                  ))}
-                  <p
-                    style={{
-                      fontSize: "10px",
-                      color: "var(--dim)",
-                      marginTop: "12px",
-                      fontFamily: "Space Mono, monospace",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    Halal screening via Musaffa / Zoya. Prices delayed.
-                    Scholarly disagreement noted where applicable. Informational only.
-                  </p>
-                </div>
-              ) : (
-                <div style={{ padding: "32px 0" }}>
-                  <p style={{ fontSize: "14px", color: "var(--dim)", lineHeight: 1.6 }}>
-                    Market Watch is coming online. TradeSwarm integration in progress —
-                    daily halal-screened signals launching soon.
-                  </p>
-                </div>
-              )}
+                HALAL-SCREENED · NOT FINANCIAL ADVICE
+              </span>
             </div>
-          </div>
 
-          {/* From the Stack */}
-          <div className="card">
-            <div className="card-body">
-              <div className="kicker" style={{ marginBottom: "6px" }}>
-                From the Stack
+            {marketSignals.length > 0 ? (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                  gap: "0 32px",
+                }}
+              >
+                {marketSignals.map((s) => (
+                  <MarketRow key={s.id} s={s} />
+                ))}
               </div>
-              <p style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "20px", lineHeight: 1.5 }}>
-                Tools the operators we cover are running in production — curated, not sponsored.
+            ) : (
+              <p style={{ fontSize: "14px", color: "var(--dim)", lineHeight: 1.6, padding: "32px 0" }}>
+                Market Watch is coming online. TradeSwarm integration in progress —
+                daily halal-screened signals launching soon.
               </p>
+            )}
 
-              {stackEntries.length > 0 ? (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {stackEntries.slice(0, 5).map((tool) => (
-                    <a
-                      key={tool.tool_name}
-                      href={tool.tool_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "80px 1fr",
-                          alignItems: "center",
-                          padding: "10px 0",
-                          borderBottom: "1px solid var(--border)",
-                          gap: "12px",
-                        }}
-                      >
-                        <span className="kicker" style={{ fontSize: "9px", letterSpacing: "0.12em" }}>
-                          {tool.category}
-                        </span>
-                        <div>
-                          <span
-                            style={{
-                              fontSize: "13px",
-                              color: "var(--off)",
-                              fontFamily: "Space Mono, monospace",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {tool.tool_name}
-                          </span>
-                          {tool.one_line_desc && (
-                            <span
-                              style={{
-                                fontSize: "12px",
-                                color: "var(--dim)",
-                                marginLeft: "8px",
-                              }}
-                            >
-                              — {tool.one_line_desc}
-                            </span>
-                          )}
+            <p
+              style={{
+                fontSize: "10px",
+                color: "var(--dim)",
+                marginTop: "12px",
+                fontFamily: "Space Mono, monospace",
+                lineHeight: 1.5,
+              }}
+            >
+              Halal screening via Musaffa / Zoya. Prices delayed. Scholarly disagreement noted where applicable.
+              Educational purposes only. Not financial advice.
+            </p>
+          </div>
+        </section>
+
+        {/* ── HALAL PORTFOLIO PICKS ────────────────────────────────── */}
+        <SectionLabel label="Halal Portfolio Picks · Q3 2026 Watch" href="/portfolio" />
+
+        {/* Disclaimer banner */}
+        <div
+          style={{
+            background: "rgba(201, 168, 76, 0.06)",
+            border: "1px solid rgba(201, 168, 76, 0.2)",
+            borderLeft: "3px solid #C9A84C",
+            padding: "10px 16px",
+            marginBottom: "2px",
+            display: "flex",
+            gap: "12px",
+            alignItems: "flex-start",
+          }}
+        >
+          <span style={{ fontFamily: "Space Mono, monospace", fontSize: "9px", color: "#C9A84C", letterSpacing: "0.12em", paddingTop: "1px", whiteSpace: "nowrap" }}>
+            ⚠ DISCLAIMER
+          </span>
+          <p style={{ fontSize: "11px", color: "var(--muted)", lineHeight: 1.6, margin: 0 }}>
+            This is an editorial watchlist for educational purposes only. Not financial advice. All tickers are Musaffa-screened
+            but scholarly opinions on permissibility vary. Verify halal status independently before any financial decision.
+          </p>
+        </div>
+
+        {portfolioPicks.length > 0 ? (
+          <section
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "2px",
+              marginBottom: "2px",
+            }}
+          >
+            {portfolioPicks.map((pick) => {
+              const statusColor =
+                pick.halal_status === "compliant" ? "#16a34a"
+                : pick.halal_status === "questionable" ? "#ca8a04"
+                : "var(--red)";
+              const statusLabel =
+                pick.halal_status === "compliant" ? "COMPLIANT"
+                : pick.halal_status === "questionable" ? "QUESTIONABLE"
+                : "REVIEW";
+
+              return (
+                <div
+                  key={pick.id}
+                  className="card"
+                  style={{ borderTop: "2px solid var(--red)" }}
+                >
+                  <div className="card-body">
+                    {/* Header row */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                      <div>
+                        <div
+                          style={{
+                            fontFamily: "Space Mono, monospace",
+                            fontSize: "18px",
+                            fontWeight: 700,
+                            color: "var(--off)",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {pick.ticker}
+                        </div>
+                        <div style={{ fontSize: "11px", color: "var(--dim)", marginTop: "3px" }}>
+                          {pick.company_name}
                         </div>
                       </div>
-                    </a>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {[
-                    { cat: "Infra",     tools: "Supabase · Vercel · n8n · GitHub" },
-                    { cat: "Models",    tools: "DeepSeek · Anthropic · OpenAI" },
-                    { cat: "Frontend",  tools: "Next.js · Tailwind · v0.dev" },
-                    { cat: "Analytics", tools: "PostHog · Sentry" },
-                  ].map((row) => (
+                      <div style={{ textAlign: "right" }}>
+                        <div
+                          style={{
+                            fontFamily: "Space Mono, monospace",
+                            fontSize: "20px",
+                            fontWeight: 700,
+                            color: "var(--red)",
+                            lineHeight: 1,
+                          }}
+                        >
+                          {pick.allocation_pct}%
+                        </div>
+                        <div style={{ fontSize: "9px", color: "var(--dim)", fontFamily: "Space Mono, monospace", letterSpacing: "0.06em", marginTop: "3px" }}>
+                          ALLOCATION
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Halal status */}
                     <div
-                      key={row.cat}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        padding: "3px 8px",
+                        background: `${statusColor}15`,
+                        borderRadius: "2px",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      <span style={{ fontFamily: "Space Mono, monospace", fontSize: "9px", color: statusColor, letterSpacing: "0.1em", fontWeight: 700 }}>
+                        {statusLabel}
+                      </span>
+                      {pick.halal_source && (
+                        <span style={{ fontFamily: "Space Mono, monospace", fontSize: "9px", color: "var(--dim)", letterSpacing: "0.06em" }}>
+                          · {pick.halal_source.toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Editorial rationale */}
+                    {pick.editorial_rationale && (
+                      <p style={{ fontSize: "12px", color: "var(--muted)", lineHeight: 1.65, marginBottom: "12px" }}>
+                        {pick.editorial_rationale.length > 160
+                          ? pick.editorial_rationale.slice(0, 160) + "…"
+                          : pick.editorial_rationale}
+                      </p>
+                    )}
+
+                    {/* Scholar note (if any) */}
+                    {pick.scholar_note && (
+                      <div style={{ fontSize: "11px", color: "#B8922A", lineHeight: 1.5, borderTop: "1px solid var(--border)", paddingTop: "10px", marginBottom: "12px" }}>
+                        📚 {pick.scholar_note}
+                      </div>
+                    )}
+
+                    {/* Footer: asset class + verify link */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto", paddingTop: "12px", borderTop: "1px solid var(--border)" }}>
+                      <span style={{ fontFamily: "Space Mono, monospace", fontSize: "9px", color: "var(--dim)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                        {pick.asset_class}
+                      </span>
+                      {pick.source_url && (
+                        <a
+                          href={pick.source_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ fontFamily: "Space Mono, monospace", fontSize: "9px", color: "var(--red)", letterSpacing: "0.06em", textDecoration: "none" }}
+                        >
+                          Verify on Musaffa →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </section>
+        ) : null}
+
+        <div style={{ marginBottom: "2px", padding: "12px 0" }}>
+          <a
+            href="/portfolio"
+            style={{
+              fontFamily: "Space Mono, monospace",
+              fontSize: "10px",
+              color: "var(--dim)",
+              letterSpacing: "0.1em",
+              textDecoration: "none",
+            }}
+          >
+            VIEW FULL PORTFOLIO BREAKDOWN + BUDGET CALCULATOR →
+          </a>
+        </div>
+
+        {/* ── FROM THE STACK ───────────────────────────────────────── */}
+        <SectionLabel label="From the Stack" href="/stack" />
+
+        <section className="card" style={{ marginBottom: "2px" }}>
+          <div className="card-body">
+            <p style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "20px", lineHeight: 1.5 }}>
+              Tools the operators we cover are running in production — curated, not sponsored.
+            </p>
+
+            {stackEntries.length > 0 ? (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                  gap: "0 32px",
+                }}
+              >
+                {stackEntries.slice(0, 6).map((tool) => (
+                  <a
+                    key={tool.tool_name}
+                    href={tool.tool_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <div
                       style={{
                         display: "grid",
                         gridTemplateColumns: "80px 1fr",
@@ -465,23 +583,71 @@ export default async function HomePage() {
                         gap: "12px",
                       }}
                     >
-                      <span className="kicker" style={{ fontSize: "9px" }}>{row.cat}</span>
-                      <span style={{ fontSize: "12px", color: "var(--dim)", fontFamily: "Space Mono, monospace" }}>
-                        {row.tools}
+                      <span className="kicker" style={{ fontSize: "9px", letterSpacing: "0.12em" }}>
+                        {tool.category}
                       </span>
+                      <div>
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            color: "var(--off)",
+                            fontFamily: "Space Mono, monospace",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {tool.tool_name}
+                        </span>
+                        {tool.one_line_desc && (
+                          <span style={{ fontSize: "12px", color: "var(--dim)", marginLeft: "8px" }}>
+                            — {tool.one_line_desc}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              )}
-
-              <a
-                href="/stack"
-                className="btn outline"
-                style={{ display: "inline-block", marginTop: "16px", fontSize: "11px" }}
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                  gap: "0 32px",
+                }}
               >
-                Full Stack Guide →
-              </a>
-            </div>
+                {[
+                  { cat: "Infra",     tools: "Supabase · Vercel · n8n · GitHub" },
+                  { cat: "Models",    tools: "DeepSeek · Anthropic · OpenAI" },
+                  { cat: "Frontend",  tools: "Next.js · Tailwind · v0.dev" },
+                  { cat: "Analytics", tools: "PostHog · Sentry" },
+                ].map((row) => (
+                  <div
+                    key={row.cat}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "80px 1fr",
+                      alignItems: "center",
+                      padding: "10px 0",
+                      borderBottom: "1px solid var(--border)",
+                      gap: "12px",
+                    }}
+                  >
+                    <span className="kicker" style={{ fontSize: "9px" }}>{row.cat}</span>
+                    <span style={{ fontSize: "12px", color: "var(--dim)", fontFamily: "Space Mono, monospace" }}>
+                      {row.tools}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <a
+              href="/stack"
+              className="btn outline"
+              style={{ display: "inline-block", marginTop: "16px", fontSize: "11px" }}
+            >
+              Full Stack Guide →
+            </a>
           </div>
         </section>
 

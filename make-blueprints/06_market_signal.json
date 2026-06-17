@@ -1,6 +1,6 @@
 {
-  "name": "Lantern - Market Signal",
-  "_comment": "Created 2026-06-16. Pulls weekly halal-tracked stock data from Yahoo Finance, generates editorial via Groq (llama-4-maverick), sends to /api/admin/market-signal. Schedule: Fridays 12:00 UTC (7am EST). IMPORTANT: Never include buy/sell signals or price targets per Lantern editorial rules. Requires: GROQ_API_KEY, ADMIN_WEBHOOK_SECRET",
+  "name": "Lantern - Market Signal (v2)",
+  "_comment": "Updated 2026-06-17. Pulls daily halal-tracked asset data from Yahoo Finance, generates editorial conviction notes via DeepSeek (deepseek-chat), sends to /api/admin/market-signal. Schedule: Daily at 14:00 UTC (10am EST). Tickers: AMZN, GOOGL, AAPL, MSFT, NVDA, BTC-USD. IMPORTANT: Never include buy/sell signals or price targets per Lantern editorial rules. Requires: DEEPSEEK_API_KEY, ADMIN_WEBHOOK_SECRET. Groq key is REVOKED — do not restore.",
   "flow": [
     {
       "id": 1,
@@ -18,11 +18,9 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AMZN?range=5d&interval=1d",
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AMZN?range=1d&interval=5m",
                 "method": "get",
-                "headers": [
-                  { "name": "User-Agent", "value": "Mozilla/5.0" }
-                ],
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
                 "qs": [],
                 "bodyType": "raw",
                 "parseResponse": true,
@@ -32,7 +30,7 @@
                 "contentType": "application/json",
                 "data": ""
               },
-              "metadata": { "designer": { "x": -300, "y": -800 } }
+              "metadata": { "designer": { "x": -300, "y": -1000 } }
             },
             {
               "id": 3,
@@ -40,10 +38,10 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "url": "https://api.deepseek.com/chat/completions",
                 "method": "post",
                 "headers": [
-                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
                   { "name": "Content-Type", "value": "application/json" }
                 ],
                 "qs": [],
@@ -53,9 +51,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim tech newsletter for halal investors.\\n\\nWrite a 3-4 sentence market context note for Amazon (AMZN).\\n\\nRULES (non-negotiable):\\n- Never say buy, sell, invest, or give price targets\\n- Always end with: This is not investment advice. Verify halal compliance via Musaffa before investing.\\n- Frame as educational context for Muslim investors tracking halal tech\\n- Calm, informative tone. No hype.\\n\\nReturn ONLY valid JSON (no markdown):\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{2.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{2.data.chart.result[0].meta.chartPreviousClose}}. Week data available.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication for Muslim founders, operators, and builders.\\n\\nWrite a 3-4 sentence market context note for Amazon (AMZN).\\n\\nYour note must:\\n- Explain why Amazon specifically matters to the ummah's technology ecosystem (AWS powers halal fintech platforms, Islamic charity infrastructure, and Muslim-founded startups at scale)\\n- Connect the ticker's current movement to something relevant to Muslim builders and operators\\n- Reference the Musaffa halal screening status\\n- Be direct, specific, and carry editorial conviction — not a news summary\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest\\n- Never give a price target\\n- End with exactly: Not financial advice. Verify compliance status on Musaffa before making any decisions.\\n- Return ONLY valid JSON with no markdown wrapper:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"musaffa_status\\\":\\\"COMPLIANT|DOUBTFUL|NON_COMPLIANT|NOT_COVERED\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{2.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{2.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((2.data.chart.result[0].meta.regularMarketPrice - 2.data.chart.result[0].meta.chartPreviousClose) / 2.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
               },
-              "metadata": { "designer": { "x": 0, "y": -800 } }
+              "metadata": { "designer": { "x": 0, "y": -1000 } }
             },
             {
               "id": 4,
@@ -76,9 +74,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"ticker\":\"AMZN\",\"company_name\":\"Amazon.com Inc.\",\"market_data\":{\"current_price\":\"{{2.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{2.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(3.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(3.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(3.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+                "data": "{\"ticker\":\"AMZN\",\"company_name\":\"Amazon.com Inc.\",\"asset_class\":\"EQUITY\",\"market_data\":{\"current_price\":{{2.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{2.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((2.data.chart.result[0].meta.regularMarketPrice - 2.data.chart.result[0].meta.chartPreviousClose) / 2.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(2.data.chart.result[0].meta.regularMarketPrice - 2.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(3.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(3.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(3.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"{{parseJSON(3.data.choices[0].message.content).musaffa_status}}\",\"signal\":\"{{parseJSON(3.data.choices[0].message.content).signal}}\"}"
               },
-              "metadata": { "designer": { "x": 300, "y": -800 } }
+              "metadata": { "designer": { "x": 300, "y": -1000 } }
             }
           ]
         },
@@ -90,7 +88,7 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL?range=5d&interval=1d",
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL?range=1d&interval=5m",
                 "method": "get",
                 "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
                 "qs": [],
@@ -102,7 +100,7 @@
                 "contentType": "application/json",
                 "data": ""
               },
-              "metadata": { "designer": { "x": -300, "y": -600 } }
+              "metadata": { "designer": { "x": -300, "y": -800 } }
             },
             {
               "id": 6,
@@ -110,10 +108,10 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "url": "https://api.deepseek.com/chat/completions",
                 "method": "post",
                 "headers": [
-                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
                   { "name": "Content-Type", "value": "application/json" }
                 ],
                 "qs": [],
@@ -123,9 +121,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim tech newsletter for halal investors.\\n\\nWrite a 3-4 sentence market context note for Alphabet/Google (GOOGL). RULES: Never say buy/sell/invest or give price targets. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Calm, informative tone.\\n\\nReturn ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{5.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{5.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication.\\n\\nWrite a 3-4 sentence market context note for Alphabet/Google (GOOGL).\\n\\nYour note must:\\n- Explain why Google specifically matters to the ummah (search infrastructure for Muslim-majority markets, YouTube as Islamic content distribution, Google Cloud for Muslim-founded AI startups, DeepMind research affecting AI tools Muslim builders use)\\n- Be direct and carry conviction — not a news summary\\n- Reference Musaffa screening status\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest. Never give price targets.\\n- End with: Not financial advice. Verify compliance status on Musaffa before making any decisions.\\n- Return ONLY valid JSON with no markdown:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"musaffa_status\\\":\\\"COMPLIANT|DOUBTFUL|NON_COMPLIANT|NOT_COVERED\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{5.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{5.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((5.data.chart.result[0].meta.regularMarketPrice - 5.data.chart.result[0].meta.chartPreviousClose) / 5.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
               },
-              "metadata": { "designer": { "x": 0, "y": -600 } }
+              "metadata": { "designer": { "x": 0, "y": -800 } }
             },
             {
               "id": 7,
@@ -146,9 +144,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"ticker\":\"GOOGL\",\"company_name\":\"Alphabet Inc.\",\"market_data\":{\"current_price\":\"{{5.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{5.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(6.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(6.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(6.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+                "data": "{\"ticker\":\"GOOGL\",\"company_name\":\"Alphabet Inc.\",\"asset_class\":\"EQUITY\",\"market_data\":{\"current_price\":{{5.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{5.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((5.data.chart.result[0].meta.regularMarketPrice - 5.data.chart.result[0].meta.chartPreviousClose) / 5.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(5.data.chart.result[0].meta.regularMarketPrice - 5.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(6.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(6.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(6.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"{{parseJSON(6.data.choices[0].message.content).musaffa_status}}\",\"signal\":\"{{parseJSON(6.data.choices[0].message.content).signal}}\"}"
               },
-              "metadata": { "designer": { "x": 300, "y": -600 } }
+              "metadata": { "designer": { "x": 300, "y": -800 } }
             }
           ]
         },
@@ -160,7 +158,7 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=5d&interval=1d",
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?range=1d&interval=5m",
                 "method": "get",
                 "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
                 "qs": [],
@@ -172,7 +170,7 @@
                 "contentType": "application/json",
                 "data": ""
               },
-              "metadata": { "designer": { "x": -300, "y": -400 } }
+              "metadata": { "designer": { "x": -300, "y": -600 } }
             },
             {
               "id": 9,
@@ -180,10 +178,10 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "url": "https://api.deepseek.com/chat/completions",
                 "method": "post",
                 "headers": [
-                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
                   { "name": "Content-Type", "value": "application/json" }
                 ],
                 "qs": [],
@@ -193,9 +191,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for Apple (AAPL). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{8.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{8.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication.\\n\\nWrite a 3-4 sentence market context note for Apple (AAPL).\\n\\nYour note must:\\n- Explain why Apple specifically matters to the ummah (App Store is the primary distribution layer for halal apps, Islamic finance tools, and Muslim-focused platforms; iOS dominates in Gulf markets; Apple's privacy stance matters for Muslim developers building for privacy-conscious Muslim users)\\n- Be direct and carry conviction — not a news summary\\n- Reference Musaffa screening status\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest. Never give price targets.\\n- End with: Not financial advice. Verify compliance status on Musaffa before making any decisions.\\n- Return ONLY valid JSON with no markdown:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"musaffa_status\\\":\\\"COMPLIANT|DOUBTFUL|NON_COMPLIANT|NOT_COVERED\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{8.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{8.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((8.data.chart.result[0].meta.regularMarketPrice - 8.data.chart.result[0].meta.chartPreviousClose) / 8.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
               },
-              "metadata": { "designer": { "x": 0, "y": -400 } }
+              "metadata": { "designer": { "x": 0, "y": -600 } }
             },
             {
               "id": 10,
@@ -216,9 +214,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"ticker\":\"AAPL\",\"company_name\":\"Apple Inc.\",\"market_data\":{\"current_price\":\"{{8.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{8.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(9.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(9.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(9.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+                "data": "{\"ticker\":\"AAPL\",\"company_name\":\"Apple Inc.\",\"asset_class\":\"EQUITY\",\"market_data\":{\"current_price\":{{8.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{8.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((8.data.chart.result[0].meta.regularMarketPrice - 8.data.chart.result[0].meta.chartPreviousClose) / 8.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(8.data.chart.result[0].meta.regularMarketPrice - 8.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(9.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(9.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(9.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"{{parseJSON(9.data.choices[0].message.content).musaffa_status}}\",\"signal\":\"{{parseJSON(9.data.choices[0].message.content).signal}}\"}"
               },
-              "metadata": { "designer": { "x": 300, "y": -400 } }
+              "metadata": { "designer": { "x": 300, "y": -600 } }
             }
           ]
         },
@@ -230,7 +228,7 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT?range=5d&interval=1d",
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT?range=1d&interval=5m",
                 "method": "get",
                 "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
                 "qs": [],
@@ -242,7 +240,7 @@
                 "contentType": "application/json",
                 "data": ""
               },
-              "metadata": { "designer": { "x": -300, "y": -200 } }
+              "metadata": { "designer": { "x": -300, "y": -400 } }
             },
             {
               "id": 12,
@@ -250,10 +248,10 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "url": "https://api.deepseek.com/chat/completions",
                 "method": "post",
                 "headers": [
-                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
                   { "name": "Content-Type", "value": "application/json" }
                 ],
                 "qs": [],
@@ -263,9 +261,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for Microsoft (MSFT). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{11.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{11.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication.\\n\\nWrite a 3-4 sentence market context note for Microsoft (MSFT).\\n\\nYour note must:\\n- Explain why Microsoft specifically matters to the ummah (Azure + OpenAI partnership directly affects AI tools Muslim founders build on; GitHub is where most Muslim open-source developers contribute; Microsoft 365 is used across Muslim-majority educational institutions; Musaffa has historically given MSFT high compliance scores)\\n- Be direct and carry conviction — not a news summary\\n- Reference Musaffa compliance status specifically\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest. Never give price targets.\\n- End with: Not financial advice. Verify compliance status on Musaffa before making any decisions.\\n- Return ONLY valid JSON with no markdown:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"musaffa_status\\\":\\\"COMPLIANT|DOUBTFUL|NON_COMPLIANT|NOT_COVERED\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{11.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{11.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((11.data.chart.result[0].meta.regularMarketPrice - 11.data.chart.result[0].meta.chartPreviousClose) / 11.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
               },
-              "metadata": { "designer": { "x": 0, "y": -200 } }
+              "metadata": { "designer": { "x": 0, "y": -400 } }
             },
             {
               "id": 13,
@@ -286,9 +284,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"ticker\":\"MSFT\",\"company_name\":\"Microsoft Corporation\",\"market_data\":{\"current_price\":\"{{11.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{11.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(12.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(12.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(12.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+                "data": "{\"ticker\":\"MSFT\",\"company_name\":\"Microsoft Corporation\",\"asset_class\":\"EQUITY\",\"market_data\":{\"current_price\":{{11.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{11.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((11.data.chart.result[0].meta.regularMarketPrice - 11.data.chart.result[0].meta.chartPreviousClose) / 11.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(11.data.chart.result[0].meta.regularMarketPrice - 11.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(12.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(12.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(12.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"{{parseJSON(12.data.choices[0].message.content).musaffa_status}}\",\"signal\":\"{{parseJSON(12.data.choices[0].message.content).signal}}\"}"
               },
-              "metadata": { "designer": { "x": 300, "y": -200 } }
+              "metadata": { "designer": { "x": 300, "y": -400 } }
             }
           ]
         },
@@ -300,7 +298,7 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=5d&interval=1d",
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA?range=1d&interval=5m",
                 "method": "get",
                 "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
                 "qs": [],
@@ -312,7 +310,7 @@
                 "contentType": "application/json",
                 "data": ""
               },
-              "metadata": { "designer": { "x": -300, "y": 0 } }
+              "metadata": { "designer": { "x": -300, "y": -200 } }
             },
             {
               "id": 15,
@@ -320,10 +318,10 @@
               "version": 3,
               "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
               "mapper": {
-                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "url": "https://api.deepseek.com/chat/completions",
                 "method": "post",
                 "headers": [
-                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
                   { "name": "Content-Type", "value": "application/json" }
                 ],
                 "qs": [],
@@ -333,9 +331,9 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"model\":\"llama-4-maverick\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily. Write a 3-4 sentence market context note for NVIDIA (NVDA). RULES: Never say buy/sell/invest. End with: This is not investment advice. Verify halal compliance via Musaffa before investing. Return ONLY valid JSON: {\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"halal_flags\\\":[]}\"},{\"role\":\"user\",\"content\":\"Current price: ${{14.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{14.data.chart.result[0].meta.chartPreviousClose}}.\"}],\"max_tokens\":400,\"temperature\":0.3}"
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication.\\n\\nWrite a 3-4 sentence market context note for NVIDIA (NVDA).\\n\\nYour note must:\\n- Explain why NVIDIA specifically matters to the ummah (NVIDIA GPUs power the AI training and inference behind virtually every AI tool Muslim founders are building — from Islamic chatbots to halal finance screening engines; the ummah's AI products run on NVIDIA infrastructure whether we acknowledge it or not; Musaffa's compliance scoring gives NVDA high marks)\\n- Be direct, specific, and carry editorial conviction — this is the most important ticker for Muslim AI builders to understand\\n- Reference Musaffa compliance status\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest. Never give price targets.\\n- End with: Not financial advice. Verify compliance status on Musaffa before making any decisions.\\n- Return ONLY valid JSON with no markdown:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"pass|review|fail\\\",\\\"halal_score\\\":0-100,\\\"musaffa_status\\\":\\\"COMPLIANT|DOUBTFUL|NON_COMPLIANT|NOT_COVERED\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{14.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{14.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((14.data.chart.result[0].meta.regularMarketPrice - 14.data.chart.result[0].meta.chartPreviousClose) / 14.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
               },
-              "metadata": { "designer": { "x": 0, "y": 0 } }
+              "metadata": { "designer": { "x": 0, "y": -200 } }
             },
             {
               "id": 16,
@@ -356,7 +354,77 @@
                 "followRedirect": true,
                 "gzip": true,
                 "contentType": "application/json",
-                "data": "{\"ticker\":\"NVDA\",\"company_name\":\"NVIDIA Corporation\",\"market_data\":{\"current_price\":\"{{14.data.chart.result[0].meta.regularMarketPrice}}\",\"previous_close\":\"{{14.data.chart.result[0].meta.chartPreviousClose}}\"},\"editorial\":\"{{parseJSON(15.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(15.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(15.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"VERIFY\"}"
+                "data": "{\"ticker\":\"NVDA\",\"company_name\":\"NVIDIA Corporation\",\"asset_class\":\"EQUITY\",\"market_data\":{\"current_price\":{{14.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{14.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((14.data.chart.result[0].meta.regularMarketPrice - 14.data.chart.result[0].meta.chartPreviousClose) / 14.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(14.data.chart.result[0].meta.regularMarketPrice - 14.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(15.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"{{parseJSON(15.data.choices[0].message.content).halal_verdict}}\",\"halal_score\":{{parseJSON(15.data.choices[0].message.content).halal_score}},\"musaffa_status\":\"{{parseJSON(15.data.choices[0].message.content).musaffa_status}}\",\"signal\":\"{{parseJSON(15.data.choices[0].message.content).signal}}\"}"
+              },
+              "metadata": { "designer": { "x": 300, "y": -200 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 17,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?range=1d&interval=5m",
+                "method": "get",
+                "headers": [{ "name": "User-Agent", "value": "Mozilla/5.0" }],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "20",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -300, "y": 0 } }
+            },
+            {
+              "id": 18,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.deepseek.com/chat/completions",
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{DEEPSEEK_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"deepseek-chat\",\"messages\":[{\"role\":\"system\",\"content\":\"You are the market writer for The Lantern Daily, a Muslim-founded AI and tech publication.\\n\\nWrite a 3-4 sentence market context note for Bitcoin (BTC).\\n\\nYour note must:\\n- Acknowledge that Bitcoin's halal status is a subject of ongoing scholarly debate — do not resolve the debate, reflect it honestly\\n- Note that we track BTC because our readers ask about it, and understanding it matters for Muslim founders building in Web3 and fintech\\n- Mention that scholars differ (some permit, some prohibit, some say it depends on use case) and that anyone considering exposure should consult a qualified Islamic finance scholar\\n- Be direct and informative — this is context, not a recommendation\\n\\nNON-NEGOTIABLE RULES:\\n- Never say buy, sell, or invest. Never give price targets.\\n- Never claim BTC is halal or haram — reflect the scholarly disagreement\\n- End with: Not financial advice. Consult a qualified Islamic finance scholar before making any decisions regarding digital assets.\\n- Return ONLY valid JSON with no markdown:\\n{\\\"editorial\\\":\\\"...\\\",\\\"halal_verdict\\\":\\\"review\\\",\\\"halal_score\\\":50,\\\"musaffa_status\\\":\\\"DOUBTFUL\\\",\\\"signal\\\":\\\"watch\\\"}\"},{\"role\":\"user\",\"content\":\"Current price: ${{17.data.chart.result[0].meta.regularMarketPrice}}. Previous close: ${{17.data.chart.result[0].meta.chartPreviousClose}}. Change: {{round((17.data.chart.result[0].meta.regularMarketPrice - 17.data.chart.result[0].meta.chartPreviousClose) / 17.data.chart.result[0].meta.chartPreviousClose * 100, 2)}}% today.\"}],\"max_tokens\":500,\"temperature\":0.4}"
+              },
+              "metadata": { "designer": { "x": 0, "y": 0 } }
+            },
+            {
+              "id": 19,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/market-signal",
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"ticker\":\"BTC\",\"company_name\":\"Bitcoin\",\"asset_class\":\"CRYPTO\",\"market_data\":{\"current_price\":{{17.data.chart.result[0].meta.regularMarketPrice}},\"previous_close\":{{17.data.chart.result[0].meta.chartPreviousClose}},\"change_pct\":{{round((17.data.chart.result[0].meta.regularMarketPrice - 17.data.chart.result[0].meta.chartPreviousClose) / 17.data.chart.result[0].meta.chartPreviousClose * 100, 2)}},\"change_abs\":{{round(17.data.chart.result[0].meta.regularMarketPrice - 17.data.chart.result[0].meta.chartPreviousClose, 2)}}},\"editorial\":\"{{parseJSON(18.data.choices[0].message.content).editorial}}\",\"halal_verdict\":\"review\",\"halal_score\":50,\"musaffa_status\":\"DOUBTFUL\",\"signal\":\"watch\"}"
               },
               "metadata": { "designer": { "x": 300, "y": 0 } }
             }
@@ -381,9 +449,9 @@
     "designer": { "orphans": [] },
     "scheduling": {
       "type": "INDEFINITELY",
-      "interval": 604800,
-      "startDate": "2026-06-19T12:00:00.000Z",
-      "_note": "Fridays at 12:00 UTC (7am EST). startDate = next Friday from creation."
+      "interval": 86400,
+      "startDate": "2026-06-18T14:00:00.000Z",
+      "_note": "Daily at 14:00 UTC (10am EST). Upgraded from weekly (604800) on 2026-06-17. Using DeepSeek — Groq key is REVOKED."
     }
   }
 }

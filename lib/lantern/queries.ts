@@ -153,6 +153,44 @@ export async function getMarketSignals(limit = 5): Promise<LanternMarketSignal[]
   return (data ?? []) as LanternMarketSignal[];
 }
 
+// ── Halal Portfolio ────────────────────────────────────────────────────────────
+
+export interface LanternPortfolioPick {
+  id: string;
+  ticker: string;
+  company_name: string;
+  asset_class: string;
+  allocation_pct: number;
+  halal_status: string;
+  halal_score: number | null;
+  halal_source: string;
+  editorial_rationale: string | null;
+  scholar_note: string | null;
+  source_url: string | null;
+  quarter: string;
+}
+
+export async function getHalalPortfolio(quarter?: string): Promise<LanternPortfolioPick[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from('lantern_halal_portfolio')
+    .select('id, ticker, company_name, asset_class, allocation_pct, halal_status, halal_score, halal_source, editorial_rationale, scholar_note, source_url, quarter')
+    .eq('active', true)
+    .order('allocation_pct', { ascending: false });
+
+  if (quarter) {
+    query = query.eq('quarter', quarter);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('[lantern/queries] getHalalPortfolio error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternPortfolioPick[];
+}
+
 // ── Stack Entries ──────────────────────────────────────────────────────────────
 
 export async function getStackEntries(limit = 12): Promise<LanternStackEntry[]> {

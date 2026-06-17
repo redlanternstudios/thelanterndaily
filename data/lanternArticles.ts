@@ -14,6 +14,7 @@ export interface Article {
   body?: string; // HTML string — used in full article view
   premium?: boolean;
   href?: string; // override link target for external articles
+  action_steps?: string[]; // 2-3 specific, concrete reader actions after this article
 }
 
 export const lanternArticles: Article[] = [
@@ -47,6 +48,11 @@ export const lanternArticles: Article[] = [
 
       <p>It's infrastructure.</p>
     `,
+    action_steps: [
+      "Wire PostHog to your AI model calls this week: track latency as a custom event on every LLM response. If you're on Next.js, add it to your API route wrapper — 10 lines of code. This is the minimum observability layer before any agent goes to real users.",
+      "Check your current provider's p95 latency for the past 7 days. Most providers expose this in their dashboard. If you've never looked, look today. If it's above 800ms, you have a routing problem.",
+      "If you're running on a single AI provider in production, add a second one this sprint — even at 5% of traffic. You need real performance data from a backup before you need to actually switch.",
+    ],
   },
   {
     id: "video-signal-reliability",
@@ -73,6 +79,10 @@ export const lanternArticles: Article[] = [
       <h2>Watch the Full Breakdown</h2>
       <p>The video covers our methodology, the full failure taxonomy we built, provider-by-provider results, and the three infrastructure changes we'd recommend making before running any agent in production that a user depends on.</p>
     `,
+    action_steps: [
+      "Run 30 automated agent tasks on your current provider this week and log every result — success, failure mode, and latency. Don't guess at your actual reliability number. Measure it.",
+      "Build a failure taxonomy for your own agent stack: timeout failures, context overflow, rate limit errors, bad outputs. Categorize the last 10 failures you've seen. Patterns will emerge.",
+    ],
   },
   {
     id: "agent-reliability-benchmarks",
@@ -100,6 +110,11 @@ export const lanternArticles: Article[] = [
       <h2>Our Recommendations</h2>
       <p>Run a 30-task pilot on any new provider before production. Log every failure. Build your retry logic based on actual failure distribution from that pilot — not from the provider's documentation. And always run at least two providers in parallel, even at low volume, so you have real performance data when you need to switch.</p>
     `,
+    action_steps: [
+      "Before shipping any AI feature to users, run it 30 times and log the results. Not 5. Not 10. Thirty. Calculate your actual end-to-end success rate. If it's below 90%, it's not ready for production.",
+      "Set up Sentry performance tracing on your model calls today. The free tier covers this. You need to know the moment reliability degrades — before your users do.",
+      "Check your retry logic: when an AI call fails, what exactly happens? If the answer is 'the user sees an error,' you need exponential backoff with at least one provider fallback before your next release.",
+    ],
   },
   {
     id: "product-ai-playbook",
@@ -127,6 +142,11 @@ export const lanternArticles: Article[] = [
       <h2>What the Moat Actually Looks Like</h2>
       <p>Durable moats in this space aren't technical. They're relational. The data your product holds about its users, the community relationships that got built through using it, the trust that accumulated through reliability over time — these compound. They don't copy. Build for compounding, not for short-term growth metrics.</p>
     `,
+    action_steps: [
+      "List the 10 people in your network whose opinion would make or break whether a Muslim family trusts your product. Have you talked to any of them this month? Schedule one conversation this week — not a sales call, a listening call.",
+      "If your product handles user data, write one paragraph this week about exactly what data you collect, why, and who has access. Put it somewhere users can find it. Not a 20-page privacy policy. One honest paragraph.",
+      "Identify the community channel where your target users already gather — a Telegram group, a Friday halaqah, an online forum. Join it as a participant before you join it as a founder. Listen before you pitch.",
+    ],
   },
   {
     id: "islamic-finance-defi",
@@ -155,6 +175,11 @@ export const lanternArticles: Article[] = [
 
       <p>The builders who understand this — and who design protocols that work with these principles rather than around them — are positioning for the next wave of institutional adoption from a market that has been waiting for this infrastructure for decades.</p>
     `,
+    action_steps: [
+      "Open Musaffa.com and search for any stock or ETF you currently hold or are considering. Read the full halal screening methodology — not just the pass/fail verdict. Understanding how the score is calculated is more useful than the score itself.",
+      "If you're building a fintech product, write down the three ways your product could create value without interest-based returns. Mudarabah, musharakah, ijara — pick the one closest to what you're already doing and research its implementation in modern digital products.",
+      "Read one chapter of a classical fiqh text on Islamic commercial law this month — even in translation. Ibn Rushd's Bidayat al-Mujtahid has an accessible section on transactions. The principles that shaped 1,400 years of Islamic commerce are more relevant to DeFi design than most blockchain whitepapers.",
+    ],
   },
   {
     id: "operator-stack-june",
@@ -182,6 +207,11 @@ export const lanternArticles: Article[] = [
       <h2>What Nobody Is Admitting</h2>
       <p>Three separate operators told us, off the record, that they rolled back AI features that had been live for 60+ days because they couldn't trust the outputs at scale. Public postmortems: zero. This is normal — rollbacks aren't failures, they're corrections. But the silence around them means the community isn't learning from these decisions as fast as it should.</p>
     `,
+    action_steps: [
+      "Write a one-paragraph internal document right now about the last AI feature you shipped that didn't work as expected. What happened? What did you learn? Share it with your team. If you're solo, write it anyway — the act of writing it forces the learning.",
+      "If you have an AI feature live in production with no evaluation framework, add one this sprint. Pick three representative tasks, define what 'correct' output looks like, run your feature against them weekly. This is the minimum viable eval.",
+      "Before your next AI feature launch, write a definition of done that includes: 'We have run this 30 times and logged the results.' If that feels like too much, ask why — and whether the feature is actually ready.",
+    ],
   },
   {
     id: "field-notes-accelerator",
@@ -209,5 +239,10 @@ export const lanternArticles: Article[] = [
       <h2>What Comes Next</h2>
       <p>Four of the eight founders are heading to Demo Day with live paying users. Two are in pilot with institutional partners. One closed a seed round during the program. One is extending another six months to get product-market fit right before raising. All eight are still building. That's the most accurate measure of whether the program worked.</p>
     `,
+    action_steps: [
+      "If you're a Muslim founder building anything, apply to Alif's next cohort — alif.build. Applications take 20 minutes. The worst outcome is you get feedback on your idea from people who understand your market.",
+      "Find one other Muslim founder building in your space this week. Not to pitch. Not to partner. Just to compare notes on what your users are actually saying. This kind of peer intelligence is worth more than most accelerator programming.",
+      "Define what 'community-validated' means for your product. What signal would tell you that the people you're building for genuinely trust and value what you've made? Set that as a milestone — not a metric, a milestone — before your next funding conversation.",
+    ],
   },
 ];
