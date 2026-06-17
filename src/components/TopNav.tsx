@@ -23,15 +23,18 @@ export default function TopNav() {
         <Link href="/" style={{ display: "flex", flexDirection: "column", gap: 2, textDecoration: "none" }}>
           <div style={{ display: "flex", gap: 0, alignItems: "baseline" }}>
             <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#9CA3AF", letterSpacing: "-0.01em" }}>
-              The Lantern 
+              The 
             </span>
             <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#D42535", letterSpacing: "-0.01em" }}>
-              D
+              Lantern
             </span>
             <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#9CA3AF", letterSpacing: "-0.01em" }}>
-              AI
+              {" "}D
             </span>
             <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#D42535", letterSpacing: "-0.01em" }}>
+              AI
+            </span>
+            <span style={{ fontFamily: "Playfair Display, Georgia, serif", fontSize: 26, fontWeight: 800, color: "#9CA3AF", letterSpacing: "-0.01em" }}>
               LY
             </span>
           </div>
@@ -42,7 +45,7 @@ export default function TopNav() {
 
         {/* Center Nav Links */}
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          {["Today", "AI", "Markets", "Tech", "Stack", "Archive", "About"].map((link) => (
+          {["Today", "Markets", "Stack", "Archive", "About"].map((link) => (
             <Link
               key={link}
               href={link === "Today" ? "/" : `/${link.toLowerCase()}`}
@@ -78,22 +81,26 @@ export default function TopNav() {
           >
             🔍
           </button>
-          <button style={{
-            background: "#D42535",
-            color: "#0D0F1C",
-            border: "none",
-            padding: "8px 16px",
-            borderRadius: 4,
-            fontSize: 12,
-            fontWeight: 600,
-            cursor: "pointer",
-            transition: "opacity 0.2s",
-          }}
+          <Link 
+            href="/#subscribe"
+            style={{
+              background: "#D42535",
+              color: "#ffffff",
+              border: "none",
+              padding: "8px 16px",
+              borderRadius: 4,
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+              transition: "opacity 0.2s",
+            }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.8")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
             Join / Subscribe
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
