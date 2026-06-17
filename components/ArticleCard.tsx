@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Article } from "@/data/lanternArticles";
 import { HalalBadge } from "@/components/HalalBadge";
 import type { HalalBadgeType } from "@/data/lanternTypes";
+import { getArticleImage } from "@/lib/article-images";
 
 interface ArticleCardProps {
   article: Article;
@@ -37,37 +38,16 @@ export function ArticleCard({
           className={`article-image${article.video ? " video-thumb" : ""}`}
           style={{ height: imageHeight, position: "relative" }}
         >
-          {article.image ? (
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              style={{ objectFit: "cover" }}
-              sizes="(max-width: 900px) 100vw, 50vw"
-            />
-          ) : (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "var(--surface)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "Space Mono, monospace",
-                  fontSize: "9px",
-                  letterSpacing: "0.2em",
-                  color: "var(--dim)",
-                }}
-              >
-                {article.category?.toUpperCase() ?? "THE LANTERN"}
-              </span>
-            </div>
-          )}
+          <Image
+            src={article.image ?? getArticleImage(
+              article.video ? "VIDEO" : (article.category ?? "TECH"),
+              article.id
+            )}
+            alt={article.title}
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="(max-width: 900px) 100vw, 50vw"
+          />
           {article.video && (
             <>
               <div className="play-button">▶</div>
