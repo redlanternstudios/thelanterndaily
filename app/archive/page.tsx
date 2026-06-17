@@ -7,10 +7,11 @@ export const revalidate = 300; // revalidate every 5 minutes
 export default async function ArchivePage({
   searchParams,
 }: {
-  searchParams?: { category?: string };
+  searchParams?: Promise<{ category?: string }>;
 }) {
   const articles = await getApprovedContent(200);
-  const initialCategory = searchParams?.category;
+  const resolvedParams = await searchParams;
+  const initialCategory = resolvedParams?.category;
 
   return (
     <>
