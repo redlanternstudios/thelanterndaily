@@ -1,13 +1,19 @@
 export type Article = {
   slug: string;
+  id: string;
   kicker: string;
+  category: string;
   title: string;
   excerpt: string;
   image: string;
   author: string;
   date: string;
   readTime: string;
-  category: string;
+  video?: boolean;
+  youtubeId?: string;
+  duration?: string;
+  premium?: boolean;
+  body?: string;
 };
 
 export const SOCIAL_PROOF = "18,472+ builders, investors, and operators";
@@ -35,6 +41,7 @@ export const TICKER_ITEMS = [
 
 export const HERO_ARTICLE: Article = {
   slug: "the-quiet-rise-of-muslim-built-ai-infrastructure",
+  id: "the-quiet-rise-of-muslim-built-ai-infrastructure",
   kicker: "Field Notes",
   title: "The Quiet Rise of Muslim-Built AI Infrastructure",
   excerpt:
@@ -48,6 +55,7 @@ export const HERO_ARTICLE: Article = {
 
 export const VIDEO_ARTICLE: Article = {
   slug: "inside-the-operator-stack-live",
+  id: "inside-the-operator-stack-live",
   kicker: "Video / Briefing",
   title: "Inside the Operator Stack: A Live Teardown",
   excerpt:
@@ -57,11 +65,15 @@ export const VIDEO_ARTICLE: Article = {
   date: "June 13, 2026",
   readTime: "24 min watch",
   category: "Stack",
+  video: true,
+  youtubeId: "dQw4w9WgXcQ",
+  duration: "12:04",
 };
 
 export const SECONDARY_ARTICLES: Article[] = [
   {
     slug: "islamic-finance-meets-onchain-settlement",
+  id: "islamic-finance-meets-onchain-settlement",
     kicker: "Markets",
     title: "Islamic Finance Meets On-Chain Settlement",
     excerpt:
@@ -74,6 +86,7 @@ export const SECONDARY_ARTICLES: Article[] = [
   },
   {
     slug: "the-late-night-build-log",
+  id: "the-late-night-build-log",
     kicker: "Tech",
     title: "The Late-Night Build Log: Shipping Agents in Production",
     excerpt:
@@ -89,6 +102,7 @@ export const SECONDARY_ARTICLES: Article[] = [
 export const GRID_ARTICLES: Article[] = [
   {
     slug: "architecture-of-trust",
+  id: "architecture-of-trust",
     kicker: "AI",
     title: "The Architecture of Trust in Autonomous Systems",
     excerpt: "How leading teams design for accountability before scale.",
@@ -100,6 +114,7 @@ export const GRID_ARTICLES: Article[] = [
   },
   {
     slug: "pair-programming-with-models",
+  id: "pair-programming-with-models",
     kicker: "Tech",
     title: "Pair Programming With Models, Not Around Them",
     excerpt: "Two engineers on rebuilding their workflow from the terminal up.",
@@ -111,6 +126,7 @@ export const GRID_ARTICLES: Article[] = [
   },
   {
     slug: "the-patient-capital-thesis",
+  id: "the-patient-capital-thesis",
     kicker: "Markets",
     title: "The Patient Capital Thesis for AI-Native Founders",
     excerpt: "An investor on why conviction beats momentum in this cycle.",
@@ -122,6 +138,7 @@ export const GRID_ARTICLES: Article[] = [
   },
   {
     slug: "open-source-as-strategy",
+  id: "open-source-as-strategy",
     kicker: "Open Source",
     title: "Open Source as Strategy, Not Charity",
     excerpt: "Why a Detroit team gave away its agent runtime — and won.",
@@ -140,6 +157,7 @@ export const ALL_ARTICLES: Article[] = [
   ...GRID_ARTICLES,
   {
     slug: "the-zakat-of-knowledge",
+  id: "the-zakat-of-knowledge",
     kicker: "Field Notes",
     title: "The Zakat of Knowledge: Teaching the Next Cohort",
     excerpt: "Operators are reinvesting expertise into open cohorts. A field report.",
@@ -151,6 +169,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "signals-from-the-gulf",
+  id: "signals-from-the-gulf",
     kicker: "Markets",
     title: "Signals From the Gulf: Capital Meets Compute",
     excerpt: "Sovereign compute is reshaping where models get trained.",
@@ -162,6 +181,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "the-governance-layer",
+  id: "the-governance-layer",
     kicker: "Governance",
     title: "The Governance Layer Nobody Wants to Build",
     excerpt: "Why the boring controls decide who survives the next audit.",
@@ -174,6 +194,14 @@ export const ALL_ARTICLES: Article[] = [
 ];
 
 export const CATEGORIES = ["All", "AI", "Markets", "Tech", "Open Source", "Governance"];
+
+// Ordered list for homepage destructuring: lead, videoCard, article2…article6
+export const lanternArticles: Article[] = [
+  HERO_ARTICLE,
+  VIDEO_ARTICLE,
+  ...SECONDARY_ARTICLES,
+  ...GRID_ARTICLES,
+];
 
 export type MarketSignal = {
   name: string;

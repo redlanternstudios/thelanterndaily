@@ -119,7 +119,7 @@ export default async function ArticlePage({
               </h2>
               <div className="mt-0.5 flex flex-col gap-0.5 bg-[var(--color-border)]">
                 {related.map((a) => (
-                  <ArticleCard key={a.slug} article={a} size="compact" />
+                  <ArticleCard key={a.slug} article={a} />
                 ))}
               </div>
             </div>

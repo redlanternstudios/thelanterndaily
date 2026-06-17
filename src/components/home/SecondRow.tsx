@@ -40,7 +40,7 @@ export default function SecondRow() {
         </span>
       </Link>
       {SECONDARY_ARTICLES.map((article) => (
-        <ArticleCard key={article.slug} article={article} size="compact" />
+        <ArticleCard key={article.slug} article={article} />
       ))}
     </section>
   );
