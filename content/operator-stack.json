@@ -1,0 +1,32 @@
+[
+  {
+    "category": "Infra",
+    "description": "Scalable compute, storage, and networking for modern AI.",
+    "icon": "server",
+    "tools": ["AWS", "Azure", "Nvidia"]
+  },
+  {
+    "category": "Models & APIs",
+    "description": "Best-in-class models and embeddings to build on and scale.",
+    "icon": "cpu",
+    "tools": ["OpenAI", "Anthropic", "Mistral"]
+  },
+  {
+    "category": "Data & Tools",
+    "description": "Databases, caching, evals, and workflow orchestration.",
+    "icon": "database",
+    "tools": ["Databricks", "Pinecone", "LangSmith"]
+  },
+  {
+    "category": "Applications",
+    "description": "Production apps users love—with modern UX and durable backends.",
+    "icon": "layout",
+    "tools": ["Vercel", "Retool", "Supabase"]
+  },
+  {
+    "category": "Governance",
+    "description": "Security, observability, and policy frameworks you can trust.",
+    "icon": "shield",
+    "tools": ["Okta", "Vanta", "TrustLayer"]
+  }
+]
