@@ -10,8 +10,6 @@ export default function TopNav() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Navigate to search results or handle search
-      console.log("[v0] Search query:", searchQuery);
       setSearchQuery("");
       setSearchOpen(false);
     }
@@ -81,63 +79,62 @@ export default function TopNav() {
         </div>
 
         {/* Right: Search + Button */}
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          {searchOpen && (
-            <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                autoFocus
-                style={{
-                  background: "#0D0F1C",
-                  border: "1px solid #1A1F2E",
-                  borderRadius: 4,
-                  padding: "8px 12px",
-                  color: "#9CA3AF",
-                  fontSize: 14,
-                  fontFamily: "inherit",
-                  outline: "none",
-                  transition: "border-color 0.2s",
-                  width: "200px",
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "#D42535";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "#1A1F2E";
-                  if (!searchQuery.trim()) {
-                    setSearchOpen(false);
-                  }
-                }}
-              />
-              <button type="submit" style={{
-                background: "none",
-                border: "none",
-                color: "#D42535",
-                fontSize: 16,
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center", gap: 0 }}>
+            {/* Expanding input — animates open/closed */}
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus={searchOpen}
+              style={{
+                background: "#0D0F1C",
+                border: "1px solid #1A1F2E",
+                borderRight: "none",
+                borderRadius: "4px 0 0 4px",
+                padding: searchOpen ? "7px 12px" : "7px 0",
+                color: "#F7F2EE",
+                fontSize: 13,
+                fontFamily: "inherit",
+                outline: "none",
+                width: searchOpen ? "220px" : "0px",
+                overflow: "hidden",
+                opacity: searchOpen ? 1 : 0,
+                transition: "width 0.25s ease, opacity 0.2s ease, padding 0.2s ease",
+                pointerEvents: searchOpen ? "auto" : "none",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "#D42535"; }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "#1A1F2E";
+                if (!searchQuery.trim()) setSearchOpen(false);
+              }}
+            />
+            {/* Search icon button — toggles open, submits when open */}
+            <button
+              type={searchOpen ? "submit" : "button"}
+              onClick={() => { if (!searchOpen) setSearchOpen(true); }}
+              aria-label={searchOpen ? "Submit search" : "Open search"}
+              style={{
+                background: searchOpen ? "#D42535" : "none",
+                border: searchOpen ? "1px solid #D42535" : "none",
+                borderRadius: searchOpen ? "0 4px 4px 0" : "4px",
+                padding: "7px 10px",
+                color: searchOpen ? "#ffffff" : "#9CA3AF",
                 cursor: "pointer",
-              }}>
-                🔍
-              </button>
-            </form>
-          )}
-          <button 
-            onClick={() => setSearchOpen(!searchOpen)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#9CA3AF",
-              fontSize: 16,
-              cursor: "pointer",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#F7F2EE")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
-          >
-            🔍
-          </button>
+                display: "flex",
+                alignItems: "center",
+                transition: "background 0.2s, color 0.2s",
+              }}
+              onMouseEnter={(e) => { if (!searchOpen) (e.currentTarget as HTMLButtonElement).style.color = "#F7F2EE"; }}
+              onMouseLeave={(e) => { if (!searchOpen) (e.currentTarget as HTMLButtonElement).style.color = "#9CA3AF"; }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </button>
+          </form>
           <Link 
             href="/#subscribe"
             style={{
