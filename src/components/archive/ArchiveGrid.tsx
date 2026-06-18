@@ -2,20 +2,28 @@
 
 import { useState, useMemo } from "react";
 import ArticleCard from "@/components/ArticleCard";
-import { ALL_ARTICLES, CATEGORIES } from "@/lib/content";
+import type { Post } from "@/lib/supabase/types";
 
 const PAGE_SIZE = 8;
 
-export default function ArchiveGrid({ initialCat = "All" }: { initialCat?: string }) {
+export default function ArchiveGrid({
+  posts,
+  categories,
+  initialCat = "All",
+}: {
+  posts: Post[];
+  categories: string[];
+  initialCat?: string;
+}) {
   const [active, setActive] = useState(
-    CATEGORIES.includes(initialCat) ? initialCat : "All"
+    categories.includes(initialCat) ? initialCat : "All"
   );
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   const filtered = useMemo(() => {
-    if (active === "All") return ALL_ARTICLES;
-    return ALL_ARTICLES.filter((a) => a.category === active);
-  }, [active]);
+    if (active === "All") return posts;
+    return posts.filter((p) => p.category === active);
+  }, [active, posts]);
 
   const shown = filtered.slice(0, visible);
 
@@ -23,7 +31,7 @@ export default function ArchiveGrid({ initialCat = "All" }: { initialCat?: strin
     <div>
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-0.5 border-y border-[var(--color-border)] bg-[var(--color-border)]">
-        {CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => {
@@ -43,8 +51,8 @@ export default function ArchiveGrid({ initialCat = "All" }: { initialCat?: strin
 
       {/* Grid */}
       <div className="mt-0.5 grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
-        {shown.map((article) => (
-          <ArticleCard key={article.slug} article={article} />
+        {shown.map((post) => (
+          <ArticleCard key={post.slug} post={post} />
         ))}
       </div>
 

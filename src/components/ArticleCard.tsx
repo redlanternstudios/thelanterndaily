@@ -4,14 +4,12 @@ import type { Post } from "@/lib/supabase/types";
 import type { Article } from "@/lib/content";
 import HalalBadge from "@/components/halal/HalalBadge";
 
-type CardPost = Post & { halal_stance?: string | null };
-
 export default function ArticleCard({
   post,
   article,
   size = "default",
 }: {
-  post?: CardPost;
+  post?: Post;
   article?: Article;
   size?: "default" | "compact";
 }) {

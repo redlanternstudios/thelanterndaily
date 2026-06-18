@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import ArticleCard from "@/components/ArticleCard";
-import { VIDEO_ARTICLE, SECONDARY_ARTICLES } from "@/lib/content";
+import type { Post } from "@/lib/types/post";
+import { HalalBadge } from "@/components/HalalBadge";
 
 function PlayIcon() {
   return (
@@ -13,17 +14,16 @@ function PlayIcon() {
   );
 }
 
-export default function SecondRow() {
-  const v = VIDEO_ARTICLE;
+export default function SecondRow({ videoPost, sidePosts }: { videoPost: Post; sidePosts: Post[] }) {
   return (
     <section className="grid gap-0.5 lg:grid-cols-[1.1fr_0.7fr_0.7fr] bg-[var(--color-border)]">
       <Link
-        href={`/article/${v.slug}`}
+        href={`/article/${videoPost.slug}`}
         className="group img-zoom relative min-h-[300px] lg:min-h-[380px] bg-[var(--color-card)] block"
       >
         <Image
-          src={v.image || "/placeholder.svg"}
-          alt={v.title}
+          src={videoPost.hero_image_url || "/placeholder.svg"}
+          alt={videoPost.title}
           fill
           sizes="(max-width: 1024px) 100vw, 45vw"
           className="object-cover opacity-90"
@@ -33,14 +33,19 @@ export default function SecondRow() {
           <PlayIcon />
         </span>
         <span className="absolute inset-x-6 bottom-6 z-10">
-          <span className="kicker block">{v.kicker}</span>
+          <span className="kicker block">{videoPost.category || ""}</span>
+          {videoPost.halal_stance && (
+            <div style={{ marginTop: '6px' }}>
+              <HalalBadge stance={videoPost.halal_stance} size="sm" />
+            </div>
+          )}
           <span className="font-headline mt-2 block text-2xl text-balance text-[var(--color-text)] group-hover:text-[var(--color-red)] transition-colors">
-            {v.title}
+            {videoPost.title}
           </span>
         </span>
       </Link>
-      {SECONDARY_ARTICLES.map((article) => (
-        <ArticleCard key={article.slug} article={article} size="compact" />
+      {sidePosts.slice(0, 2).map((p) => (
+        <ArticleCard key={p.slug} post={p} size="compact" />
       ))}
     </section>
   );

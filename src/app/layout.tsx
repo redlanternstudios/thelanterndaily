@@ -1,38 +1,17 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 
 export const dynamic = 'force-dynamic'
 
-export const viewport: Viewport = {
-  themeColor: "#07080f",
-};
-
 export const metadata: Metadata = {
-  title: "The Lantern Daily — AI & Tech for Muslim Builders",
-  description:
-    "A Muslim-founded AI and tech newsletter for founders, builders, and operators. Field notes, market signals, and the operator stack. 18,472+ builders, investors, and operators.",
-  openGraph: {
-    title: "The Lantern Daily",
-    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "The Lantern Daily",
-    description: "AI & tech intelligence for Muslim builders, founders, and operators.",
-  },
+  title: "The Lantern Daily",
+  description: "AI & tech for Muslim builders.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="antialiased">
-      <body className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] font-body">
-        {children}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }

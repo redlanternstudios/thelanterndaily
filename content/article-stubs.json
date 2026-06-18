@@ -1,0 +1,105 @@
+[
+  {
+    "title": "AI Infrastructure Is Becoming the New Commodity Trade",
+    "category": "AI INFRASTRUCTURE",
+    "subheadline": "Compute, data, and energy are being standardized into tradable units. The winners aren't building models \u2014 they're building the pipes.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 6,
+    "slug": "ai-infrastructure-commodity-trade",
+    "body_stub": "In 2023, the conversation was about which foundation model would win. By mid-2025, that question feels almost quaint. The real action has shifted downstream \u2014 into the infrastructure layer that makes AI operable at scale. Cloud providers aren't just renting GPUs anymore; they're offering AI-specific networking fabrics, inference-optimized instance families, and multi-region failover as a checkbox feature.\n\nThe commoditization is happening faster than most analysts predicted. When every major cloud provider can serve Llama 4, Mistral Large, and GPT-5 on identical APIs, the moat isn't the model \u2014 it's the latency, the SLAs, and the data gravity. The winners will be the platforms that reduce the friction between 'I have an idea' and 'it's running in production.'",
+    "tags": [
+      "infrastructure",
+      "AI",
+      "cloud",
+      "commoditization"
+    ]
+  },
+  {
+    "title": "Watch: The 90-Second Signal",
+    "category": "FIELD NOTES",
+    "subheadline": "A fast editorial briefing on what mattered this week in Muslim-founded tech, AI infrastructure, and the builder economy.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 5,
+    "slug": "watch-90-second-signal",
+    "body_stub": "Each week, The Lantern distills the signal from the noise into exactly ninety seconds. No cold opens. No sponsor reads. Just the three stories that shaped the week for Muslim founders, builders, and operators.\n\nScript outline (90 seconds): 0:00-0:15 \u2014 Lead story: AI infra commoditization (the NDX crossing 18,700 story). 0:15-0:35 \u2014 Builder spotlight: a founder series debut. 0:35-0:55 \u2014 Market signal: gold divergence, BTC holding, and what it means for Islamic finance platforms. 0:55-1:10 \u2014 Stack pick: one tool every operator should evaluate this week. 1:10-1:30 \u2014 Field note: a single actionable insight the team is tracking.",
+    "video_script_outline": "0:00-0:15 \u2014 Lead: AI infra as commodity (NDX at 18,708). 0:15-0:35 \u2014 Builder spotlight debut. 0:35-0:55 \u2014 Market signals: gold/BTC divergence. 0:55-1:10 \u2014 Tool of the week. 1:10-1:30 \u2014 Closing insight.",
+    "tags": [
+      "video",
+      "briefing",
+      "weekly signal"
+    ],
+    "script_outline": [
+      "OPEN (0-10s): Split screen \u2014 Vercel deployment log rolling vs. Mistral inference latency chart. Voiceover: 'Every week, we time one signal that matters.'",
+      "HOOK (10-20s): 'This week: AI infra just became a commodity. Here's why that's good news for builders.'",
+      "BODY (20-60s): Show three data points \u2014 (1) Cloud GPU spot prices down 37% YoY, (2) Llama 4.5 inference running on $0.89/hr T4 instances, (3) Five new inference API providers launched this month alone.",
+      "TAKEAWAY (60-80s): 'The moat isn't the model. It's the latency, the SLA, and the data gravity. Build where the pipes are cheap.'",
+      "CLOSE (80-90s): 'Signal out.' Fade to The Lantern Daily wordmark."
+    ]
+  },
+  {
+    "title": "Why Agent Reliability Beats Model Benchmarks",
+    "category": "OPEN SOURCE AGENTS",
+    "subheadline": "The best model on Earth is useless if your agent framework drops context on turn 47. Production agents demand a different scorecard.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 7,
+    "slug": "agent-reliability-vs-benchmarks",
+    "body_stub": "Every week brings a new leaderboard. Llama 4 edges out GPT-5 on GSM-8K. Mistral claims the MMLU crown. Claude dominates at long-context retrieval. And yet, when builders deploy these models as autonomous agents, the benchmarks predict almost nothing about real-world performance.\n\nThe gap is reliability \u2014 not accuracy. A model that scores 99% on a benchmark but drops a tool call 3% of the time will fail in production within hours. Agent frameworks that retry silently, validate outputs against schemas, and surface traceable failures outperform models with higher raw scores on every meaningful metric. The industry is learning this the hard way.",
+    "tags": [
+      "agents",
+      "reliability",
+      "production",
+      "frameworks"
+    ]
+  },
+  {
+    "title": "Designing AI Products People Actually Keep",
+    "category": "PRODUCT CALLS",
+    "subheadline": "Retention data shows most AI products lose 80% of users by day 7. The survivors share three patterns.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 5,
+    "slug": "designing-ai-products-retention",
+    "body_stub": "The 2024-2025 cohort of AI-native products has produced a clean dataset: most of them fail retention. Users try the chat interface, generate a few outputs, and never return. The products that survive \u2014 the ones with genuine weekly active usage \u2014 share patterns that have nothing to do with model quality.\n\nPattern one: they solve a recurring workflow, not a one-shot task. Pattern two: they reduce cognitive load rather than adding another dashboard. Pattern three: they integrate into existing tools instead of demanding a new login. The best AI product is the one users forget is AI. The second you make the model the point, you've lost.",
+    "tags": [
+      "product design",
+      "retention",
+      "AI",
+      "UX"
+    ]
+  },
+  {
+    "title": "Islamic Finance Enters Its Platform Era",
+    "category": "ISLAMIC FINANCE",
+    "subheadline": "From point solutions to ecosystem plays \u2014 a new generation of halal fintech is building the infrastructure for a parallel economy.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 8,
+    "slug": "islamic-finance-platform-era",
+    "body_stub": "For two decades, Islamic fintech meant one thing: a Shariah-compliant savings account or a takaful insurance policy, bolted onto a conventional bank. The apps were limited, the UX was an afterthought, and the market served a fraction of its potential. That era is ending.\n\nThe new wave of Islamic finance platforms doesn't bolt halal onto conventional rails \u2014 it builds from the ground up. Think halal API infrastructure that screens transactions in real time. Think automated zakat calculation embedded into payment flows. Think tokenized real estate compliant with mudarabah principles. The platform era means Islamic finance finally gets the infrastructure it deserves, not the bolt-on it tolerated.",
+    "tags": [
+      "islamic finance",
+      "fintech",
+      "halal",
+      "platform"
+    ]
+  },
+  {
+    "title": "What Founders Get Wrong About Focus",
+    "category": "FOUNDER INTELLIGENCE",
+    "subheadline": "Saying no to everything isn't focus \u2014 it's avoidance. The real skill is knowing which yes to say next.",
+    "byline": "by RedLantern Studios\u2122",
+    "date": "June 2025",
+    "read_time": 5,
+    "slug": "founders-get-wrong-about-focus",
+    "body_stub": "Every accelerator, every mentor, every Medium post delivers the same sermon: focus. Say no. Pick one thing. Do it better than anyone. The advice is so pervasive it's become a reflex \u2014 founders now wear 'focus' as a badge of discipline while their startups stagnate.\n\nThe problem isn't the advice; it's the interpretation. Real focus isn't about rejecting every opportunity. It's about sequencing. The founders who win aren't the ones who never pivoted \u2014 they're the ones who pivoted at exactly the right time. Focus without pattern recognition is just stubbornness. The best operators know when a 'distraction' is actually a signal.",
+    "tags": [
+      "founder",
+      "focus",
+      "strategy",
+      "startups"
+    ]
+  }
+]

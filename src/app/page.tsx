@@ -8,20 +8,12 @@ import SecondRow from "@/components/home/SecondRow";
 import PullQuote from "@/components/home/PullQuote";
 import SignalsAndStack from "@/components/home/SignalsAndStack";
 import SubscribeCTA from "@/components/home/SubscribeCTA";
-import { createClient } from "@/lib/supabase/server";
-import type { Post } from "@/lib/supabase/types";
+import { getPublishedPosts } from "@/lib/data/posts";
 
 export default async function HomePage() {
-  const supabase = await createClient();
-
-  const { data: posts } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(12);
-
-  const articles: Post[] = posts ?? [];
+  const posts = await getPublishedPosts(12);
+  const [lead, videoCard, ...remaining] = posts;
+  const gridArticles = remaining.slice(0, 4);
 
   return (
     <>
@@ -29,19 +21,19 @@ export default async function HomePage() {
       <Ticker />
       <main className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 py-6 sm:py-8">
         <div className="flex flex-col gap-12 sm:gap-16">
-          <Hero />
-          <SecondRow />
+          {lead && <Hero post={lead} />}
+          {videoCard && <SecondRow videoPost={videoCard} sidePosts={remaining} />}
 
           <section>
             <SectionDivider label="Latest Dispatches" href="/archive" />
             <div className="mt-0.5 grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
-              {articles.length > 0 ? (
-                articles.map((article) => (
-                  <ArticleCard key={article.slug} post={article} />
+              {gridArticles.length > 0 ? (
+                gridArticles.map((post) => (
+                  <ArticleCard key={post.slug} post={post} />
                 ))
               ) : (
-                <p className="col-span-full py-12 text-center text-[var(--color-text-dim)]">
-                  No published articles yet. Check back soon.
+                <p className="col-span-4 py-8 text-center text-sm text-[var(--color-text-dim)]">
+                  No dispatches yet. Check back soon.
                 </p>
               )}
             </div>

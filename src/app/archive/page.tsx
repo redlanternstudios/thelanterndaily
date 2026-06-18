@@ -2,7 +2,8 @@ import Masthead from "@/components/Masthead";
 import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArchiveGrid from "@/components/archive/ArchiveGrid";
-import { SOCIAL_PROOF } from "@/lib/content";
+import { getPublishedPosts } from "@/lib/data/posts";
+import { SOCIAL_PROOF, CATEGORIES } from "@/lib/content";
 
 export default async function ArchivePage({
   searchParams,
@@ -10,6 +11,7 @@ export default async function ArchivePage({
   searchParams: Promise<{ cat?: string }>;
 }) {
   const { cat } = await searchParams;
+  const allPosts = await getPublishedPosts(50);
 
   return (
     <>
@@ -28,7 +30,7 @@ export default async function ArchivePage({
         </header>
 
         <div className="mt-10">
-          <ArchiveGrid initialCat={cat ?? "All"} />
+          <ArchiveGrid posts={allPosts} categories={CATEGORIES} initialCat={cat ?? "All"} />
         </div>
       </main>
       <Footer />
