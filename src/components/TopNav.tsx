@@ -1,8 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 export default function TopNav() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results or handle search
+      console.log("[v0] Search query:", searchQuery);
+      setSearchQuery("");
+      setSearchOpen(false);
+    }
+  };
+
   return (
     <nav style={{
       background: "#07080F",
@@ -68,15 +82,58 @@ export default function TopNav() {
 
         {/* Right: Search + Button */}
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <button style={{
-            background: "none",
-            border: "none",
-            color: "#9CA3AF",
-            fontSize: 16,
-            cursor: "pointer",
-            transition: "color 0.2s",
-          }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+          {searchOpen && (
+            <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  background: "#0D0F1C",
+                  border: "1px solid #1A1F2E",
+                  borderRadius: 4,
+                  padding: "8px 12px",
+                  color: "#9CA3AF",
+                  fontSize: 14,
+                  fontFamily: "inherit",
+                  outline: "none",
+                  transition: "border-color 0.2s",
+                  width: "200px",
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = "#D42535";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = "#1A1F2E";
+                  if (!searchQuery.trim()) {
+                    setSearchOpen(false);
+                  }
+                }}
+              />
+              <button type="submit" style={{
+                background: "none",
+                border: "none",
+                color: "#D42535",
+                fontSize: 16,
+                cursor: "pointer",
+              }}>
+                🔍
+              </button>
+            </form>
+          )}
+          <button 
+            onClick={() => setSearchOpen(!searchOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#9CA3AF",
+              fontSize: 16,
+              cursor: "pointer",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#F7F2EE")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
           >
             🔍
