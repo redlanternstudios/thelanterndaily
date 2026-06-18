@@ -26,17 +26,41 @@ export type Article = {
   };
 };
 
-// Image placeholder URLs — using Unsplash for dev/demo
-// In production, replace these with Supabase URLs after upload
+// Image URLs — topic-matched per article
+// In production, replace with Supabase-hosted uploads
 const IMG = {
-  heroFounder: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop&q=80",
-  videoThumb: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=480&fit=crop&q=80",
-  article1: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=480&fit=crop&q=80",
-  article2: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=480&fit=crop&q=80",
-  grid1: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
-  grid2: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop&q=80",
-  grid3: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&q=80",
-  grid4: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&h=400&fit=crop&q=80",
+  // Hero: Muslim founders building AI — people at work, modern tech lab feel
+  heroFounder: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=600&fit=crop&q=80",
+
+  // Video: live panel / operator teardown — people presenting on stage
+  videoThumb: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=480&fit=crop&q=80",
+
+  // Islamic Finance + On-Chain Settlement — abstract finance / gold / currency
+  islamicFinance: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=480&fit=crop&q=80",
+
+  // Late-Night Build Log: Shipping Agents — developer at terminal late at night
+  buildLog: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=480&fit=crop&q=80",
+
+  // Architecture of Trust in Autonomous Systems — abstract server/network infrastructure
+  autonomousTrust: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&q=80",
+
+  // Pair Programming With Models — two engineers at screen, collaborative coding
+  pairProgramming: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop&q=80",
+
+  // Patient Capital Thesis — investor meeting, boardroom, capital allocation
+  patientCapital: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=600&h=400&fit=crop&q=80",
+
+  // Open Source as Strategy — open laptop, terminal, open code
+  openSource: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&h=400&fit=crop&q=80",
+
+  // Zakat of Knowledge / Teaching — classroom, mentorship, knowledge transfer
+  zakatKnowledge: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=400&fit=crop&q=80",
+
+  // Signals From the Gulf — Dubai skyline, Gulf capital, sovereign compute
+  gulfSignals: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop&q=80",
+
+  // Governance Layer — compliance, audit, policy docs
+  governanceLayer: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&q=80",
 };
 
 export const SOCIAL_PROOF = "18,472+ builders, investors, and operators";
@@ -74,6 +98,7 @@ export const HERO_ARTICLE: Article = {
   date: "June 14, 2026",
   readTime: "11 min read",
   category: "AI",
+
   halalReview: {
     verdict: "positive",
     editorialNote:
@@ -91,6 +116,7 @@ export const VIDEO_ARTICLE: Article = {
   image: IMG.videoThumb,
   author: "The Lantern Daily",
   date: "June 13, 2026",
+
   originalDate: "June 10, 2026",
   readTime: "24 min watch",
   category: "Stack",
@@ -107,7 +133,7 @@ export const SECONDARY_ARTICLES: Article[] = [
     title: "Islamic Finance Meets On-Chain Settlement",
     excerpt:
       "Sharia-compliant rails are quietly going programmable. Here is what changed this month.",
-    image: IMG.article1,
+    image: IMG.islamicFinance,
     author: "The Lantern Daily",
     date: "June 12, 2026",
     readTime: "7 min read",
@@ -120,7 +146,7 @@ export const SECONDARY_ARTICLES: Article[] = [
     title: "The Late-Night Build Log: Shipping Agents in Production",
     excerpt:
       "What breaks when autonomous agents touch real revenue — and the guardrails that hold.",
-    image: IMG.article2,
+    image: IMG.buildLog,
     author: "The Lantern Daily",
     date: "June 11, 2026",
     readTime: "9 min read",
@@ -135,7 +161,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "AI",
     title: "The Architecture of Trust in Autonomous Systems",
     excerpt: "How leading teams design for accountability before scale.",
-    image: IMG.grid1,
+    image: IMG.autonomousTrust,
     author: "The Lantern Daily",
     date: "June 10, 2026",
     readTime: "6 min read",
@@ -147,7 +173,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Tech",
     title: "Pair Programming With Models, Not Around Them",
     excerpt: "Two engineers on rebuilding their workflow from the terminal up.",
-    image: IMG.grid2,
+    image: IMG.pairProgramming,
     author: "The Lantern Daily",
     date: "June 9, 2026",
     readTime: "8 min read",
@@ -159,7 +185,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Markets",
     title: "The Patient Capital Thesis for AI-Native Founders",
     excerpt: "An investor on why conviction beats momentum in this cycle.",
-    image: IMG.grid3,
+    image: IMG.patientCapital,
     author: "The Lantern Daily",
     date: "June 8, 2026",
     readTime: "10 min read",
@@ -171,7 +197,7 @@ export const GRID_ARTICLES: Article[] = [
     kicker: "Open Source",
     title: "Open Source as Strategy, Not Charity",
     excerpt: "Why a Detroit team gave away its agent runtime — and won.",
-    image: IMG.grid4,
+    image: IMG.openSource,
     author: "The Lantern Daily",
     date: "June 7, 2026",
     readTime: "5 min read",
@@ -190,7 +216,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Field Notes",
     title: "The Zakat of Knowledge: Teaching the Next Cohort",
     excerpt: "Operators are reinvesting expertise into open cohorts. A field report.",
-    image: IMG.grid2,
+    image: IMG.zakatKnowledge,
     author: "The Lantern Daily",
     date: "June 6, 2026",
     readTime: "7 min read",
@@ -202,7 +228,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Markets",
     title: "Signals From the Gulf: Capital Meets Compute",
     excerpt: "Sovereign compute is reshaping where models get trained.",
-    image: IMG.grid3,
+    image: IMG.gulfSignals,
     author: "The Lantern Daily",
     date: "June 5, 2026",
     readTime: "9 min read",
@@ -214,7 +240,7 @@ export const ALL_ARTICLES: Article[] = [
     kicker: "Governance",
     title: "The Governance Layer Nobody Wants to Build",
     excerpt: "Why the boring controls decide who survives the next audit.",
-    image: IMG.grid1,
+    image: IMG.governanceLayer,
     author: "The Lantern Daily",
     date: "June 4, 2026",
     readTime: "6 min read",
