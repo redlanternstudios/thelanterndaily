@@ -39,7 +39,7 @@ export default function HeroSection() {
             fontFamily: "Georgia, serif",
             fontSize: 52,
             fontWeight: 700,
-            color: "#9CA3AF",
+            color: "#F7F2EE",
             lineHeight: 1.1,
             margin: 0,
           }}>
@@ -90,8 +90,8 @@ export default function HeroSection() {
           background: "#0D0F1C",
         }}>
           <Image
-            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=480&fit=crop"
-            alt="AI Infrastructure"
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=700&fit=crop&q=80"
+            alt="AI Infrastructure — circuit board and compute hardware"
             fill
             style={{ objectFit: "cover" }}
             priority
