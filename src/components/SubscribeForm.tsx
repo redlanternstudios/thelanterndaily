@@ -1,88 +1,82 @@
-'use client';
+'use client'
 
-import { useState, type FormEvent } from "react";
-import { SOCIAL_PROOF } from "@/lib/content";
+import { useState, FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
+
+interface SubscribeFormProps {
+  variant?: 'default' | 'large' | 'inline'
+  placeholder?: string
+  buttonText?: string
+}
 
 export default function SubscribeForm({
-  compact = false,
-  variant,
-  buttonText,
-  placeholder,
-}: {
-  compact?: boolean;
-  variant?: "hero" | "inline" | "footer";
-  buttonText?: string;
-  placeholder?: string;
-}) {
-  const isCompact = compact || variant === "inline" || variant === "footer";
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
+  variant = 'default',
+  placeholder = 'Enter your email',
+  buttonText = 'Subscribe',
+}: SubscribeFormProps) {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+  const router = useRouter()
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setStatus("loading");
-    setMessage("");
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setStatus('error')
+      setErrorMsg('Please enter a valid email address')
+      return
+    }
+
+    setStatus('loading')
+    setErrorMsg('')
+
     try {
-      const res = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setStatus("success");
-        setMessage("You're in. Check your inbox for the welcome briefing.");
-        setEmail("");
-      } else {
-        setStatus("error");
-        setMessage(data.error || "Something went wrong.");
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Something went wrong')
       }
-    } catch {
-      setStatus("error");
-      setMessage("Network error. Please try again.");
+
+      setStatus('success')
+      if (data.operator_number) {
+        router.push(`/confirmed?number=${data.operator_number}`)
+      } else {
+        router.push('/confirmed')
+      }
+    } catch (err) {
+      setStatus('error')
+      setErrorMsg(err instanceof Error ? err.message : 'Failed to subscribe. Please try again.')
     }
   }
 
   return (
-    <div className={isCompact ? "" : "text-center"}>
-      <form
-        onSubmit={handleSubmit}
-        className={`flex flex-col sm:flex-row gap-2 ${isCompact ? "" : "max-w-md mx-auto"}`}
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => { setEmail(e.target.value); setStatus('idle') }}
+        placeholder={placeholder}
+        className="flex-1 bg-stone-900 border border-stone-700 rounded-lg px-4 py-3 text-sm text-white placeholder:text-stone-500 focus:outline-none focus:border-amber-500/50 transition-colors"
+        disabled={status === 'loading'}
+        required
+        aria-label="Email address"
+      />
+      <button
+        type="submit"
+        disabled={status === 'loading' || status === 'success'}
+        className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold px-6 py-3 rounded-lg text-sm transition-all disabled:opacity-50 whitespace-nowrap"
       >
-        <label htmlFor="subscribe-email" className="sr-only">
-          Email address
-        </label>
-        <input
-          id="subscribe-email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={placeholder ?? "you@company.com"}
-          required
-          className="flex-1 border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-red)] focus:outline-none transition-colors"
-        />
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className="bg-[var(--color-red)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] font-bold text-[var(--color-text)] hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap"
-        >
-          {status === "loading" ? "Joining…" : buttonText ?? "Join Free"}
-        </button>
-      </form>
-      {message ? (
-        <p
-          className={`mt-3 text-sm ${
-            status === "success" ? "text-[var(--color-gold)]" : "text-[var(--color-red)]"
-          }`}
-        >
-          {message}
-        </p>
-      ) : (
-        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--color-text-dim)]">
-          Join {SOCIAL_PROOF.split(" ")[0]}+ · No spam · Unsubscribe anytime
-        </p>
+        {status === 'loading' ? 'Sending...' : status === 'success' ? 'Subscribed!' : buttonText}
+      </button>
+      {status === 'error' && (
+        <p className="text-xs text-red-400 mt-1 w-full text-center">{errorMsg}</p>
       )}
-    </div>
-  );
+    </form>
+  )
 }

@@ -29,7 +29,7 @@ function ConfirmedContent() {
         </p>
 
         <div className="mb-10">
-          <SharePrompt text={`I just joined The Lantern Daily as Operator #${operatorNumber}. Signal before consensus.`} />
+          <SharePrompt text={`Join me on The Lantern Daily — I'm Operator #${operatorNumber}. Signal before consensus.`} />
         </div>
 
         <div className="p-6 mb-8" style={{

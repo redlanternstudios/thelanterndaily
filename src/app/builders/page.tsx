@@ -1,75 +1,42 @@
-import UserSpotlightCard from "@/components/lantern/UserSpotlightCard";
-// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"; // uncomment when DB is live
-// import { cookies } from "next/headers"; // needed only when DB block is uncommented
+'use client'
 
-// Temporary seed data — replace with Supabase query when DB is live
-const seedSpotlights = [
-  {
-    displayName: "Community Builder",
-    attributionType: "ROLE_BASED" as const,
-    roleDescription: "Building halal fintech tools for the Ummah",
-    productsBuilding: ["HalalPay", "ZakatTracker"],
-    quote: "The Muslim tech community has more talent than people realize.",
-    slug: "community-builder-1",
-    spotlightTier: "free" as const,
-  },
-];
+import OperatorSpotlightCard, { sampleBuilders } from '@/components/OperatorSpotlightCard'
 
-export default async function BuildersPage() {
-  /* Uncomment when DB is configured
-  const supabase = createServerComponentClient({ cookies });
-  const { data: spotlights } = await supabase
-    .from("lantern_user_spotlights")
-    .select("*")
-    .eq("status", "published")
-    .order("spotlight_published_date", { ascending: false });
-  */
-
-  const spotlights = seedSpotlights;
-
+export default function BuildersPage() {
   return (
-    <div className="min-h-screen bg-[#07080D] text-[#F7F2EE]">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-2">Builders</h1>
-        <p className="text-gray-400 mb-4">
-          The community building Muslim tech. No staff featured — this is the Ummah&apos;s space.
-        </p>
-
-        {/* Submission CTA — always visible */}
-        <div className="p-4 rounded-lg bg-[#0D0F14] border border-[#2A2D35] mb-8">
-          <p className="text-sm text-gray-300 mb-3">
-            Are you building something for the Ummah? Get your own spotlight — free, forever.
-          </p>
-          <a
-            href="#submit" /* Replace with Tally / custom form URL */
-            className="inline-block px-4 py-2 rounded bg-[#2D7A4F] text-white text-sm hover:bg-green-700 transition-colors"
-          >
-            Submit Your Spotlight
-          </a>
-        </div>
-
-        {/* Spotlight grid */}
-        <div className="grid gap-4 md:grid-cols-2">
-          {spotlights.map((s) => (
-            <UserSpotlightCard
-              key={s.slug}
-              displayName={s.displayName}
-              attributionType={s.attributionType}
-              roleDescription={s.roleDescription}
-              productsBuilding={s.productsBuilding}
-              quote={s.quote}
-              slug={s.slug}
-              spotlightTier={s.spotlightTier}
-            />
-          ))}
-        </div>
-
-        {spotlights.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No spotlights yet. Be the first.</p>
+    <>
+      {/* ─── HERO ─────────────────────────────────── */}
+      <section className="relative px-6 md:px-12 py-20 border-b border-stone-800 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at 40% 50%, rgba(245,197,66,0.05) 0%, transparent 60%)' }}
+        />
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="font-mono text-[10px] font-bold tracking-[0.2em] uppercase mb-5 flex items-center gap-3 text-amber-500">
+            <span className="w-6 h-px bg-amber-500/50" />
+            Community
           </div>
-        )}
-      </div>
-    </div>
-  );
+          <h1 className="font-serif font-black leading-[1.0] mb-4 text-white"
+            style={{ fontSize: 'clamp(32px, 6vw, 52px)', letterSpacing: '-0.02em' }}
+          >
+            Meet the Operators
+          </h1>
+          <p className="text-base text-stone-400 leading-relaxed max-w-[540px]">
+            The builders, founders, and engineers shaping the halal tech landscape.
+            Each operator is building something that matters for the Ummah.
+          </p>
+        </div>
+      </section>
+
+      {/* ─── BUILDER GRID ─────────────────────────── */}
+      <section className="px-6 md:px-12 py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sampleBuilders.map((builder) => (
+              <OperatorSpotlightCard key={builder.id} builder={builder} variant="grid" />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  )
 }

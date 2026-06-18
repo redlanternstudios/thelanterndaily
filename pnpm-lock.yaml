@@ -8,6 +8,7 @@ importers:
 
   .:
     dependencies:
+<<<<<<< HEAD
       '@next/third-parties':
         specifier: ^15.3.1
         version: 15.5.19(next@16.2.9(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
@@ -44,12 +45,18 @@ importers:
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
+=======
+      '@supabase/supabase-js':
+        specifier: ^2.108.1
+        version: 2.108.1
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       framer-motion:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+<<<<<<< HEAD
       lucide-react:
         specifier: ^0.460.0
         version: 0.460.0(react@19.2.7)
@@ -59,12 +66,18 @@ importers:
       posthog-js:
         specifier: ^1.198.1
         version: 1.387.0
+=======
+      next:
+        specifier: ^16.2.9
+        version: 16.2.9(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
       react:
         specifier: ^19.2.4
         version: 19.2.7
       react-dom:
         specifier: ^19.2.4
         version: 19.2.7(react@19.2.7)
+<<<<<<< HEAD
       recharts:
         specifier: ^2.14.1
         version: 2.15.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -87,6 +100,18 @@ importers:
       '@types/node':
         specifier: ^22
         version: 22.19.21
+=======
+      tailwind-merge:
+        specifier: ^3.2.0
+        version: 3.6.0
+    devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4
+        version: 4.3.1
+      '@types/node':
+        specifier: ^20
+        version: 20.19.43
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
       '@types/react':
         specifier: ^19
         version: 19.2.17
@@ -99,11 +124,16 @@ importers:
       eslint-config-next:
         specifier: ^16.2.9
         version: 16.2.9(@typescript-eslint/parser@8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
+<<<<<<< HEAD
       postcss:
         specifier: ^8
         version: 8.5.15
       tailwindcss:
         specifier: ^4.1.6
+=======
+      tailwindcss:
+        specifier: ^4
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
         version: 4.3.1
       typescript:
         specifier: ^5
@@ -170,10 +200,13 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+<<<<<<< HEAD
   '@babel/runtime@7.29.7':
     resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@babel/template@7.29.7':
     resolution: {integrity: sha512-puq+Gf35oI24FeN11LkoUQFqv9uwNeWpxXZi/Ji3rRIoKAzKnxRaZ+Gkj0vKS9ZCiTESfng1N9LyOyXvo+m+Gg==}
     engines: {node: '>=6.9.0'}
@@ -236,6 +269,7 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+<<<<<<< HEAD
   '@floating-ui/core@1.7.5':
     resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
 
@@ -251,6 +285,8 @@ packages:
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
     engines: {node: '>=18.18.0'}
@@ -434,9 +470,12 @@ packages:
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
     engines: {node: '>=6.0.0'}
 
+<<<<<<< HEAD
   '@jridgewell/source-map@0.3.11':
     resolution: {integrity: sha512-ZMp1V8ZFcPG5dIWnQLr3NSI1MiCU7UETdS/A0G8V/XWHvJv3ZsFqutJn1Y5RPmAPX6F3BiE397OqveU/9NCuIA==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
@@ -507,12 +546,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
+<<<<<<< HEAD
   '@next/third-parties@15.5.19':
     resolution: {integrity: sha512-vJXvZOZKDRY9mWoMrFpiB8OAXtTc7tlEu4ig8/kkaKszNO/oXQmdGpywxwnSPJqxS6SlZPZZDgOFSFBCoo3rag==}
     peerDependencies:
       next: ^13.0.0 || ^14.0.0 || ^15.0.0
       react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -529,6 +571,7 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
+<<<<<<< HEAD
   '@opentelemetry/api-logs@0.214.0':
     resolution: {integrity: sha512-40lSJeqYO8Uz2Yj7u94/SJWE/wONa7rmMKjI1ZcIjgf3MHNHv1OZUCrCETGuaRF62d5pQD1wKIW+L4lmSMTzZA==}
     engines: {node: '>=8.0.0'}
@@ -1237,6 +1280,11 @@ packages:
     resolution: {integrity: sha512-PTigkxMdMUP6B5ISS7jMqJAKhgrhZwjprDqR1eATtFfh0OpKVNp110xiH+goeVdrJ29/4LeZJR4FaHHWstsu0A==}
     engines: {node: '>=12.16'}
 
+=======
+  '@rtsao/scc@1.1.0':
+    resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@supabase/auth-js@2.108.1':
     resolution: {integrity: sha512-Lle5rKU8f9LF3K5dDd8Or8mkkG+ptzRZZWKPVMm9B9UuovH65Ss2+iFnQqRsCqaGouvJEcTWyl0cj2riNrrDLQ==}
     engines: {node: '>=20.0.0'}
@@ -1256,11 +1304,14 @@ packages:
     resolution: {integrity: sha512-mHGGqOjwd1XTydcoffUqEMsbFQHUi6A3uhQ0EXr3iqzpLqItxKA9nbN6gIQxrZ7JRRnuUe/iOFPUkYV9Tdc5lg==}
     engines: {node: '>=20.0.0'}
 
+<<<<<<< HEAD
   '@supabase/ssr@0.5.2':
     resolution: {integrity: sha512-n3plRhr2Bs8Xun1o4S3k1CDv17iH5QY9YcoEvXX3bxV1/5XSasA0mNXYycFmADIdtdE6BG9MRjP5CGIs8qxC8A==}
     peerDependencies:
       '@supabase/supabase-js': ^2.43.4
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@supabase/storage-js@2.108.1':
     resolution: {integrity: sha512-Er0SGGt85iT6ye+SSh98Az6L2CesoZJuyzEZYH2oBOAnIxa9Nn4CtwUC3veGxYggoT56X+3tVuuQeDBP8kR8sg==}
     engines: {node: '>=20.0.0'}
@@ -1367,6 +1418,7 @@ packages:
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
 
+<<<<<<< HEAD
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
@@ -1397,6 +1449,8 @@ packages:
   '@types/d3-timer@3.0.2':
     resolution: {integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
@@ -1406,8 +1460,13 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
+<<<<<<< HEAD
   '@types/node@22.19.21':
     resolution: {integrity: sha512-VMeFBSCKQKmm2swI2kW51SFusDqekC6q9trBCvJ/JliDchFSuoYYKN7yVNjPthP1HKZcx3U1gI/wTcEBjEFKTA==}
+=======
+  '@types/node@20.19.43':
+    resolution: {integrity: sha512-6oYBAi5ikg4Pl+kGsoYtawUMBT2zZMCvPNF7pVLnHZfd1zf38DRiWn/gT01RYCdUqkv7Fhr+C9ot4/tb+2sVvA==}
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -1417,9 +1476,12 @@ packages:
   '@types/react@19.2.17':
     resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
+<<<<<<< HEAD
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@typescript-eslint/eslint-plugin@8.61.0':
     resolution: {integrity: sha512-bFNvl9ZczlVb+wR2Akszf3gHfKVj/8WanXaGJ3UstTA7brNKg0cNdk6X1Psu5V7MZ2oQtzZKOEzIUehaoxbDGw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1599,6 +1661,7 @@ packages:
     cpu: [x64]
     os: [win32]
 
+<<<<<<< HEAD
   '@webassemblyjs/ast@1.14.1':
     resolution: {integrity: sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ==}
 
@@ -1661,6 +1724,8 @@ packages:
     peerDependencies:
       acorn: ^8.14.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1671,6 +1736,7 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+<<<<<<< HEAD
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
@@ -1694,6 +1760,11 @@ packages:
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
 
+=======
+  ajv@6.15.0:
+    resolution: {integrity: sha512-fgFx7Hfoq60ytK2c7DhnF8jIvzYgOMxfugjLOSMHjLIPgenqa7S7oaagATUq99mV6IYvN2tRmC0wnTYX6iPbMw==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   ansi-styles@4.3.0:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
@@ -1701,10 +1772,13 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+<<<<<<< HEAD
   aria-hidden@1.2.6:
     resolution: {integrity: sha512-ik3ZgC9dY/lYVVM++OISsaYDeg1tb0VtP5uL3ouh1koGOaUMDPpbFIei4JkFimWUFPn90sbMNMXQAIVOlnYKJA==}
     engines: {node: '>=10'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   aria-query@5.3.2:
     resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
     engines: {node: '>= 0.4'}
@@ -1788,9 +1862,12 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+<<<<<<< HEAD
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
     engines: {node: '>= 0.4'}
@@ -1814,6 +1891,7 @@ packages:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
 
+<<<<<<< HEAD
   chrome-trace-event@1.0.4:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
     engines: {node: '>=6.0'}
@@ -1824,6 +1902,8 @@ packages:
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
@@ -1838,18 +1918,22 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
+<<<<<<< HEAD
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
   commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
+<<<<<<< HEAD
   cookie@0.7.2:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
@@ -1857,6 +1941,8 @@ packages:
   core-js@3.49.0:
     resolution: {integrity: sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -1864,6 +1950,7 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
+<<<<<<< HEAD
   d3-array@3.2.4:
     resolution: {integrity: sha512-tdQAmyA18i4J7wprpYq8ClcxZy3SC31QMeByyCFyRt7BVHdREQZ5lpzoe5mFEYZUWe+oq8HBvk9JjpibyEV4Jg==}
     engines: {node: '>=12'}
@@ -1908,6 +1995,8 @@ packages:
     resolution: {integrity: sha512-ndfJ/JxxMd3nw31uyKoY2naivF+r29V+Lc0svZxe1JvvIRmi8hUsrMvdOwgS1o6uBHmiz91geQ0ylPP0aj1VUA==}
     engines: {node: '>=12'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
 
@@ -1940,9 +2029,12 @@ packages:
       supports-color:
         optional: true
 
+<<<<<<< HEAD
   decimal.js-light@2.5.1:
     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
@@ -1958,13 +2050,17 @@ packages:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
     engines: {node: '>=8'}
 
+<<<<<<< HEAD
   detect-node-es@1.1.0:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
 
+<<<<<<< HEAD
   dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
 
@@ -1975,6 +2071,8 @@ packages:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -1989,10 +2087,13 @@ packages:
     resolution: {integrity: sha512-aNnGCvbJ/RIyWo1IuhNdVjnNF+EjH9wpzpNHt+ci/m9He9LJvUN8wrCcXjp9cWsGNAuvSpVFTx/vraAFQ8qGjQ==}
     engines: {node: '>=10.13.0'}
 
+<<<<<<< HEAD
   enhanced-resolve@5.24.0:
     resolution: {integrity: sha512-SkE2t82KlkkxQRVMVLAGKxLfORGQfrkx5dkj+vlgXRVNEdPc4eZcR+J/Fvj8C+yKSFH5L0q3NFlyufOVQnCcYQ==}
     engines: {node: '>=10.13.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   es-abstract@1.24.2:
     resolution: {integrity: sha512-2FpH9Q5i2RRwyEP1AylXe6nYLR5OhaJTZwmlcP0dL/+JCbgg7yyEo/sEK6HeGZRf3dFpWwThaRHVApXSkW3xeg==}
     engines: {node: '>= 0.4'}
@@ -2009,9 +2110,12 @@ packages:
     resolution: {integrity: sha512-0PuBxFi+4uPanB97iDxCLWuHeYud2FALrw5HFZGtAF38UpJDbDC8frwp2cnDyae692CQ0dou60UwWfhgsa4U/g==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   es-module-lexer@2.1.0:
     resolution: {integrity: sha512-n27zTYMjYu1aj4MjCWzSP7G9r75utsaoc8m61weK+W8JMBGGQybd43GstCXZ3WNmSFtGT9wi59qQTW6mhTR5LQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   es-object-atoms@1.1.2:
     resolution: {integrity: sha512-HWcBoN6NileqtSydK2FqHbS/LoDd2pqrnQHLyJzBj4kOp/ky2MWMN694xOfkK8/SnUsW2DH7EfyVlydKCsm1Zw==}
     engines: {node: '>= 0.4'}
@@ -2110,10 +2214,13 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
+<<<<<<< HEAD
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
     engines: {node: '>=8.0.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -2152,21 +2259,28 @@ packages:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
     engines: {node: '>=4.0'}
 
+<<<<<<< HEAD
   estraverse@4.3.0:
     resolution: {integrity: sha512-39nnKffWz8xN1BU/2c79n9nB9HDzo0niYUqx6xyqUnyoAnQyyWpOTdZEeiCch8BBu515t4wp9ZmgVfVhn9EBpw==}
     engines: {node: '>=4.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   estraverse@5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
     engines: {node: '>=4.0'}
 
+<<<<<<< HEAD
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
 
+<<<<<<< HEAD
   eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
 
@@ -2181,6 +2295,11 @@ packages:
     resolution: {integrity: sha512-jt2DW/aNFNwke7AUd+Z+e6pz39KO5rzdbbFCg2sGafS4mk13MI7Z8O5z9cADNn5lhGODIgLwug6TZO2ctf7kcw==}
     engines: {node: '>=6.0.0'}
 
+=======
+  fast-deep-equal@3.1.3:
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   fast-glob@3.3.1:
     resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==}
     engines: {node: '>=8.6.0'}
@@ -2191,9 +2310,12 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
+<<<<<<< HEAD
   fast-uri@3.1.2:
     resolution: {integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   fastq@1.20.1:
     resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
 
@@ -2206,9 +2328,12 @@ packages:
       picomatch:
         optional: true
 
+<<<<<<< HEAD
   fflate@0.4.8:
     resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
     engines: {node: '>=16.0.0'}
@@ -2246,11 +2371,14 @@ packages:
       react-dom:
         optional: true
 
+<<<<<<< HEAD
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
@@ -2273,10 +2401,13 @@ packages:
     resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   get-nonce@1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   get-proto@1.0.1:
     resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
     engines: {node: '>= 0.4'}
@@ -2296,6 +2427,7 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
+<<<<<<< HEAD
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
@@ -2303,6 +2435,8 @@ packages:
     resolution: {integrity: sha512-Wjlyrolmm8uDpm/ogGyXZXb1Z+Ca2B8NbJwqBVg0axK9GbBeoS7yGV6vjXnYdGm6X53iehEuxxbyiKp8QmN4Vw==}
     engines: {node: 18 || 20 || >=22}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
@@ -2355,10 +2489,13 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
+<<<<<<< HEAD
   https-proxy-agent@5.0.1:
     resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   iceberg-js@0.8.1:
     resolution: {integrity: sha512-1dhVQZXhcHje7798IVM+xoo/1ZdVfzOMIc8/rgVSijRK38EDqOJoGula9N/8ZI5RD8QTxNQtK/Gozpr+qUqRRA==}
     engines: {node: '>=20.0.0'}
@@ -2375,10 +2512,13 @@ packages:
     resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
     engines: {node: '>=6'}
 
+<<<<<<< HEAD
   import-in-the-middle@3.0.2:
     resolution: {integrity: sha512-LGLYRl0A2gtyUJb2WDliBHmk6TtlHwdDjxonacZ8QrEs/ZW+YDgNv2QAfjRQWpS8HqvNcq6GGnN6jrOa5FysDQ==}
     engines: {node: '>=18'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
     engines: {node: '>=0.8.19'}
@@ -2387,10 +2527,13 @@ packages:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   internmap@2.0.3:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   is-array-buffer@3.0.5:
     resolution: {integrity: sha512-DDfANUiiG2wC1qawP66qlTugJeL5HyzMpfr8lLK+jMQirGzNod0B12cFB/9q838Ru27sBwfw78/rdoU7RERz6A==}
     engines: {node: '>= 0.4'}
@@ -2462,9 +2605,12 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
 
+<<<<<<< HEAD
   is-reference@1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   is-regex@1.2.1:
     resolution: {integrity: sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g==}
     engines: {node: '>= 0.4'}
@@ -2511,10 +2657,13 @@ packages:
     resolution: {integrity: sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   jest-worker@27.5.1:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
@@ -2537,9 +2686,12 @@ packages:
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
 
+<<<<<<< HEAD
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
@@ -2644,10 +2796,13 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
+<<<<<<< HEAD
   loader-runner@4.3.2:
     resolution: {integrity: sha512-DFEqQ3ihfS9blba08cLfYf1NRAIEm+dDjic073DRDc3/JspI/8wYmtDsHwd3+4hwvdxSK7PGaElfTmm0awWJ4w==}
     engines: {node: '>=6.11.5'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -2655,13 +2810,17 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
+<<<<<<< HEAD
   lodash@4.18.1:
     resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+<<<<<<< HEAD
   lru-cache@11.5.1:
     resolution: {integrity: sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A==}
     engines: {node: 20 || >=22}
@@ -2674,6 +2833,11 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
 
+=======
+  lru-cache@5.1.1:
+    resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -2681,9 +2845,12 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -2692,10 +2859,13 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
+<<<<<<< HEAD
   mime-db@1.54.0:
     resolution: {integrity: sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==}
     engines: {node: '>= 0.6'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   minimatch@10.2.5:
     resolution: {integrity: sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==}
     engines: {node: 18 || 20 || >=22}
@@ -2706,6 +2876,7 @@ packages:
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
+<<<<<<< HEAD
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -2713,6 +2884,8 @@ packages:
   module-details-from-path@1.0.4:
     resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   motion-dom@12.40.0:
     resolution: {integrity: sha512-HxU3ZaBwNPVQUBQf1xxgq+7JrPNZvjLVxgbpEZL7RrWJnsxOf0/OM+yrHG9ogLQ31Do/r57Oz2gQWPK+6q62mg==}
 
@@ -2735,9 +2908,12 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
+<<<<<<< HEAD
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   next@16.2.9:
     resolution: {integrity: sha512-MEOJiq/UvuezAdqVSceHbqDgZt1kDw2tpGVOlsdIoJsQdbN2JY2hpVG4xnXGkbdJUOEWhnRfiu/O4Hpc9Juwww==}
     engines: {node: '>=20.9.0'}
@@ -2763,6 +2939,7 @@ packages:
     resolution: {integrity: sha512-pyFS63ptit/P5WqUkt+UUfe+4oevH+bFeIiPPdfb0pFeYEu/1ELnJu5l+5EcTKYL5M7zaAa7S8ddywgXypqKCw==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -2772,6 +2949,8 @@ packages:
       encoding:
         optional: true
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   node-releases@2.0.47:
     resolution: {integrity: sha512-Uzmd6LXpouKo8EUK68IjH4+E01w/hXyV3R3g/geCJo+rXLNfh1xucB+LOzYEOQPSiUK3h/xZf0cQGcSsmyL2Og==}
     engines: {node: '>=18'}
@@ -2839,10 +3018,13 @@ packages:
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
 
+<<<<<<< HEAD
   path-scurry@2.0.2:
     resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
     engines: {node: 18 || 20 || >=22}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -2866,16 +3048,20 @@ packages:
     resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
     engines: {node: ^10 || ^12 || >=14}
 
+<<<<<<< HEAD
   posthog-js@1.387.0:
     resolution: {integrity: sha512-Pv1jUMySMN62zoAxdJBJPV8n62lkHdjuWhpeU7izczc5Dqbx3hhqO2hkrNTI8Yx1ezmWk2qUHZs03FuOBubdFQ==}
 
   preact@10.29.2:
     resolution: {integrity: sha512-7tNmwg/7mzzAoB/8kSg6Hl37JraAZw3Z3A0JSY7VXlZwo82Xn0G7wKbNNs2qoF4ZEEsQGTwDAroNdqKs1ofJxQ==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
+<<<<<<< HEAD
   progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
@@ -2886,13 +3072,21 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
+=======
+  prop-types@15.8.1:
+    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+<<<<<<< HEAD
   query-selector-shadow-dom@1.0.1:
     resolution: {integrity: sha512-lT5yCqEBgfoMYpf3F2xQRK7zEr1rhIIZuceDK6+xRkJQ4NMbHTwXqk4NkwDwQMNqXgG9r9fyHnzwNVs6zV5KRw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -2904,6 +3098,7 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
+<<<<<<< HEAD
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
@@ -2949,10 +3144,13 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   react@19.2.7:
     resolution: {integrity: sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ==}
     engines: {node: '>=0.10.0'}
 
+<<<<<<< HEAD
   recharts-scale@0.4.5:
     resolution: {integrity: sha512-kivNFO+0OcUNu7jQquLXAxz1FIwZj8nrj+YkOKc5694NbjCvcT6aSZiIzNzd2Kul4o4rTto8QVR9lMNtxD4G1w==}
 
@@ -2964,6 +3162,8 @@ packages:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
     engines: {node: '>= 0.4'}
@@ -2972,6 +3172,7 @@ packages:
     resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
@@ -2980,6 +3181,8 @@ packages:
     resolution: {integrity: sha512-QT7FVMXfWOYFbeRBF6nu+I6tr2Tf3u0q8RIEjNob/heKY/nh7drD/k7eeMFmSQgnTtCzLDcCu/XEnpW2wk4xCQ==}
     engines: {node: '>=9.3.0 || >=8.10.0 <9.0.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
@@ -2996,11 +3199,14 @@ packages:
     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
+<<<<<<< HEAD
   rollup@4.62.0:
     resolution: {integrity: sha512-nc72Wgq62I7rtDV4izT5/aaS0zxy3kttkinf9586ApknY3jZO9NYsmtc24fUckA0X7Q2v+ML4a15pdUlV5V/jA==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
@@ -3019,10 +3225,13 @@ packages:
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
+<<<<<<< HEAD
   schema-utils@4.3.3:
     resolution: {integrity: sha512-eflK8wEtyOE6+hsaRVPxvUKYCpRgzLqDTb8krvAsRIwOGlHoSgYLgBXoubGgLd2fT41/OUYdb48v4k4WWHQurA==}
     engines: {node: '>= 10.13.0'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -3076,6 +3285,7 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+<<<<<<< HEAD
   source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
 
@@ -3090,6 +3300,11 @@ packages:
     resolution: {integrity: sha512-WjlahMgHmCJpqzU8bIBy4qtsZdU9lRlcZE3Lvyej6t4tuOuv1vk57OW3MBrj6hXBFx/nNoC9MPMTcr5YA7NQbg==}
     engines: {node: '>=6'}
 
+=======
+  stable-hash@0.0.5:
+    resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
     engines: {node: '>= 0.4'}
@@ -3125,6 +3340,7 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
+<<<<<<< HEAD
   stripe@22.2.1:
     resolution: {integrity: sha512-ULAtq25USBEx3yeN5zimEkfYVFETVMP5om25Ryr8ol11P62imaCZLBIEW78T7zm7Wg3wnZi+80S72yf3LCpNhw==}
     engines: {node: '>=18'}
@@ -3134,6 +3350,8 @@ packages:
       '@types/node':
         optional: true
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   styled-jsx@5.1.6:
     resolution: {integrity: sha512-qSVyDTeMotdvQYoHWLNGwRFJHC+i+ZvdBRYosOFgC+Wg1vx4frN2/RG/NA7SYqqvKNLf39P2LSRA2pu6n0XYZA==}
     engines: {node: '>= 12.0.0'}
@@ -3151,14 +3369,18 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
+<<<<<<< HEAD
   supports-color@8.1.1:
     resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==}
     engines: {node: '>=10'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+<<<<<<< HEAD
   tailwind-merge@2.6.1:
     resolution: {integrity: sha512-Oo6tHdpZsGpkKG88HJ8RR1rg/RdnEkQEfMoEk2x1XRI3F1AxeU+ijRXpiVUF4UbLfcxxRGw6TbUINKYdWVsQTQ==}
 
@@ -3166,6 +3388,10 @@ packages:
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
+=======
+  tailwind-merge@3.6.0:
+    resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
 
   tailwindcss@4.3.1:
     resolution: {integrity: sha512-hk+TB1m+K8CYNrP6rjQaq/Y+4Zylwpa87mLYBKCunwnnQ9p+fHb7kmSfGqyEJoxF/O6CDyABWVFEafNSYKll+Q==}
@@ -3174,6 +3400,7 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
+<<<<<<< HEAD
   terser-webpack-plugin@5.6.1:
     resolution: {integrity: sha512-201R5j+sJpK8nFWwKVyNfZot8FaJbLZDq5evriVzbV1wDtSXDjRUDRfJzHpAaxFDMEhsZL1QkeqM61wgsS3KaQ==}
     engines: {node: '>= 10.13.0'}
@@ -3228,6 +3455,8 @@ packages:
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
@@ -3236,9 +3465,12 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
+<<<<<<< HEAD
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   ts-api-utils@2.5.0:
     resolution: {integrity: sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA==}
     engines: {node: '>=18.12'}
@@ -3255,10 +3487,13 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
+<<<<<<< HEAD
   type-fest@0.7.1:
     resolution: {integrity: sha512-Ne2YiiGN8bmrmJJEuTWTLJR32nh/JdL1+PSicowtNb0WFpn59GK8/lfD61bVtzguz7b3PBt74nxpv/Pw5po5Rg==}
     engines: {node: '>=8'}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
     engines: {node: '>= 0.4'}
@@ -3306,6 +3541,7 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+<<<<<<< HEAD
   use-callback-ref@1.3.3:
     resolution: {integrity: sha512-jQL3lRnocaFtu3V00JToYz/4QkNWswxijDaCVNZRiRTO3HQDLsdu1ZtmIUvV4yPp+rvWm5j0y0TG/S61cuijTg==}
     engines: {node: '>=10'}
@@ -3362,6 +3598,8 @@ packages:
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
     engines: {node: '>= 0.4'}
@@ -3484,8 +3722,11 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.7
 
+<<<<<<< HEAD
   '@babel/runtime@7.29.7': {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@babel/template@7.29.7':
     dependencies:
       '@babel/code-frame': 7.29.7
@@ -3576,6 +3817,7 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
+<<<<<<< HEAD
   '@floating-ui/core@1.7.5':
     dependencies:
       '@floating-ui/utils': 0.2.11
@@ -3593,6 +3835,8 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@humanfs/core@0.19.2':
     dependencies:
       '@humanfs/types': 0.15.0
@@ -3718,11 +3962,14 @@ snapshots:
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
+<<<<<<< HEAD
   '@jridgewell/source-map@0.3.11':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
   '@jridgewell/trace-mapping@0.3.31':
@@ -3767,12 +4014,15 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.2.9':
     optional: true
 
+<<<<<<< HEAD
   '@next/third-parties@15.5.19(next@16.2.9(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)':
     dependencies:
       next: 16.2.9(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react: 19.2.7
       third-party-capital: 1.0.20
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -3787,6 +4037,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
+<<<<<<< HEAD
   '@opentelemetry/api-logs@0.214.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -4462,6 +4713,10 @@ snapshots:
 
   '@stripe/stripe-js@5.10.0': {}
 
+=======
+  '@rtsao/scc@1.1.0': {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@supabase/auth-js@2.108.1':
     dependencies:
       tslib: 2.8.1
@@ -4481,12 +4736,15 @@ snapshots:
       '@supabase/phoenix': 0.4.2
       tslib: 2.8.1
 
+<<<<<<< HEAD
   '@supabase/ssr@0.5.2(@supabase/supabase-js@2.108.1)':
     dependencies:
       '@supabase/supabase-js': 2.108.1
       '@types/cookie': 0.6.0
       cookie: 0.7.2
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@supabase/storage-js@2.108.1':
     dependencies:
       iceberg-js: 0.8.1
@@ -4578,6 +4836,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
+<<<<<<< HEAD
   '@types/cookie@0.6.0': {}
 
   '@types/d3-array@3.2.2': {}
@@ -4604,13 +4863,19 @@ snapshots:
 
   '@types/d3-timer@3.0.2': {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@types/estree@1.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
 
+<<<<<<< HEAD
   '@types/node@22.19.21':
+=======
+  '@types/node@20.19.43':
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
     dependencies:
       undici-types: 6.21.0
 
@@ -4622,9 +4887,12 @@ snapshots:
     dependencies:
       csstype: 3.2.3
 
+<<<<<<< HEAD
   '@types/trusted-types@2.0.7':
     optional: true
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   '@typescript-eslint/eslint-plugin@8.61.0(@typescript-eslint/parser@8.61.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
@@ -4786,6 +5054,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
 
+<<<<<<< HEAD
   '@webassemblyjs/ast@1.14.1':
     dependencies:
       '@webassemblyjs/helper-numbers': 1.13.2
@@ -4874,12 +5143,15 @@ snapshots:
     dependencies:
       acorn: 8.17.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   acorn-jsx@5.3.2(acorn@8.17.0):
     dependencies:
       acorn: 8.17.0
 
   acorn@8.17.0: {}
 
+<<<<<<< HEAD
   agent-base@6.0.2:
     dependencies:
       debug: 4.4.3
@@ -4895,6 +5167,8 @@ snapshots:
       ajv: 8.20.0
       fast-deep-equal: 3.1.3
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   ajv@6.15.0:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -4902,6 +5176,7 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
+<<<<<<< HEAD
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -4909,16 +5184,21 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   ansi-styles@4.3.0:
     dependencies:
       color-convert: 2.0.1
 
   argparse@2.0.1: {}
 
+<<<<<<< HEAD
   aria-hidden@1.2.6:
     dependencies:
       tslib: 2.8.1
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   aria-query@5.3.2: {}
 
   array-buffer-byte-length@1.0.2:
@@ -5027,8 +5307,11 @@ snapshots:
       node-releases: 2.0.47
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
+<<<<<<< HEAD
   buffer-from@1.1.2: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   call-bind-apply-helpers@1.0.2:
     dependencies:
       es-errors: 1.3.0
@@ -5055,6 +5338,7 @@ snapshots:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
+<<<<<<< HEAD
   chrome-trace-event@1.0.4: {}
 
   cjs-module-lexer@2.2.0: {}
@@ -5063,6 +5347,8 @@ snapshots:
     dependencies:
       clsx: 2.1.1
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   client-only@0.0.1: {}
 
   clsx@2.1.1: {}
@@ -5073,18 +5359,24 @@ snapshots:
 
   color-name@1.1.4: {}
 
+<<<<<<< HEAD
   commander@2.20.3: {}
 
   commondir@1.0.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   concat-map@0.0.1: {}
 
   convert-source-map@2.0.0: {}
 
+<<<<<<< HEAD
   cookie@0.7.2: {}
 
   core-js@3.49.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -5093,6 +5385,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
+<<<<<<< HEAD
   d3-array@3.2.4:
     dependencies:
       internmap: 2.0.3
@@ -5131,6 +5424,8 @@ snapshots:
 
   d3-timer@3.0.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   damerau-levenshtein@1.0.8: {}
 
   data-view-buffer@1.0.2:
@@ -5159,8 +5454,11 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+<<<<<<< HEAD
   decimal.js-light@2.5.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   deep-is@0.1.4: {}
 
   define-data-property@1.1.4:
@@ -5177,12 +5475,16 @@ snapshots:
 
   detect-libc@2.1.2: {}
 
+<<<<<<< HEAD
   detect-node-es@1.1.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
 
+<<<<<<< HEAD
   dom-helpers@5.2.1:
     dependencies:
       '@babel/runtime': 7.29.7
@@ -5194,6 +5496,8 @@ snapshots:
 
   dotenv@16.6.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -5209,11 +5513,14 @@ snapshots:
       graceful-fs: 4.2.11
       tapable: 2.3.3
 
+<<<<<<< HEAD
   enhanced-resolve@5.24.0:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   es-abstract@1.24.2:
     dependencies:
       array-buffer-byte-length: 1.0.2
@@ -5294,8 +5601,11 @@ snapshots:
       iterator.prototype: 1.1.5
       math-intrinsics: 1.1.0
 
+<<<<<<< HEAD
   es-module-lexer@2.1.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   es-object-atoms@1.1.2:
     dependencies:
       es-errors: 1.3.0
@@ -5456,11 +5766,14 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
+<<<<<<< HEAD
   eslint-scope@5.1.1:
     dependencies:
       esrecurse: 4.3.0
       estraverse: 4.3.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   eslint-scope@8.4.0:
     dependencies:
       esrecurse: 4.3.0
@@ -5527,6 +5840,7 @@ snapshots:
     dependencies:
       estraverse: 5.3.0
 
+<<<<<<< HEAD
   estraverse@4.3.0: {}
 
   estraverse@5.3.0: {}
@@ -5543,6 +5857,14 @@ snapshots:
 
   fast-equals@5.4.0: {}
 
+=======
+  estraverse@5.3.0: {}
+
+  esutils@2.0.3: {}
+
+  fast-deep-equal@3.1.3: {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   fast-glob@3.3.1:
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -5555,8 +5877,11 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
+<<<<<<< HEAD
   fast-uri@3.1.2: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   fastq@1.20.1:
     dependencies:
       reusify: 1.1.0
@@ -5565,8 +5890,11 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+<<<<<<< HEAD
   fflate@0.4.8: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   file-entry-cache@8.0.0:
     dependencies:
       flat-cache: 4.0.1
@@ -5600,9 +5928,12 @@ snapshots:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
+<<<<<<< HEAD
   fsevents@2.3.3:
     optional: true
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   function-bind@1.1.2: {}
 
   function.prototype.name@1.2.0:
@@ -5636,8 +5967,11 @@ snapshots:
       hasown: 2.0.4
       math-intrinsics: 1.1.0
 
+<<<<<<< HEAD
   get-nonce@1.0.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   get-proto@1.0.1:
     dependencies:
       dunder-proto: 1.0.1
@@ -5661,6 +5995,7 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
+<<<<<<< HEAD
   glob-to-regexp@0.4.1: {}
 
   glob@13.0.6:
@@ -5669,6 +6004,8 @@ snapshots:
       minipass: 7.1.3
       path-scurry: 2.0.2
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   globals@14.0.0: {}
 
   globals@16.4.0: {}
@@ -5710,6 +6047,7 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
+<<<<<<< HEAD
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
@@ -5717,6 +6055,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   iceberg-js@0.8.1: {}
 
   ignore@5.3.2: {}
@@ -5728,6 +6068,7 @@ snapshots:
       parent-module: 1.0.1
       resolve-from: 4.0.0
 
+<<<<<<< HEAD
   import-in-the-middle@3.0.2:
     dependencies:
       acorn: 8.17.0
@@ -5735,6 +6076,8 @@ snapshots:
       cjs-module-lexer: 2.2.0
       module-details-from-path: 1.0.4
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   imurmurhash@0.1.4: {}
 
   internal-slot@1.1.0:
@@ -5743,8 +6086,11 @@ snapshots:
       hasown: 2.0.4
       side-channel: 1.1.1
 
+<<<<<<< HEAD
   internmap@2.0.3: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   is-array-buffer@3.0.5:
     dependencies:
       call-bind: 1.0.9
@@ -5822,10 +6168,13 @@ snapshots:
 
   is-number@7.0.0: {}
 
+<<<<<<< HEAD
   is-reference@1.2.1:
     dependencies:
       '@types/estree': 1.0.9
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   is-regex@1.2.1:
     dependencies:
       call-bound: 1.0.4
@@ -5878,12 +6227,15 @@ snapshots:
       has-symbols: 1.1.0
       set-function-name: 2.0.2
 
+<<<<<<< HEAD
   jest-worker@27.5.1:
     dependencies:
       '@types/node': 22.19.21
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   jiti@2.7.0: {}
 
   js-tokens@4.0.0: {}
@@ -5898,8 +6250,11 @@ snapshots:
 
   json-schema-traverse@0.4.1: {}
 
+<<<<<<< HEAD
   json-schema-traverse@1.0.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json5@1.0.2:
@@ -5979,38 +6334,53 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
+<<<<<<< HEAD
   loader-runner@4.3.2: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
 
   lodash.merge@4.6.2: {}
 
+<<<<<<< HEAD
   lodash@4.18.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
 
+<<<<<<< HEAD
   lru-cache@11.5.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
 
+<<<<<<< HEAD
   lucide-react@0.460.0(react@19.2.7):
     dependencies:
       react: 19.2.7
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   math-intrinsics@1.1.0: {}
 
+<<<<<<< HEAD
   merge-stream@2.0.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   merge2@1.4.1: {}
 
   micromatch@4.0.8:
@@ -6018,8 +6388,11 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.2
 
+<<<<<<< HEAD
   mime-db@1.54.0: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   minimatch@10.2.5:
     dependencies:
       brace-expansion: 5.0.6
@@ -6030,10 +6403,13 @@ snapshots:
 
   minimist@1.2.8: {}
 
+<<<<<<< HEAD
   minipass@7.1.3: {}
 
   module-details-from-path@1.0.4: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   motion-dom@12.40.0:
     dependencies:
       motion-utils: 12.39.0
@@ -6048,9 +6424,13 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
+<<<<<<< HEAD
   neo-async@2.6.2: {}
 
   next@16.2.9(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+=======
+  next@16.2.9(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
     dependencies:
       '@next/env': 16.2.9
       '@swc/helpers': 0.5.15
@@ -6069,7 +6449,10 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.2.9
       '@next/swc-win32-arm64-msvc': 16.2.9
       '@next/swc-win32-x64-msvc': 16.2.9
+<<<<<<< HEAD
       '@opentelemetry/api': 1.9.1
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
       sharp: 0.34.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -6082,10 +6465,13 @@ snapshots:
       object.entries: 1.1.9
       semver: 6.3.1
 
+<<<<<<< HEAD
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   node-releases@2.0.47: {}
 
   object-assign@4.1.1: {}
@@ -6163,11 +6549,14 @@ snapshots:
 
   path-parse@1.0.7: {}
 
+<<<<<<< HEAD
   path-scurry@2.0.2:
     dependencies:
       lru-cache: 11.5.1
       minipass: 7.1.3
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   picocolors@1.1.1: {}
 
   picomatch@2.3.2: {}
@@ -6188,6 +6577,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+<<<<<<< HEAD
   posthog-js@1.387.0:
     dependencies:
       '@posthog/core': 1.33.0
@@ -6205,18 +6595,27 @@ snapshots:
 
   progress@2.0.3: {}
 
+=======
+  prelude-ls@1.2.1: {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   prop-types@15.8.1:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
 
+<<<<<<< HEAD
   proxy-from-env@1.1.0: {}
 
   punycode@2.3.1: {}
 
   query-selector-shadow-dom@1.0.1: {}
 
+=======
+  punycode@2.3.1: {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   queue-microtask@1.2.3: {}
 
   react-dom@19.2.7(react@19.2.7):
@@ -6226,6 +6625,7 @@ snapshots:
 
   react-is@16.13.1: {}
 
+<<<<<<< HEAD
   react-is@18.3.1: {}
 
   react-remove-scroll-bar@2.3.8(@types/react@19.2.17)(react@19.2.7):
@@ -6291,6 +6691,10 @@ snapshots:
       tiny-invariant: 1.3.3
       victory-vendor: 36.9.2
 
+=======
+  react@19.2.7: {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   reflect.getprototypeof@1.0.10:
     dependencies:
       call-bind: 1.0.9
@@ -6311,6 +6715,7 @@ snapshots:
       gopd: 1.2.0
       set-function-name: 2.0.2
 
+<<<<<<< HEAD
   require-from-string@2.0.2: {}
 
   require-in-the-middle@8.0.1:
@@ -6320,6 +6725,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   resolve-from@4.0.0: {}
 
   resolve-pkg-maps@1.0.0: {}
@@ -6335,6 +6742,7 @@ snapshots:
 
   reusify@1.1.0: {}
 
+<<<<<<< HEAD
   rollup@4.62.0:
     dependencies:
       '@types/estree': 1.0.9
@@ -6366,6 +6774,8 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.62.0
       fsevents: 2.3.3
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
@@ -6391,6 +6801,7 @@ snapshots:
 
   scheduler@0.27.0: {}
 
+<<<<<<< HEAD
   schema-utils@4.3.3:
     dependencies:
       '@types/json-schema': 7.0.15
@@ -6398,6 +6809,8 @@ snapshots:
       ajv-formats: 2.1.1(ajv@8.20.0)
       ajv-keywords: 5.1.0(ajv@8.20.0)
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   semver@6.3.1: {}
 
   semver@7.8.4: {}
@@ -6492,6 +6905,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
+<<<<<<< HEAD
   source-map-support@0.5.21:
     dependencies:
       buffer-from: 1.1.2
@@ -6505,6 +6919,10 @@ snapshots:
     dependencies:
       type-fest: 0.7.1
 
+=======
+  stable-hash@0.0.5: {}
+
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   stop-iteration-iterator@1.1.0:
     dependencies:
       es-errors: 1.3.0
@@ -6565,10 +6983,13 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
+<<<<<<< HEAD
   stripe@22.2.1(@types/node@22.19.21):
     optionalDependencies:
       '@types/node': 22.19.21
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   styled-jsx@5.1.6(@babel/core@7.29.7)(react@19.2.7):
     dependencies:
       client-only: 0.0.1
@@ -6580,6 +7001,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
+<<<<<<< HEAD
   supports-color@8.1.1:
     dependencies:
       has-flag: 4.0.0
@@ -6591,11 +7013,17 @@ snapshots:
   tailwindcss-animate@1.0.7(tailwindcss@4.3.1):
     dependencies:
       tailwindcss: 4.3.1
+=======
+  supports-preserve-symlinks-flag@1.0.0: {}
+
+  tailwind-merge@3.6.0: {}
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
 
   tailwindcss@4.3.1: {}
 
   tapable@2.3.3: {}
 
+<<<<<<< HEAD
   terser-webpack-plugin@5.6.1(postcss@8.5.15)(webpack@5.107.2(postcss@8.5.15)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -6617,6 +7045,8 @@ snapshots:
 
   tiny-invariant@1.3.3: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   tinyglobby@0.2.17:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
@@ -6626,8 +7056,11 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
+<<<<<<< HEAD
   tr46@0.0.3: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   ts-api-utils@2.5.0(typescript@5.9.3):
     dependencies:
       typescript: 5.9.3
@@ -6645,8 +7078,11 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
 
+<<<<<<< HEAD
   type-fest@0.7.1: {}
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   typed-array-buffer@1.0.3:
     dependencies:
       call-bound: 1.0.4
@@ -6739,6 +7175,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+<<<<<<< HEAD
   use-callback-ref@1.3.3(@types/react@19.2.17)(react@19.2.7):
     dependencies:
       react: 19.2.7
@@ -6834,6 +7271,8 @@ snapshots:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
 
+=======
+>>>>>>> 9143bdb (feat: builders page, stack page, operator spotlight, QA trust audit, dark design system — full TLD UI rebuild)
   which-boxed-primitive@1.1.1:
     dependencies:
       is-bigint: 1.1.0

@@ -1,68 +1,72 @@
-import { ReactNode } from "react";
+'use client'
+
+import Link from 'next/link'
 
 interface PremiumGateProps {
-  children: ReactNode;
-  previewWords?: number;
+  children: React.ReactNode
+  title?: string
+  description?: string
+  variant?: 'default' | 'compact'
 }
 
-export default function PremiumGate({ children }: PremiumGateProps) {
-  return (
-    <div className="relative">
-      <div style={{ maxHeight: 400, overflow: "hidden" }}>{children}</div>
-      <div
-        className="absolute bottom-0 left-0 right-0 z-10"
-        style={{
-          background: "linear-gradient(transparent, #07080D 55%)",
-          padding: "80px 0 40px",
-          textAlign: "center",
-        }}
-      >
-        <div
-          className="mx-auto max-w-sm px-6 py-7"
-          style={{
-            border: "1px solid var(--color-gold)",
-            background: "rgba(201, 168, 76, 0.06)",
-          }}
-        >
-          <p className="label-gold mb-3">Premium Intelligence</p>
-          <h3
-            className="font-headline text-[var(--color-text)] mb-2"
-            style={{ fontSize: 20, fontWeight: 700 }}
-          >
-            Unlock Full Intelligence
-          </h3>
-          <p className="text-xs text-[var(--color-text-dim)] leading-relaxed mb-5">
-            Premium operators get the full Weekly Brief, all signals, and the complete intelligence archive.
-          </p>
+export default function PremiumGate({
+  children,
+  title = 'Unlock Premium Access',
+  description = 'Premium content is locked for subscribers. Join the operator network to unlock the full stack and exclusive resources.',
+  variant = 'default',
+}: PremiumGateProps) {
+  const isCompact = variant === 'compact'
 
-          <div className="flex items-end justify-center gap-6 mb-5 font-mono">
-            <div className="text-center">
-              <div className="text-[var(--color-text)] font-bold text-lg">$9.99</div>
-              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">/ mo</div>
-            </div>
-            <div className="text-center">
-              <div className="text-[var(--color-gold)] font-bold text-lg">$99.99</div>
-              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">/ yr</div>
-            </div>
-            <div className="text-center">
-              <div className="text-[var(--color-text-dim)] font-bold text-lg">$199.99</div>
-              <div className="text-[var(--color-text-dim)] text-[10px] uppercase tracking-widest mt-0.5">lifetime</div>
+  return (
+    <div className="relative rounded-xl overflow-hidden">
+      {/* Content with blur overlay */}
+      <div className="relative">
+        <div className="filter blur-[3px] select-none pointer-events-none">
+          {children}
+        </div>
+        <div className="absolute inset-0 bg-stone-950/40" />
+      </div>
+
+      {/* Foreground lock overlay */}
+      <div className="absolute inset-0 flex items-center justify-center p-6">
+        <div className="text-center max-w-sm transition-all duration-500 ease-out">
+          {/* Lock icon */}
+          <div className="mb-4">
+            <div className="w-12 h-12 mx-auto rounded-full bg-amber-500/15 flex items-center justify-center">
+              <svg className="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0110 0v4" />
+              </svg>
             </div>
           </div>
 
-          <button
-            className="w-full font-mono text-[11px] font-bold uppercase tracking-[0.14em] py-3 transition-opacity hover:opacity-90"
-            style={{
-              background: "var(--color-gold)",
-              color: "#07080D",
-              border: "none",
-              cursor: "pointer",
-            }}
+          {!isCompact && (
+            <div className="font-mono text-[9px] font-bold tracking-[0.2em] uppercase mb-3 text-amber-500">
+              Premium
+            </div>
+          )}
+
+          <h3 className="font-serif text-xl font-bold text-white mb-2">{title}</h3>
+          <p className="text-sm text-stone-400 leading-relaxed mb-6">{description}</p>
+
+          <Link
+            href="#"
+            className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold px-6 py-3 rounded-lg text-sm transition-all hover:shadow-lg hover:shadow-amber-500/25"
           >
-            Unlock Full Intelligence
-          </button>
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0110 0v4" />
+            </svg>
+            {isCompact ? 'Unlock' : 'Unlock Premium Access'}
+          </Link>
+
+          {!isCompact && (
+            <p className="text-[10px] font-mono text-stone-600 mt-4">
+              Coming soon — payments integration in development
+            </p>
+          )}
         </div>
       </div>
     </div>
-  );
+  )
 }
