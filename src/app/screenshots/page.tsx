@@ -2,24 +2,40 @@ import Image from "next/image";
 import Link from "next/link";
 
 const SCREENSHOTS = [
-  { file: "01-desktop-hero.png", label: "Homepage — Hero (Desktop)", section: "Homepage" },
-  { file: "02-desktop-grid-row1.png", label: "Homepage — Content Grid Row 1 (Desktop)", section: "Homepage" },
-  { file: "03-desktop-grid-row2.png", label: "Homepage — Content Grid Row 2 (Desktop)", section: "Homepage" },
-  { file: "04-desktop-grid-row3.png", label: "Homepage — Content Grid Row 3 (Desktop)", section: "Homepage" },
-  { file: "05-desktop-footer.png", label: "Homepage — Footer (Desktop)", section: "Homepage" },
-  { file: "06-desktop-markets.png", label: "Markets Page (Desktop)", section: "Markets" },
-  { file: "07-desktop-about.png", label: "About Page (Desktop)", section: "About" },
-  { file: "08-desktop-archive.png", label: "Archive Page (Desktop)", section: "Archive" },
-  { file: "09-desktop-stack.png", label: "Stack Page (Desktop)", section: "Stack" },
-  { file: "10-mobile-hero.png", label: "Homepage — Hero (Mobile)", section: "Mobile" },
-  { file: "11-mobile-grid.png", label: "Homepage — Grid Row 1 (Mobile)", section: "Mobile" },
-  { file: "12-mobile-grid2.png", label: "Homepage — Grid Row 2 (Mobile)", section: "Mobile" },
-  { file: "13-mobile-footer.png", label: "Homepage — Footer (Mobile)", section: "Mobile" },
-  { file: "14-mobile-markets.png", label: "Markets Page (Mobile)", section: "Mobile" },
-  { file: "15-desktop-search-open.png", label: "Search Bar — Open State", section: "Interactions" },
+  // Homepage — Desktop
+  { file: "01-home-nav.png",          label: "Nav — dark theme, logo, search",         section: "Homepage — Desktop" },
+  { file: "02-home-hero.png",         label: "Hero — AI Infrastructure lead story",     section: "Homepage — Desktop" },
+  { file: "03-home-grid-row1.png",    label: "Grid — video card + markets + tech",      section: "Homepage — Desktop" },
+  { file: "04-home-grid-row2.png",    label: "Grid — 4-col article row",                section: "Homepage — Desktop" },
+  { file: "05-home-grid-row3.png",    label: "Grid — bottom article row",               section: "Homepage — Desktop" },
+  { file: "06-home-footer.png",       label: "Footer — newsletter + links",             section: "Homepage — Desktop" },
+  // Interactions
+  { file: "15-search-open.png",       label: "Search bar — expanded inline state",      section: "Interactions" },
+  // Markets
+  { file: "07-markets-top.png",       label: "Markets — top section",                   section: "Markets" },
+  { file: "08-markets-bottom.png",    label: "Markets — signals list",                  section: "Markets" },
+  // About
+  { file: "09-about-top.png",         label: "About — masthead and mission",            section: "About" },
+  { file: "10-about-bottom.png",      label: "About — team and links",                  section: "About" },
+  // Archive
+  { file: "11-archive-top.png",       label: "Archive — article index top",             section: "Archive" },
+  { file: "12-archive-bottom.png",    label: "Archive — article index bottom",          section: "Archive" },
+  // Stack
+  { file: "13-stack-top.png",         label: "Stack — tools and infrastructure top",    section: "Stack" },
+  { file: "14-stack-bottom.png",      label: "Stack — tools and infrastructure bottom", section: "Stack" },
+  // Mobile
+  { file: "16-mobile-home-nav.png",   label: "Mobile — nav bar",                        section: "Mobile" },
+  { file: "17-mobile-home-hero.png",  label: "Mobile — hero stacked layout",            section: "Mobile" },
+  { file: "18-mobile-home-grid.png",  label: "Mobile — grid row 1",                     section: "Mobile" },
+  { file: "19-mobile-home-grid2.png", label: "Mobile — grid row 2",                     section: "Mobile" },
+  { file: "20-mobile-home-footer.png",label: "Mobile — footer",                         section: "Mobile" },
+  { file: "21-mobile-markets.png",    label: "Mobile — markets page",                   section: "Mobile" },
+  // Tablet
+  { file: "22-tablet-home-hero.png",  label: "Tablet — hero 2-col layout",              section: "Tablet" },
+  { file: "23-tablet-home-grid.png",  label: "Tablet — 2-col article grid",             section: "Tablet" },
 ];
 
-const SECTIONS = ["Homepage", "Markets", "About", "Archive", "Stack", "Mobile", "Interactions"];
+const SECTIONS = ["Homepage — Desktop", "Interactions", "Markets", "About", "Archive", "Stack", "Mobile", "Tablet"];
 
 export default function ScreenshotsPage() {
   return (
@@ -98,7 +114,7 @@ export default function ScreenshotsPage() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: section === "Mobile" ? "repeat(auto-fill, minmax(280px, 1fr))" : "repeat(auto-fill, minmax(520px, 1fr))",
+                  gridTemplateColumns: (section === "Mobile" || section === "Tablet") ? "repeat(auto-fill, minmax(280px, 1fr))" : "repeat(auto-fill, minmax(520px, 1fr))",
                   gap: 24,
                 }}
               >
@@ -114,7 +130,7 @@ export default function ScreenshotsPage() {
                         style={{
                           position: "relative",
                           width: "100%",
-                          aspectRatio: section === "Mobile" ? "9/19" : "16/9",
+                          aspectRatio: section === "Mobile" ? "9/19" : section === "Tablet" ? "3/4" : "16/9",
                           background: "#0D0F1C",
                           border: "1px solid #1A1F2E",
                           overflow: "hidden",
