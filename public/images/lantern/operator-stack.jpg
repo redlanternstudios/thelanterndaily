@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#0D0F1C"/>
+  <rect x="0" y="0" width="1200" height="800" fill="url(#grad)"/>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D42535;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#07080F;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <text x="600" y="400" font-family="monospace" font-size="24" fill="#F7F2EA" text-anchor="middle" opacity="0.4">THE LANTERN DAILY</text>
+</svg>

@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  skipTrailingSlashRedirect: true,
-  experimental: {
-    serverSourceMaps: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/photo-**",
+      },
+    ],
   },
   images: {
     remotePatterns: [

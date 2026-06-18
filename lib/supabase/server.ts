@@ -1,29 +1,27 @@
-// Supabase server client — install `@supabase/ssr` and uncomment when connecting auth
-// import { createServerClient } from '@supabase/ssr';
-// import { cookies } from 'next/headers';
-//
-// export async function createClient() {
-//   const cookieStore = await cookies();
-//   return createServerClient(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-//     {
-//       cookies: {
-//         getAll() {
-//           return cookieStore.getAll();
-//         },
-//         setAll(cookiesToSet) {
-//           cookiesToSet.forEach(({ name, value, options }) =>
-//             cookieStore.set(name, value, options)
-//           );
-//         },
-//       },
-//     }
-//   );
-// }
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
 
 export async function createClient() {
-  throw new Error(
-    'Supabase server client not initialized. Install @supabase/ssr and configure .env.local'
+  const cookieStore = await cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // Server component — cookies can't be set, that's fine for reads
+          }
+        },
+      },
+    }
   );
 }

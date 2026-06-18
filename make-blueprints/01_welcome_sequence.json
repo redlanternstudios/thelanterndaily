@@ -1,0 +1,76 @@
+{
+  "name": "Lantern - Welcome Sequence",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": -50, "y": 0 },
+        "restore": {
+          "parameters": {
+            "hook": { "label": "Lantern Subscribe Hook" }
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.resend.com/emails",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer re_SJimumLi_GuHBjKW3FzLAoWs3aZUXwPSf" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"from\":\"The Lantern Daily <hello@thelanterndaily.com>\",\"to\":[\"{{1.email}}\"],\"subject\":\"Operator #{{1.operator_number}} — You're in.\",\"html\":\"<div style='font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#07080D;color:#F7F2EE;padding:48px 40px'><p style='color:#D92532;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin:0 0 24px'>THE LANTERN DAILY</p><h1 style='font-size:36px;font-weight:700;margin:0 0 8px;color:#F7F2EE'>Operator #{{padStart(toString(1.operator_number), 4, \\\"0\\\")}}</h1><p style='color:#888;font-size:13px;letter-spacing:1px;margin:0 0 32px'>SIGNAL CONFIRMED</p><p style='font-size:16px;line-height:1.7;color:#F7F2EE'>You're in. Every morning, the signals that serious Muslim operators should know before consensus catches up.</p><p style='font-size:16px;line-height:1.7;margin-top:16px'>Muslim-built. AI-native. Curated for founders who move before the market agrees.</p><div style='margin:40px 0'><a href='https://thelanterndaily.com/shorts' style='background:#D92532;color:#F7F2EE;padding:14px 28px;text-decoration:none;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700'>READ TODAY'S BRIEF →</a></div><hr style='border:none;border-top:1px solid rgba(255,255,255,0.08);margin:40px 0'/><p style='color:#555;font-size:12px;margin:0'>The Lantern Daily · By Red, LLC · thelanterndaily.com</p></div>\"}"
+      },
+      "metadata": {
+        "designer": { "x": 250, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] }
+  }
+}

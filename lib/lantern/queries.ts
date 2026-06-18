@@ -1,0 +1,261 @@
+import { createClient } from '@/lib/supabase/server';
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+
+export type ContentType = 'article' | 'video' | 'market' | 'spotlight';
+
+export interface LanternArticle {
+  id: string;
+  title: string;
+  excerpt: string | null;
+  author: string | null;
+  content_type: ContentType;
+  category: string | null;
+  image_url: string | null;
+  youtube_video_id: string | null;
+  url: string | null;
+  published_at: string | null;
+  read_time_minutes: number | null;
+  is_premium: boolean;
+  halal_classification: string | null;
+  halal_score: number | null;
+}
+
+export interface LanternStackEntry {
+  id: string;
+  tool_name: string;
+  tool_url: string;
+  category: string;
+  tier: string;
+  one_line_desc: string | null;
+  full_breakdown: string | null;
+  halal_screened: boolean;
+  halal_notes: string | null;
+  has_affiliate: boolean;
+  affiliate_link: string | null;
+  tier_placement: string;
+}
+
+// ── Content Queue ──────────────────────────────────────────────────────────────
+
+export async function getApprovedContent(limit = 20): Promise<LanternArticle[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_content_queue')
+    .select(`
+      id, title, excerpt, author, content_type, category,
+      image_url, youtube_video_id, url, published_at,
+      read_time_minutes, is_premium, halal_classification, halal_score
+    `)
+    .eq('status', 'approved')
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getApprovedContent error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternArticle[];
+}
+
+export async function getArticles(limit = 10): Promise<LanternArticle[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_content_queue')
+    .select(`
+      id, title, excerpt, author, content_type, category,
+      image_url, youtube_video_id, url, published_at,
+      read_time_minutes, is_premium, halal_classification, halal_score
+    `)
+    .eq('status', 'approved')
+    .eq('content_type', 'article')
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getArticles error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternArticle[];
+}
+
+export async function getVideos(limit = 4): Promise<LanternArticle[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_content_queue')
+    .select(`
+      id, title, excerpt, author, content_type, category,
+      image_url, youtube_video_id, url, published_at,
+      read_time_minutes, is_premium, halal_classification, halal_score
+    `)
+    .eq('status', 'approved')
+    .eq('content_type', 'video')
+    .order('published_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getVideos error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternArticle[];
+}
+
+export async function getMarketContent(): Promise<LanternArticle[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_content_queue')
+    .select(`
+      id, title, excerpt, author, content_type, category,
+      image_url, youtube_video_id, url, published_at,
+      read_time_minutes, is_premium, halal_classification, halal_score
+    `)
+    .eq('status', 'approved')
+    .eq('content_type', 'market')
+    .order('published_at', { ascending: false })
+    .limit(5);
+
+  if (error) {
+    console.error('[lantern/queries] getMarketContent error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternArticle[];
+}
+
+// ── Market Signals ─────────────────────────────────────────────────────────────
+
+export interface LanternMarketSignal {
+  id: string;
+  ticker: string;
+  name: string | null;
+  asset_class: string;
+  price: number | null;
+  change_pct: number | null;
+  halal_status: string | null;
+  halal_source: string | null;
+  signal: string | null;
+  signal_note: string | null;
+  source_url: string | null;
+  as_of: string;
+}
+
+export async function getMarketSignals(limit = 5): Promise<LanternMarketSignal[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_market_signals')
+    .select('id, ticker, name, asset_class, price, change_pct, halal_status, halal_source, signal, signal_note, source_url, as_of')
+    .order('as_of', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getMarketSignals error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternMarketSignal[];
+}
+
+// ── Halal Portfolio ────────────────────────────────────────────────────────────
+
+export interface LanternPortfolioPick {
+  id: string;
+  ticker: string;
+  company_name: string;
+  asset_class: string;
+  allocation_pct: number;
+  halal_status: string;
+  halal_score: number | null;
+  halal_source: string;
+  editorial_rationale: string | null;
+  scholar_note: string | null;
+  source_url: string | null;
+  quarter: string;
+}
+
+export async function getHalalPortfolio(quarter?: string): Promise<LanternPortfolioPick[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from('lantern_halal_portfolio')
+    .select('id, ticker, company_name, asset_class, allocation_pct, halal_status, halal_score, halal_source, editorial_rationale, scholar_note, source_url, quarter')
+    .eq('active', true)
+    .order('allocation_pct', { ascending: false });
+
+  if (quarter) {
+    query = query.eq('quarter', quarter);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('[lantern/queries] getHalalPortfolio error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternPortfolioPick[];
+}
+
+// ── Stack Entries ──────────────────────────────────────────────────────────────
+
+export async function getStackEntries(limit = 12): Promise<LanternStackEntry[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_stack_entries')
+    .select(`
+      id, tool_name, tool_url, category, tier, one_line_desc,
+      full_breakdown, halal_screened, halal_notes,
+      has_affiliate, affiliate_link, tier_placement
+    `)
+    .eq('published', true)
+    .eq('ro_approved', true)
+    .order('created_at', { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error('[lantern/queries] getStackEntries error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternStackEntry[];
+}
+
+export async function getFeaturedStackEntries(): Promise<LanternStackEntry[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('lantern_stack_entries')
+    .select(`
+      id, tool_name, tool_url, category, tier, one_line_desc,
+      full_breakdown, halal_screened, halal_notes,
+      has_affiliate, affiliate_link, tier_placement
+    `)
+    .eq('published', true)
+    .eq('ro_approved', true)
+    .not('featured_week', 'is', null)
+    .order('created_at', { ascending: true })
+    .limit(6);
+
+  if (error) {
+    console.error('[lantern/queries] getFeaturedStackEntries error:', error.message);
+    return [];
+  }
+  return (data ?? []) as LanternStackEntry[];
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+
+export function formatDate(iso: string | null): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+export function readTime(minutes: number | null): string {
+  if (!minutes) return '5 min read';
+  return `${minutes} min read`;
+}
+
+export function articleHref(article: LanternArticle): string {
+  if (article.content_type === 'video' && article.youtube_video_id) {
+    return `https://www.youtube.com/watch?v=${article.youtube_video_id}`;
+  }
+  if (article.url) return article.url;
+  return `/issues/${article.id}`;
+}

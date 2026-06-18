@@ -1,0 +1,134 @@
+{
+  "name": "Lantern - Daily Approval Digest",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://endovljmaudnxdzdapmf.supabase.co/rest/v1/lantern_content_queue?select=id,title,url,source,ai_summary,relevance_score&status=eq.pending&order=relevance_score.desc&limit=10",
+        "serializeUrl": false,
+        "method": "get",
+        "headers": [
+          { "name": "apikey", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuZG92bGptYXVkbnhkemRhcG1mIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAyODc1NiwiZXhwIjoyMDg4NjA0NzU2fQ.8JlX3pApXZYDof_2gTH3ke9L5bsA8mLaZcsBOd0hBY0" },
+          { "name": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuZG92bGptYXVkbnhkemRhcG1mIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAyODc1NiwiZXhwIjoyMDg4NjA0NzU2fQ.8JlX3pApXZYDof_2gTH3ke9L5bsA8mLaZcsBOd0hBY0" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": ""
+      },
+      "metadata": {
+        "designer": { "x": -50, "y": 0 }
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.telegram.org/bot8903373199:AAHrFryBWyiVYRyF3qaXu_7E35FdIUs5Hcs/sendMessage",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"chat_id\":\"8876949268\",\"parse_mode\":\"HTML\",\"text\":\"🕯 <b>LANTERN DAILY — CONTENT RADAR</b>\\n\\n<b>{{length(1.data)}} stories pending your review</b>\\n\\n{{join(map(1.data, 'title'), '\\n\\n')}}\\n\\n<a href='https://thelanterndaily.com/admin/queue'>Review queue →</a>\"}"
+      },
+      "metadata": {
+        "designer": { "x": 250, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.resend.com/emails",
+        "serializeUrl": false,
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer re_SJimumLi_GuHBjKW3FzLAoWs3aZUXwPSf" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "cert": "",
+        "key": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "data": "{\"from\":\"Lantern Radar <radar@thelanterndaily.com>\",\"to\":[\"roryleesemeah@gmail.com\"],\"subject\":\"🕯 Lantern Daily — {{length(1.data)}} stories to review\",\"html\":\"<div style='font-family:monospace;max-width:600px;background:#07080D;color:#F7F2EE;padding:32px'><h2 style='color:#D92532'>CONTENT RADAR</h2><p>{{length(1.data)}} stories scored 7+ for Muslim tech relevance</p>{{join(map(1.data, '<div style=margin:16px 0;padding:12px;border-left:2px solid #D92532><b>' + title + '</b><br><span style=color:#888>' + source + ' · Score: ' + relevance_score + '</span><br><a href=' + url + ' style=color:#D92532>Read source →</a><br><a href=https://thelanterndaily.com/api/admin/approve/' + id + ' style=color:green>✓ Approve</a> · <a href=https://thelanterndaily.com/api/admin/reject/' + id + ' style=color:red>✗ Reject</a></div>'), '')}}</div>\"}"
+      },
+      "metadata": {
+        "designer": { "x": 500, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] }
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "name": "Lantern - Multi-Feed Article Ingestion",
+  "_comment": "Created 2026-06-16. Runs 5 additional RSS feeds through Groq halal screening → /api/admin/content-radar. Schedule: every 6h offset from scenario 03 (runs at 03,09,15,21 UTC). Requires Make.com variables: GROQ_API_KEY, ADMIN_WEBHOOK_SECRET",
+  "flow": [
+    {
+      "id": 1,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": -500, "y": 0 }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 2,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://islamicfinancenews.com/feed/",
+                "serializeUrl": false,
+                "method": "get",
+                "headers": [
+                  { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": false,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -200, "y": -400 } }
+            },
+            {
+              "id": 3,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "45",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nReturn ONLY a valid JSON array (no markdown, no code fences):\\n[{\\\"title\\\":\\\"...\\\",\\\"url\\\":\\\"...\\\",\\\"score\\\":8,\\\"summary\\\":\\\"One sentence why relevant\\\",\\\"halal_verdict\\\":\\\"pass\\\",\\\"halal_score\\\":85,\\\"halal_flags\\\":[]}]\\n\\nRules:\\n- score 1-10 relevance for Muslim founders, halal tech, Islamic finance\\n- Only include score >= 7\\n- halal_verdict: pass/review/fail\\n- halal_score: 0-100 (100=fully halal)\\n- halal_flags: array of concern strings, [] if none\\n- Fail if: riba promotion, gambling, alcohol, haram content\\n- summary: one sentence max\"},{\"role\":\"user\",\"content\":\"{{left(2.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 100, "y": -400 } }
+            },
+            {
+              "id": 4,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/content-radar",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"articles_json\":\"{{replace(3.data.choices[0].message.content,'\"','\\\\\"')}}\",\"source\":\"islamicfinancenews.com\"}"
+              },
+              "metadata": { "designer": { "x": 400, "y": -400 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 5,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://muslimmatters.org/feed/",
+                "serializeUrl": false,
+                "method": "get",
+                "headers": [
+                  { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": false,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -200, "y": -200 } }
+            },
+            {
+              "id": 6,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "45",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nReturn ONLY a valid JSON array (no markdown, no code fences):\\n[{\\\"title\\\":\\\"...\\\",\\\"url\\\":\\\"...\\\",\\\"score\\\":8,\\\"summary\\\":\\\"One sentence why relevant\\\",\\\"halal_verdict\\\":\\\"pass\\\",\\\"halal_score\\\":85,\\\"halal_flags\\\":[]}]\\n\\nRules:\\n- score 1-10 relevance for Muslim founders, halal tech, Islamic finance\\n- Only include score >= 7\\n- halal_verdict: pass/review/fail\\n- halal_score: 0-100\\n- halal_flags: [] if none\\n- Fail if: riba promotion, gambling, alcohol, haram content\"},{\"role\":\"user\",\"content\":\"{{left(5.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 100, "y": -200 } }
+            },
+            {
+              "id": 7,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/content-radar",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"articles_json\":\"{{replace(6.data.choices[0].message.content,'\"','\\\\\"')}}\",\"source\":\"muslimmatters.org\"}"
+              },
+              "metadata": { "designer": { "x": 400, "y": -200 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 8,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://themuslimvibe.com/feed/",
+                "serializeUrl": false,
+                "method": "get",
+                "headers": [
+                  { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": false,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -200, "y": 0 } }
+            },
+            {
+              "id": 9,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "45",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nReturn ONLY a valid JSON array (no markdown, no code fences):\\n[{\\\"title\\\":\\\"...\\\",\\\"url\\\":\\\"...\\\",\\\"score\\\":8,\\\"summary\\\":\\\"One sentence why relevant\\\",\\\"halal_verdict\\\":\\\"pass\\\",\\\"halal_score\\\":85,\\\"halal_flags\\\":[]}]\\n\\nRules:\\n- score 1-10 relevance for Muslim founders, halal tech, Islamic finance\\n- Only include score >= 7\\n- halal_verdict: pass/review/fail\\n- halal_score: 0-100\\n- halal_flags: [] if none\"},{\"role\":\"user\",\"content\":\"{{left(8.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 100, "y": 0 } }
+            },
+            {
+              "id": 10,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/content-radar",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"articles_json\":\"{{replace(9.data.choices[0].message.content,'\"','\\\\\"')}}\",\"source\":\"themuslimvibe.com\"}"
+              },
+              "metadata": { "designer": { "x": 400, "y": 0 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://5pillars.net/feed/",
+                "serializeUrl": false,
+                "method": "get",
+                "headers": [
+                  { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": false,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -200, "y": 200 } }
+            },
+            {
+              "id": 12,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "45",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nReturn ONLY a valid JSON array (no markdown, no code fences):\\n[{\\\"title\\\":\\\"...\\\",\\\"url\\\":\\\"...\\\",\\\"score\\\":8,\\\"summary\\\":\\\"One sentence why relevant\\\",\\\"halal_verdict\\\":\\\"pass\\\",\\\"halal_score\\\":85,\\\"halal_flags\\\":[]}]\\n\\nRules:\\n- score 1-10 relevance for Muslim founders, halal tech, Islamic finance\\n- Only include score >= 7\\n- halal_verdict: pass/review/fail\\n- halal_score: 0-100\\n- halal_flags: [] if none\"},{\"role\":\"user\",\"content\":\"{{left(11.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 100, "y": 200 } }
+            },
+            {
+              "id": 13,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/content-radar",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"articles_json\":\"{{replace(12.data.choices[0].message.content,'\"','\\\\\"')}}\",\"source\":\"5pillars.net\"}"
+              },
+              "metadata": { "designer": { "x": 400, "y": 200 } }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 14,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://ilmfeed.com/feed/",
+                "serializeUrl": false,
+                "method": "get",
+                "headers": [
+                  { "name": "Accept", "value": "application/rss+xml, application/xml, text/xml" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": false,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": ""
+              },
+              "metadata": { "designer": { "x": -200, "y": 400 } }
+            },
+            {
+              "id": 15,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://api.groq.com/openai/v1/chat/completions",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Authorization", "value": "Bearer {{GROQ_API_KEY}}" },
+                  { "name": "Content-Type", "value": "application/json" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "45",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"model\":\"llama-4-scout-17b-16e-instruct\",\"messages\":[{\"role\":\"system\",\"content\":\"You are a content screener for The Lantern Daily, a Muslim tech newsletter. Parse this RSS XML feed and extract up to 5 articles published in the last 8 hours.\\n\\nReturn ONLY a valid JSON array (no markdown, no code fences):\\n[{\\\"title\\\":\\\"...\\\",\\\"url\\\":\\\"...\\\",\\\"score\\\":8,\\\"summary\\\":\\\"One sentence why relevant\\\",\\\"halal_verdict\\\":\\\"pass\\\",\\\"halal_score\\\":85,\\\"halal_flags\\\":[]}]\\n\\nRules:\\n- score 1-10 relevance for Muslim founders, halal tech, Islamic finance\\n- Only include score >= 7\\n- halal_verdict: pass/review/fail\\n- halal_score: 0-100\\n- halal_flags: [] if none\"},{\"role\":\"user\",\"content\":\"{{left(14.data, 8000)}}\"}],\"max_tokens\":1500,\"temperature\":0.1}"
+              },
+              "metadata": { "designer": { "x": 100, "y": 400 } }
+            },
+            {
+              "id": 16,
+              "module": "http:ActionSendData",
+              "version": 3,
+              "parameters": { "handleErrors": true, "useNewZLibDeCompress": true },
+              "mapper": {
+                "url": "https://thelanterndaily.com/api/admin/content-radar",
+                "serializeUrl": false,
+                "method": "post",
+                "headers": [
+                  { "name": "Content-Type", "value": "application/json" },
+                  { "name": "x-admin-secret", "value": "{{ADMIN_WEBHOOK_SECRET}}" }
+                ],
+                "qs": [],
+                "bodyType": "raw",
+                "parseResponse": true,
+                "timeout": "30",
+                "followRedirect": true,
+                "gzip": true,
+                "contentType": "application/json",
+                "data": "{\"articles_json\":\"{{replace(15.data.choices[0].message.content,'\"','\\\\\"')}}\",\"source\":\"ilmfeed.com\"}"
+              },
+              "metadata": { "designer": { "x": 400, "y": 400 } }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false
+    },
+    "designer": { "orphans": [] },
+    "scheduling": {
+      "type": "INDEFINITELY",
+      "interval": 21600,
+      "startDate": null
+    }
+  }
+}

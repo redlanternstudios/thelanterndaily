@@ -1,0 +1,9 @@
+[
+  { "asset_name": "Nasdaq 100", "ticker": "NDX", "latest": 18708.34, "change_24h": "+1.32%", "change_7d": "+4.78%", "signal": "Bullish" },
+  { "asset_name": "S&P 500", "ticker": "SPY", "latest": 5297.10, "change_24h": "+0.95%", "change_7d": "+2.21%", "signal": "Bullish" },
+  { "asset_name": "Gold", "ticker": "XAU/USD", "latest": 2382.51, "change_24h": "-0.41%", "change_7d": "+1.12%", "signal": "Neutral" },
+  { "asset_name": "Brent Oil", "ticker": "USO", "latest": 83.21, "change_24h": "-1.05%", "change_7d": "-1.63%", "signal": "Bearish" },
+  { "asset_name": "BTC", "ticker": "USD", "latest": 66160.00, "change_24h": "+1.84%", "change_7d": "+3.22%", "signal": "Bullish" },
+  { "asset_name": "AI Infra Basket*", "ticker": null, "latest": 132.47, "change_24h": "+1.61%", "change_7d": "+2.11%", "signal": "Bullish" },
+  { "asset_name": "Global Cloud Spend (Est. Q1 2025)", "ticker": null, "latest": 78.68, "change_24h": "+1.47%", "change_7d": "+9.20%", "signal": "Bullish" }
+]
