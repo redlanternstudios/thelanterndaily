@@ -5,8 +5,11 @@ import Link from "next/link";
 
 const NAV = [
   { label: "Today", href: "/" },
+  { label: "Markets", href: "/markets" },
   { label: "Stack", href: "/stack" },
   { label: "Archive", href: "/archive" },
+  { label: "Careers", href: "/careers" },
+  { label: "Vault", href: "/vault" },
   { label: "About", href: "/about" },
 ];
 
@@ -33,7 +36,7 @@ export default function Masthead() {
         <Logo />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6">
           {NAV.map((link) => (
             <Link
               key={link.label}

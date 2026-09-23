@@ -3,7 +3,7 @@ import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArchiveGrid from "@/components/archive/ArchiveGrid";
 import { getPublishedPosts } from "@/lib/data/posts";
-import { SOCIAL_PROOF, CATEGORIES } from "@/lib/content";
+import { SOCIAL_PROOF, CATEGORIES, ALL_ARTICLES } from "@/lib/content";
 
 export default async function ArchivePage({
   searchParams,
@@ -11,7 +11,33 @@ export default async function ArchivePage({
   searchParams: Promise<{ cat?: string }>;
 }) {
   const { cat } = await searchParams;
-  const allPosts = await getPublishedPosts(50);
+  const dbPosts = await getPublishedPosts(50);
+
+  // Map all historical dispatches so the archive is an accumulation of all content
+  const staticPosts: any[] = ALL_ARTICLES.map((a) => ({
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    excerpt: a.excerpt,
+    category: a.category,
+    image_url: a.image,
+    hero_image_url: a.image,
+    reading_time_minutes: parseInt(a.readTime) || 5,
+    published_at: a.date,
+    created_at: a.date,
+    status: "published",
+    halal_stance: a.halalReview?.verdict || "positive",
+  }));
+
+  const slugMap = new Map();
+  dbPosts.forEach((p) => slugMap.set(p.slug, p));
+  staticPosts.forEach((p) => {
+    if (!slugMap.has(p.slug)) {
+      slugMap.set(p.slug, p);
+    }
+  });
+
+  const allPosts = Array.from(slugMap.values());
 
   return (
     <>

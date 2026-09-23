@@ -7,6 +7,7 @@ import NewsCard from '../components/NewsCard';
 import VideoCard from '../components/VideoCard';
 import TikTokCard from '../components/TikTokCard';
 import SectionHeader from '../components/SectionHeader';
+import EditionTimer from '../components/EditionTimer';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -61,19 +62,23 @@ export default function HomePage() {
             What the world is reading today — distilled through the lens of clarity, ethical technology, and Islamic sovereignty.
           </p>
 
-          {/* Quick Metrics Bar */}
-          <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-[#2A2D35] bg-[#0D0F14] px-3.5 py-1 text-[11px] font-mono text-[#D1D5DB]">
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#D92532]" />
-              6 Lead Stories
-            </span>
-            <span className="text-[#4B5563]">·</span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#B8922A]" />
-              2 Curated Videos
-            </span>
-            <span className="text-[#4B5563]">·</span>
-            <span className="text-[#9CA3AF]">~4 Min Read</span>
+          {/* Quick Metrics Bar & Archival Countdown Timer */}
+          <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2.5">
+            <div className="inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-[#2A2D35] bg-[#0D0F14] px-3.5 py-1 text-[11px] font-mono text-[#D1D5DB]">
+              <span className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D92532]" />
+                6 Lead Stories
+              </span>
+              <span className="text-[#4B5563]">·</span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#B8922A]" />
+                2 Curated Videos
+              </span>
+              <span className="text-[#4B5563]">·</span>
+              <span className="text-[#9CA3AF]">~4 Min Read</span>
+            </div>
+
+            <EditionTimer />
           </div>
         </div>
       </header>
