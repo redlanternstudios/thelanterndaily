@@ -287,6 +287,9 @@ export type StackTool = {
   name: string;
   desc: string;
   tag: string;
+  howToUse?: string;
+  downloadUrl?: string;
+  downloadName?: string;
 };
 
 export type StackCategory = {
@@ -300,7 +303,14 @@ export const OPERATOR_STACK: StackCategory[] = [
     label: "Infra",
     blurb: "The compute, deploy, and edge layer that everything else runs on.",
     tools: [
-      { name: "Vercel", desc: "Frontend cloud & edge runtime", tag: "Deploy" },
+      {
+        name: "Vercel",
+        desc: "Frontend cloud & edge runtime for Next.js applications.",
+        tag: "Deploy",
+        howToUse: "Deploy Next.js apps to global edge runtimes with zero-downtime CI/CD git hooks, edge middleware, and custom domain SSL.",
+        downloadUrl: "/vault/vercel-production-runbook.md",
+        downloadName: "Vercel Production Runbook",
+      },
       { name: "Modal", desc: "Serverless GPU compute", tag: "Compute" },
       { name: "Cloudflare", desc: "Edge network & workers", tag: "Edge" },
       { name: "Neon", desc: "Serverless Postgres", tag: "Database" },
@@ -311,8 +321,22 @@ export const OPERATOR_STACK: StackCategory[] = [
     blurb: "Foundation and open models powering generation and reasoning.",
     tools: [
       { name: "AI Gateway", desc: "Unified model routing", tag: "Routing" },
-      { name: "Llama", desc: "Open-weight foundation models", tag: "Open" },
-      { name: "Claude", desc: "Reasoning & long context", tag: "Frontier" },
+      {
+        name: "Llama",
+        desc: "Open-weight foundation models for private sovereign compute.",
+        tag: "Open",
+        howToUse: "Deploy sovereign open-weight models locally or on private GPU clusters via Ollama and vLLM without cloud data leaks.",
+        downloadUrl: "/vault/llama-sovereign-compute-guide.md",
+        downloadName: "Llama Sovereign Compute Guide",
+      },
+      {
+        name: "Claude",
+        desc: "Frontier reasoning & 200K long context for complex operations.",
+        tag: "Frontier",
+        howToUse: "Execute deep architectural reasoning, long-context (200K) document analysis, and deterministic XML tool-calling for autonomous agents.",
+        downloadUrl: "/vault/claude-enterprise-operator-pack.md",
+        downloadName: "Claude Enterprise Pack",
+      },
       { name: "Mistral", desc: "Efficient open models", tag: "Open" },
     ],
   },

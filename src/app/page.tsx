@@ -41,31 +41,31 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE]">
       <Masthead />
       {/* ── Top Masthead / Daily Briefing Bar ── */}
-      <header className="border-b border-[#1A1F2E] px-4 py-8 sm:px-6 lg:px-8">
+      <header className="border-b border-[#1A1F2E] px-4 py-4 sm:px-6 sm:py-5">
         <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-2 font-serif text-sm tracking-widest text-[#B8922A]" dir="rtl">
-            بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
-          </p>
-
-          <div className="mb-3 flex items-center justify-center gap-2 text-xs font-mono text-[#9CA3AF]">
-            <span>1 Rabi Al-Awwal 1448</span>
-            <span>·</span>
-            <span>Monday, September 21, 2026</span>
+          <div className="mb-1.5 flex flex-wrap items-center justify-center gap-2 text-xs font-mono text-[#9CA3AF]">
+            <span className="font-serif text-sm tracking-wider text-[#B8922A]" dir="rtl">
+              بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+            </span>
+            <span className="text-[#4B5563]">·</span>
+            <span>3 Rabi Al-Awwal 1448</span>
+            <span className="text-[#4B5563]">·</span>
+            <span className="font-semibold text-[#D1D5DB]">Wednesday, September 23, 2026</span>
           </div>
 
-          <h1 className="font-serif text-3xl font-extrabold tracking-tight text-[#F7F2EE] sm:text-5xl">
+          <h1 className="font-serif text-2xl font-extrabold tracking-tight text-[#F7F2EE] sm:text-4xl">
             The Daily Briefing.
           </h1>
 
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[#9CA3AF] sm:text-base">
+          <p className="mx-auto mt-1 max-w-lg text-xs leading-relaxed text-[#9CA3AF] sm:text-sm">
             What the world is reading today — distilled through the lens of clarity, ethical technology, and Islamic sovereignty.
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-[#2A2D35] bg-[#0D0F14] px-4 py-1.5 text-xs font-mono text-[#D1D5DB]">
+          <div className="mt-3 inline-flex flex-wrap items-center justify-center gap-3 rounded-full border border-[#2A2D35] bg-[#0D0F14] px-3.5 py-1 text-[11px] font-mono text-[#D1D5DB]">
             <span className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-[#D92532]" />
-              5 Lead Stories
+              6 Lead Stories
             </span>
             <span className="text-[#4B5563]">·</span>
             <span className="flex items-center gap-1.5">
@@ -79,7 +79,7 @@ export default function HomePage() {
       </header>
 
       {/* ── Main Content Feed (Max Width 48rem for focused reading) ── */}
-      <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+      <main className="mx-auto max-w-3xl px-4 pt-4 pb-12 sm:px-6">
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* SECTION 1: TECH & AI INFRASTRUCTURE (LEADS THE DAILY)              */}

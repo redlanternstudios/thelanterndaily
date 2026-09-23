@@ -83,17 +83,52 @@ export default function StackPage() {
                 {cat.tools.map((tool) => (
                   <div
                     key={tool.name}
-                    className="card-hover bg-[var(--color-bg)] p-6 flex flex-col"
+                    className="card-hover bg-[var(--color-bg)] p-6 flex flex-col justify-between"
                   >
-                    <span className="label-mono text-[var(--color-gold)]">
-                      {tool.tag}
-                    </span>
-                    <h3 className="font-headline text-xl mt-2 text-[var(--color-text)]">
-                      {tool.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-[var(--color-text-dim)] leading-relaxed">
-                      {tool.desc}
-                    </p>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="label-mono text-[var(--color-gold)]">
+                          {tool.tag}
+                        </span>
+                        {tool.downloadUrl && (
+                          <span className="font-mono text-[10px] uppercase tracking-wider text-[#4ADE80] bg-[#4ADE80]/10 px-2 py-0.5 rounded border border-[#4ADE80]/20">
+                            Download Available
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-headline text-xl mt-2 text-[var(--color-text)]">
+                        {tool.name}
+                      </h3>
+                      <p className="mt-2 text-sm text-[var(--color-text-dim)] leading-relaxed">
+                        {tool.desc}
+                      </p>
+
+                      {tool.howToUse && (
+                        <div className="mt-4 rounded-lg border border-[#2A2D35] bg-[#0E1017] p-3 text-xs">
+                          <div className="mb-1 flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-[#B8922A]">
+                            <span>✦</span>
+                            <span>How to Use</span>
+                          </div>
+                          <p className="leading-relaxed text-[#9CA3AF]">
+                            {tool.howToUse}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    {tool.downloadUrl && (
+                      <div className="mt-5 pt-3 border-t border-[#1F2430]">
+                        <a
+                          href={tool.downloadUrl}
+                          download
+                          className="inline-flex w-full items-center justify-center gap-2 rounded border border-[#B8922A]/40 bg-[#B8922A]/15 px-3 py-2 text-xs font-mono font-semibold uppercase tracking-wider text-[#F7F2EE] transition-all hover:bg-[#B8922A] hover:text-black"
+                          title={`Download ${tool.downloadName || tool.name}`}
+                        >
+                          <span>Download Runbook</span>
+                          <span className="text-sm">↓</span>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

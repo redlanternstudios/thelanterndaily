@@ -38,7 +38,7 @@ export default function SectionHeader({ section, storyCount }: SectionHeaderProp
   const config = SECTION_CONFIG[section] || SECTION_CONFIG.tech;
 
   return (
-    <div className="mb-6 border-b border-[#2A2D35] pb-4 pt-10">
+    <div className="mb-4 border-b border-[#2A2D35] pb-3 pt-6 first-of-type:pt-0">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2.5">
           <span className="text-xl">{config.icon}</span>
