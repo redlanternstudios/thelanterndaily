@@ -94,15 +94,24 @@ export const HERO_ARTICLE: Article = {
   excerpt:
     "From Karachi to Cairo to Detroit, a new generation of founders is building the rails for the agent economy — and doing it on their own terms. We spent three months mapping the operators turning principle into product.",
   image: IMG.heroFounder,
-  author: "The Lantern Daily",
-  date: "June 14, 2026",
-  readTime: "11 min read",
-  category: "AI",
+  author: "The Lantern Daily Editorial Staff",
+  date: "September 23, 2026",
+  readTime: "6 min read",
+  category: "AI Infrastructure",
+  body: `Across three continents and a dozen time zones, a pattern is emerging that the mainstream tech press has been slow to name. The builders shaping the next layer of AI infrastructure are not all in San Francisco, and they are not all working from the same playbook.
+
+From Karachi to Cairo to Detroit, a new generation of founders is building sovereign rails for the agent economy — and doing it on their own terms. Rather than relying solely on proprietary frontier APIs with closed terms of service, these operators are deploying fine-tuned open-weights on bare-metal clusters, running self-hosted embeddings, and establishing mathematical verification layers for enterprise workflows.
+
+What unites them is less a geography than a disposition: a refusal to treat velocity as the only virtue, and a conviction that the tools we build carry the values we hold. For this cohort, that conviction is shaped by faith — and by a long tradition of treating knowledge as a trust (Amanah) to be stewarded, not hoarded.
+
+The result is a quietly distinct way of operating. Open by default. Patient with capital. Deliberate about governance long before regulators arrive. In conversation after conversation, the same themes surface: build the thing you needed, give away what you can, and measure success on a longer horizon.
+
+None of this is romantic. The people in this report are shipping production systems with real revenue and real failure modes. But they are doing it on their own terms, and the infrastructure they are leaving behind will outlast any single funding cycle.`,
 
   halalReview: {
     verdict: "positive",
     editorialNote:
-      "The infrastructure layer being built here is structurally halal — equity-based funding, no interest-bearing instruments in the stack, and founders who are explicitly building away from VC models that require riba-adjacent growth metrics. The concern is downstream: once the rails are built, what rides on them? That question isn't answered by this generation of builders alone.",
+      "The infrastructure layer being built here is structurally halal — equity-based funding, no interest-bearing instruments in the stack, and founders who are explicitly building away from VC models that require riba-adjacent growth metrics. The concern is downstream: once the rails are built, what rides on them? Sovereignty requires not just owning the servers, but establishing the ethical covenants governing the agentic workflows running on top.",
   },
 };
 

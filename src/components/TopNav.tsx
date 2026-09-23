@@ -56,24 +56,31 @@ export default function TopNav() {
         </Link>
 
         {/* Center Nav Links */}
-        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          {["Today", "Markets", "Stack", "Archive", "About"].map((link) => (
+        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+          {[
+            { label: "Today", href: "/" },
+            { label: "Vault", href: "/vault" },
+            { label: "Creators", href: "/creators" },
+            { label: "Stack", href: "/stack" },
+            { label: "Archive", href: "/archive" },
+            { label: "About", href: "/about" },
+          ].map((item) => (
             <Link
-              key={link}
-              href={link === "Today" ? "/" : `/${link.toLowerCase()}`}
+              key={item.label}
+              href={item.href}
               style={{
                 fontSize: 12,
                 fontWeight: 600,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#9CA3AF",
+                color: item.label === "Vault" ? "#B8922A" : "#9CA3AF",
                 transition: "color 0.2s",
                 textDecoration: "none",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#9CA3AF")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#F7F2EE")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = item.label === "Vault" ? "#B8922A" : "#9CA3AF")}
             >
-              {link}
+              {item.label === "Vault" ? "✦ Vault" : item.label}
             </Link>
           ))}
         </div>

@@ -8,7 +8,9 @@ export type Post = {
   title: string;
   slug: string;
   content_markdown: string | null;
+  body_markdown?: string | null;
   summary: string | null;
+  excerpt?: string | null;
   hero_image_url: string | null;
   reading_time_minutes: number | null;
   category: string | null;
