@@ -41,7 +41,7 @@ const STANDARDS = [
   },
   {
     title: "The Editor",
-    body: "The Lantern Daily is published by RedLantern Studios™. The founding editor is Ro — named here not as a religious authority but as the editorial voice responsible for the analysis. No credentials beyond editorial voice are claimed. The editor can be reached for scholarly feedback and correction via the contact form.",
+    body: "The Lantern Daily is published by RedLantern Studios™ · By Red, LLC. The founding editor is Ro — named here not as a religious authority but as the editorial voice responsible for the analysis. No credentials beyond editorial voice are claimed. The editor can be reached for scholarly feedback and correction via help@byredllc.com.",
   },
   {
     title: "Feedback & Correction",

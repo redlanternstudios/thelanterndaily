@@ -146,7 +146,7 @@ export default function CareersPage() {
                   </div>
 
                   <a
-                    href="mailto:careers@thelanterndaily.com?subject=Application:%20"
+                    href="mailto:help@byredllc.com?subject=Application:%20"
                     className="inline-flex items-center justify-center rounded bg-[#D42535] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-[#b01e2c]"
                   >
                     Apply Now →
@@ -201,7 +201,7 @@ export default function CareersPage() {
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:talent@pennenterpriseshq.com"
+              href="mailto:help@byredllc.com?subject=Talent%20Roster%20Portfolio%20Submission"
               className="inline-flex items-center gap-2 rounded border border-[#B8922A] bg-[#B8922A]/20 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#F7F2EE] hover:bg-[#B8922A] hover:text-black transition-all"
             >
               <span>Submit Portfolio to Talent Radar</span>

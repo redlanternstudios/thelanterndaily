@@ -16,7 +16,16 @@ export default function Footer() {
           <Link href="/about/editorial-standards" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Editorial Standards</Link>
         </div>
         <p className="text-xs text-[#9CA3AF]">
-          The Lantern Daily is an independent intelligence briefing by RedLantern Studios™.
+          The Lantern Daily is an independent intelligence briefing by RedLantern Studios™ · By Red, LLC.
+        </p>
+        <p className="text-xs font-mono text-[#D1D5DB]">
+          Contact &amp; Inquiries:{' '}
+          <a
+            href="mailto:help@byredllc.com"
+            className="text-[#B8922A] hover:text-[#E5C058] underline decoration-[#4B5563] underline-offset-2"
+          >
+            help@byredllc.com
+          </a>
         </p>
         <p className="text-[11px] text-[#6B7280]">
           Classical citations verified against authentic Sahih Kutub al-Sittah and authoritative tafsir.

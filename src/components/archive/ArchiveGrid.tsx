@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import ArticleCard from "@/components/ArticleCard";
 import type { Post } from "@/lib/supabase/types";
+import { normalizeCategory } from "@/lib/taxonomy";
 
 const PAGE_SIZE = 8;
 
@@ -22,15 +23,15 @@ export default function ArchiveGrid({
 
   const filtered = useMemo(() => {
     if (active === "All") return posts;
-    return posts.filter((p) => p.category === active);
+    return posts.filter((p) => normalizeCategory(p.category) === active);
   }, [active, posts]);
 
   const shown = filtered.slice(0, visible);
 
   return (
     <div>
-      {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-y border-[var(--color-border)] bg-[var(--color-border)]">
+      {/* Category filter tabs */}
+      <div className="flex flex-wrap items-center gap-1 border-b border-[#1E2028] pb-4">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -38,10 +39,10 @@ export default function ArchiveGrid({
               setActive(cat);
               setVisible(PAGE_SIZE);
             }}
-            className={`px-5 py-3 font-mono text-[12px] uppercase tracking-[0.12em] transition-colors ${
+            className={`min-h-[44px] px-4 py-2 font-mono text-xs uppercase tracking-wider transition-colors border ${
               active === cat
-                ? "bg-[var(--color-red)] text-[var(--color-text)] font-bold"
-                : "bg-[var(--color-bg)] text-[var(--color-text-dim)] hover:text-[var(--color-text)]"
+                ? "border-[#D92532] bg-[#D92532] text-white font-bold"
+                : "border-[#1E2028] bg-[#0A0C12] text-[#9CA3AF] hover:border-[#2A2D35] hover:text-[#F7F2EE]"
             }`}
           >
             {cat}
@@ -50,16 +51,18 @@ export default function ArchiveGrid({
       </div>
 
       {/* Grid */}
-      <div className="mt-0.5 grid gap-0.5 bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {shown.map((post) => (
           <ArticleCard key={post.slug} post={post} />
         ))}
       </div>
 
       {shown.length === 0 && (
-        <p className="py-16 text-center font-mono text-sm uppercase tracking-[0.12em] text-[var(--color-text-dim)]">
-          No dispatches in this section yet.
-        </p>
+        <div className="py-16 text-center border border-[#1E2028] bg-[#0A0C12] mt-6">
+          <p className="font-mono text-xs uppercase tracking-wider text-[#9CA3AF]">
+            No dispatches recorded in this pillar yet.
+          </p>
+        </div>
       )}
 
       {/* Load more */}
@@ -67,9 +70,9 @@ export default function ArchiveGrid({
         <div className="mt-10 flex justify-center">
           <button
             onClick={() => setVisible((v) => v + PAGE_SIZE)}
-            className="border border-[var(--color-border)] px-8 py-3.5 font-mono text-[12px] uppercase tracking-[0.12em] text-[var(--color-text)] hover:border-[var(--color-red)] hover:text-[var(--color-red)] transition-colors"
+            className="min-h-[44px] border border-[#2A2D35] bg-[#0A0C12] px-8 py-3 font-mono text-xs uppercase tracking-wider text-[#F7F2EE] hover:border-[#D92532] hover:text-[#D92532] transition-colors"
           >
-            Load more dispatches
+            Load more dispatches ({filtered.length - visible} remaining)
           </button>
         </div>
       )}

@@ -24,10 +24,10 @@ export default function PrivacyPage() {
           <p>Your data is stored in Supabase, hosted in US-based data centers. We use industry-standard encryption for data in transit and at rest.</p>
 
           <h2>Your Rights</h2>
-          <p>You can unsubscribe at any time using the link at the bottom of any email. To request deletion of your data, email privacy@redlantern.studio.</p>
+          <p>You can unsubscribe at any time using the link at the bottom of any email. To request deletion of your data, email help@byredllc.com.</p>
 
           <h2>Contact</h2>
-          <p>By Red, LLC · privacy@redlantern.studio</p>
+          <p>By Red, LLC · help@byredllc.com</p>
         </div>
       </div>
     </div>
