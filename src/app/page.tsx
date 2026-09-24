@@ -93,15 +93,16 @@ export default function HomePage() {
       {/* ── Persistent Navigation Masthead (Today, Markets, Stack, Careers, About) ── */}
       <Masthead />
 
-      {/* ── Edition Header Bar & Real-Time Archival Countdown ── */}
-      <header className="border-b border-[#1A1E2B] bg-[#0A0C14] px-4 py-3 sm:px-6">
+      {/* ── Global Intelligence Bar & Archival Countdown ── */}
+      <header className="border-b border-[#1A1E2B] bg-[#0A0C14] px-4 py-2.5 sm:px-6">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div className="flex flex-wrap items-center gap-2 text-[#9CA3AF]">
-            <span className="font-serif text-sm tracking-wider text-[#B8922A]" dir="rtl">
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+            <span className="inline-flex items-center gap-1.5 font-bold text-[#4ADE80]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
+              GLOBAL DESK ACTIVE
             </span>
             <span className="text-[#2A2E3D]">·</span>
-            <span className="text-[#D1D5DB]">3 Rabi Al-Awwal 1448</span>
+            <span className="text-[#D1D5DB] tracking-wider">NEW YORK · LONDON · DUBAI · TOKYO</span>
             <span className="text-[#2A2E3D]">·</span>
             <span className="font-semibold text-[#F7F2EE]">Wednesday, September 23, 2026</span>
           </div>
