@@ -9,9 +9,7 @@ export default function Footer() {
           <Link href="/" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Today</Link>
           <Link href="/markets" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Markets</Link>
           <Link href="/stack" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Stack</Link>
-          <Link href="/archive" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Archive</Link>
           <Link href="/careers" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Careers</Link>
-          <Link href="/vault" className="text-[#B8922A] transition-colors hover:text-[#E5C058]">✦ The Vault</Link>
           <Link href="/about" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">About</Link>
           <Link href="/about/editorial-standards" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Editorial Standards</Link>
         </div>
