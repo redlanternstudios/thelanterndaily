@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Masthead from '@/components/Masthead';
-import Ticker from '@/components/Ticker';
 import Footer from '@/components/Footer';
 
 export const metadata = {
@@ -73,7 +72,6 @@ export default function CareersPage() {
   return (
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE]">
       <Masthead />
-      <Ticker />
 
       <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
         {/* Header */}

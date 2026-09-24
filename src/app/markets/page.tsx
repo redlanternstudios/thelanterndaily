@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Masthead from '@/components/Masthead';
-import Ticker from '@/components/Ticker';
 import Footer from '@/components/Footer';
 import HalalBadge from '@/components/HalalBadge';
 import LanternSeal from '@/components/lantern/LanternSeal';
@@ -143,8 +142,7 @@ export default function MarketsPage() {
   return (
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE] antialiased">
       <Masthead />
-      <Ticker />
-
+      
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-12">
         {/* Header Bar */}
         <header className="border-b border-[#1E2028] pb-8">

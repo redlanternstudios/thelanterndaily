@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import SubscribeCTA from "@/components/home/SubscribeCTA";
 import { OPERATOR_STACK, SOCIAL_PROOF } from "@/lib/content";
@@ -15,7 +14,6 @@ export default function StackPage() {
   return (
     <>
       <Masthead />
-      <Ticker />
       <main>
         {/* Hero: text + image */}
         <section className="grid gap-0.5 lg:grid-cols-2 bg-[var(--color-border)]">

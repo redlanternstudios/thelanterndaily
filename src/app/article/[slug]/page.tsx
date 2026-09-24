@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import SubscribeForm from "@/components/SubscribeForm";
 import HalalBadge from "@/components/HalalBadge";
 import LanternSeal from "@/components/lantern/LanternSeal";
 import { ALL_ARTICLES, SOCIAL_PROOF } from "@/lib/content";
+import { normalizeCategory, CATEGORY_DEFINITIONS } from "@/lib/taxonomy";
 import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/supabase/types";
 
@@ -85,10 +85,13 @@ export default async function ArticlePage({
   // Related articles
   const related = ALL_ARTICLES.filter((a) => a.slug !== slug).slice(0, 3);
 
+  const canonicalCategory = normalizeCategory(kicker || article?.category);
+  const sectorDef = CATEGORY_DEFINITIONS[canonicalCategory];
+  const sectorSlug = sectorDef ? sectorDef.slug : 'ai-infrastructure';
+
   return (
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE] overflow-x-hidden">
       <Masthead />
-      <Ticker />
 
       {/* Full-width responsive header */}
       <header className="border-b border-[#1A1F2E] px-4 py-8 sm:px-6 sm:py-14 text-center">
@@ -96,7 +99,7 @@ export default async function ArticlePage({
           <div className="flex flex-wrap items-center justify-center gap-3">
             {kicker && (
               <Link
-                href={`/archive?cat=${kicker}`}
+                href={`/section/${sectorSlug}`}
                 className="font-mono text-xs uppercase tracking-wider text-[#B8922A] hover:text-[#E5C058] transition-colors"
               >
                 {kicker}

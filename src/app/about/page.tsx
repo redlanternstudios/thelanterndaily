@@ -1,5 +1,4 @@
 import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import SubscribeCTA from "@/components/home/SubscribeCTA";
 import { SOCIAL_PROOF } from "@/lib/content";
@@ -23,7 +22,6 @@ export default function AboutPage() {
   return (
     <>
       <Masthead />
-      <Ticker />
       <main className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 py-12 sm:py-16">
         <header className="max-w-3xl">
           <span className="kicker">About</span>

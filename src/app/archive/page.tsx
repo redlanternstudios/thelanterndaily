@@ -1,5 +1,4 @@
 import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 import ArchiveGrid from "@/components/archive/ArchiveGrid";
 import { getPublishedPosts } from "@/lib/data/posts";
@@ -51,7 +50,6 @@ export default async function ArchivePage({
   return (
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE]">
       <Masthead />
-      <Ticker />
       <main className="mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-14">
         <header className="max-w-2xl border-b border-[#1E2028] pb-8">
           <span className="font-mono text-xs uppercase tracking-widest text-[#D92532] font-bold">

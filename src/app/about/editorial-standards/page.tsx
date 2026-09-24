@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
-import Ticker from "@/components/Ticker";
 import Footer from "@/components/Footer";
 
 const STANDARDS = [
@@ -53,7 +52,6 @@ export default function EditorialStandardsPage() {
   return (
     <>
       <Masthead />
-      <Ticker />
       <main className="mx-auto max-w-[var(--max-w)] px-4 sm:px-6 py-12 sm:py-16">
         <div className="mx-auto max-w-3xl">
           <Link
