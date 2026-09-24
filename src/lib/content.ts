@@ -30,19 +30,19 @@ export type Article = {
 };
 
 const IMG = {
-  heroFounder: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&h=600&fit=crop&q=80",
-  videoThumb: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=480&fit=crop&q=80",
-  islamicFinance: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=480&fit=crop&q=80",
-  buildLog: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=480&fit=crop&q=80",
-  autonomousTrust: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&q=80",
-  pairProgramming: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop&q=80",
-  patientCapital: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=600&h=400&fit=crop&q=80",
-  openSource: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=600&h=400&fit=crop&q=80",
-  zakatKnowledge: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=400&fit=crop&q=80",
-  gulfSignals: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop&q=80",
-  governanceLayer: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&q=80",
-  cyberSec: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop&q=80",
-  hardwareCompute: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=400&fit=crop&q=80",
+  heroFounder: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=600&fit=crop&q=80",
+  videoThumb: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=480&fit=crop&q=80",
+  islamicFinance: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&h=480&fit=crop&q=80",
+  buildLog: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=480&fit=crop&q=80",
+  autonomousTrust: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop&q=80",
+  pairProgramming: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop&q=80",
+  patientCapital: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&h=400&fit=crop&q=80",
+  openSource: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop&q=80",
+  zakatKnowledge: "https://images.unsplash.com/photo-1507842229451-77b1e42f2b3e?w=600&h=400&fit=crop&q=80",
+  gulfSignals: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&q=80",
+  governanceLayer: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&h=400&fit=crop&q=80",
+  cyberSec: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop&q=80",
+  hardwareCompute: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&h=400&fit=crop&q=80",
 };
 
 // Ground-truth editorial identity — zero unsupported subscriber claims
