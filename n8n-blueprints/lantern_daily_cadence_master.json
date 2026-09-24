@@ -1,0 +1,317 @@
+{
+  "name": "The Lantern Daily \u2014 Master 24-Hour Cadence & Content Radar",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 4 * * *"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "0 */4 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger-01",
+      "name": "04:00 AM & 4-Hour Sweep Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://salaamgateway.com/feed",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "http-rss-feed-01",
+      "name": "Fetch Primary RSS Feeds",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse XML/RSS and normalize article fields into canonical Lantern schema\nconst xml2js = require('xml2js');\nconst parser = new xml2js.Parser({ explicitArray: false });\n\nconst rawXml = $input.first().json.data || $input.first().json.body || $input.first().json;\nconst results = [];\n\nreturn new Promise((resolve, reject) => {\n  parser.parseString(rawXml, (err, result) => {\n    if (err) return resolve([{ json: { error: err.message } }]);\n    \n    const items = result?.rss?.channel?.item || [];\n    const itemList = Array.isArray(items) ? items : [items];\n    \n    for (const item of itemList) {\n      if (!item.title || !item.link) continue;\n      results.push({\n        json: {\n          title: item.title.trim(),\n          url: item.link.trim(),\n          summary: (item.description || item['content:encoded'] || '').replace(/<[^>]+>/g, '').slice(0, 350),\n          published_at: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString(),\n          source: 'Salaam Gateway & Primary Feeds',\n          category: 'Markets & Islamic Finance'\n        }\n      });\n    }\n    resolve(results);\n  });\n});"
+      },
+      "id": "code-normalize-01",
+      "name": "Normalize & Clean Ingested Feeds",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "content_radar",
+        "returnAll": false,
+        "limit": 100,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "url",
+              "condition": "equals",
+              "keyValue": "={{ $json.url }}"
+            }
+          ]
+        }
+      },
+      "id": "supabase-dedup-check-01",
+      "name": "Check Supabase Dedup Gate",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        760,
+        300
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-lantern-prod",
+          "name": "Lantern Supabase Service Role"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.id }}",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "filter-unseen-urls-01",
+      "name": "Filter: Unseen URLs Only",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are the Chief Research Evaluator for The Lantern Daily.\nEvaluate the following candidate story against deterministic standards:\n\nTitle: {{ $json.title }}\nURL: {{ $json.url }}\nSummary: {{ $json.summary }}\nCategory: {{ $json.category }}\n\nEvaluation Rules:\n1. AAOIFI Standard 21 Compliance: Ensure zero speculative gambling (Maysir), predatory interest (Riba), or ethical breaches.\n2. Proof-of-Compute & Anti-Hype: Verify whether this is real infrastructure running in production vs vaporware marketing.\n3. Frontier Relevance: How critical is this for sovereign AI builders, GPU operators, and Islamic finance founders?\n\nOutput STRICT JSON format with NO markdown wrapping:\n{\n  \"title\": \"string\",\n  \"url\": \"string\",\n  \"summary\": \"string\",\n  \"category\": \"AI & Infrastructure | Markets & Islamic Finance | Operator Stack | Governance & Policy | Sacred Ethics & Fiqh\",\n  \"signal\": \"HALAL-ALIGNED | CRITICAL | BLOCKED | NUANCED\",\n  \"score\": 85,\n  \"proof_of_compute\": true,\n  \"editorial_hook\": \"1-2 sentence high-conviction briefing summary\"\n}",
+        "hasOutputParser": true
+      },
+      "id": "llm-screener-gate-01",
+      "name": "05:00 AM LLM Screening Gate",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "gemini-2.5-pro"
+        },
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "llm-model-gemini-01",
+      "name": "Gemini 2.5 Pro Evaluator",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        500
+      ],
+      "credentials": {
+        "googleGeminiApi": {
+          "id": "gemini-api-prod",
+          "name": "Google Gemini API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://thelanterndaily.com/api/admin/content-radar",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-admin-secret",
+              "value": "={{ $env.ADMIN_SECRET }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"articles_json\": JSON.stringify([$json.text]),\n  \"source\": \"n8n Autonomous Radar Sweep\"\n}",
+        "options": {}
+      },
+      "id": "http-upsert-content-radar-01",
+      "name": "Upsert to Supabase content_radar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.LANTERN_TELEGRAM_BOT_TOKEN || $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $env.LANTERN_EDITORIAL_CHAT_ID || $env.KP_CHAT_ID }}\",\n  \"text\": \"\u26a1 *THE LANTERN DAILY \u2014 05:30 AM HUMAN REVIEW HOLD*\\n\\n\ud83d\udcf0 *Morning Intelligence Candidate Staged*\\n\\n*Title:* {{ $json.title }}\\n*Summary:* {{ $json.summary }}\\n\\n*Desk:* `{{ $json.category }}`\\n*Signal:* `{{ $json.signal }}`\\n*Score:* `{{ $json.score }}/100`\\n*Proof-of-Compute:* `{{ $json.proof_of_compute ? \\\"VERIFIED\\\" : \\\"UNVERIFIED\\\" }}`\\n\\n\ud83d\udccc *Editorial Hook:*\\n_{{ $json.editorial_hook }}_\\n\\n\ud83d\udd17 *Source:* {{ $json.url }}\",\n  \"parse_mode\": \"Markdown\",\n  \"reply_markup\": {\n    \"inline_keyboard\": [\n      [\n        {\n          \"text\": \"\u2705 Approve for 06:00 AM Issue\",\n          \"url\": \"https://thelanterndaily.com/api/admin/approve/{{ $json.id }}?key={{ $env.ADMIN_SECRET }}\"\n        },\n        {\n          \"text\": \"\u274c Reject / Archive\",\n          \"url\": \"https://thelanterndaily.com/api/admin/reject/{{ $json.id }}?key={{ $env.ADMIN_SECRET }}\"\n        }\n      ]\n    ]\n  }\n}",
+        "options": {}
+      },
+      "id": "telegram-hitl-gate-01",
+      "name": "05:30 AM Telegram HITL Review Gate (@TheLanternDailyRadar_Bot)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.LANTERN_TELEGRAM_BOT_TOKEN || $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chat_id\": \"{{ $env.KP_CHAT_ID }}\",\n  \"text\": \"\ud83d\udea8 *The Lantern Daily Cadence Failure*\\n*Node:* {{ $node.name }}\\n*Error:* {{ $error.message }}\\n*Execution ID:* {{ $execution.id }}\",\n  \"parse_mode\": \"Markdown\"\n}",
+        "options": {}
+      },
+      "id": "telegram-error-dlq-01",
+      "name": "Global Telegram Error Dead-Letter Queue",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        980,
+        560
+      ]
+    }
+  ],
+  "connections": {
+    "04:00 AM & 4-Hour Sweep Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Primary RSS Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Primary RSS Feeds": {
+      "main": [
+        [
+          {
+            "node": "Normalize & Clean Ingested Feeds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize & Clean Ingested Feeds": {
+      "main": [
+        [
+          {
+            "node": "Check Supabase Dedup Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Supabase Dedup Gate": {
+      "main": [
+        [
+          {
+            "node": "Filter: Unseen URLs Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Unseen URLs Only": {
+      "main": [
+        [
+          {
+            "node": "05:00 AM LLM Screening Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini 2.5 Pro Evaluator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "05:00 AM LLM Screening Gate",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05:00 AM LLM Screening Gate": {
+      "main": [
+        [
+          {
+            "node": "Upsert to Supabase content_radar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert to Supabase content_radar": {
+      "main": [
+        [
+          {
+            "node": "05:30 AM Telegram HITL Review Gate (@TheLanternDailyRadar_Bot)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "id": "LntrCadenceM0001"
+}

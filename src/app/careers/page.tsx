@@ -76,7 +76,7 @@ export default function CareersPage() {
       <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
         {/* Header */}
         <header className="border-b border-[#1A1F2E] pb-10 text-center">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#B8922A]/40 bg-[#B8922A]/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-[#B8922A]">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#B8922A]/40 bg-[#B8922A]/10 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-[#B8922A]">
             <span>✦</span>
             <span>Penn Enterprises & Partner Network</span>
           </div>
@@ -200,7 +200,7 @@ export default function CareersPage() {
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <a
               href="mailto:help@byredllc.com?subject=Talent%20Roster%20Portfolio%20Submission"
-              className="inline-flex items-center gap-2 rounded border border-[#B8922A] bg-[#B8922A]/20 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-[#F7F2EE] hover:bg-[#B8922A] hover:text-black transition-all"
+              className="inline-flex items-center gap-2 rounded border border-[#C9A227] bg-[#C9A227] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black hover:bg-[#d8b030] transition-all"
             >
               <span>Submit Portfolio to Talent Radar</span>
               <span>→</span>

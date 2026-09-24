@@ -33,6 +33,10 @@ interface RadarArticle {
   summary?: string
   category?: string
   signal?: "HALAL-ALIGNED" | "CRITICAL" | "BLOCKED" | "NUANCED"
+  score?: number
+  proof_of_compute?: boolean
+  editorial_hook?: string
+  status?: string
   published_at?: string
   source?: string
 }
@@ -85,6 +89,10 @@ export async function POST(req: NextRequest) {
     summary: article.summary ?? null,
     category: article.category ?? null,
     signal: article.signal ?? null,
+    score: typeof article.score === "number" ? article.score : null,
+    proof_of_compute: typeof article.proof_of_compute === "boolean" ? article.proof_of_compute : null,
+    editorial_hook: article.editorial_hook ?? null,
+    status: article.status ?? "REVIEW",
     published_at: article.published_at ?? null,
     source: article.source ?? source ?? null,
     ingested_at: new Date().toISOString(),

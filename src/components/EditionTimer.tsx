@@ -46,17 +46,17 @@ export default function EditionTimer() {
   const pad = (n: number) => n.toString().padStart(2, '0');
 
   return (
-    <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[#B8922A]/30 bg-[#0E1017] px-3.5 py-1 text-[11px] font-mono">
+    <div className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[#B8922A]/30 bg-[#0E1017] px-4 py-1 text-[11px] font-mono">
       <div className="flex items-center gap-1.5 text-[#B8922A]">
         <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
         <span className="font-semibold uppercase tracking-wider">Edition Archives In:</span>
       </div>
       <div className="flex items-center gap-1 font-bold text-[#F7F2EE]">
-        <span className="bg-[#1A1F2C] px-1.5 py-0.5 rounded text-[#E5C058]">{pad(timeLeft.hours)}h</span>
+        <span className="bg-[#1A1F2C] px-2 py-1 rounded text-[#E5C058]">{pad(timeLeft.hours)}h</span>
         <span>:</span>
-        <span className="bg-[#1A1F2C] px-1.5 py-0.5 rounded text-[#E5C058]">{pad(timeLeft.minutes)}m</span>
+        <span className="bg-[#1A1F2C] px-2 py-1 rounded text-[#E5C058]">{pad(timeLeft.minutes)}m</span>
         <span>:</span>
-        <span className="bg-[#1A1F2C] px-1.5 py-0.5 rounded text-[#E5C058]">{pad(timeLeft.seconds)}s</span>
+        <span className="bg-[#1A1F2C] px-2 py-1 rounded text-[#E5C058]">{pad(timeLeft.seconds)}s</span>
       </div>
       <span className="text-[#4B5563]">·</span>
       <Link

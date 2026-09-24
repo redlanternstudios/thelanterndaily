@@ -5,7 +5,7 @@ export default function SubscribeCTA() {
   return (
     <section
       id="subscribe"
-      className="scroll-mt-24 border border-[var(--color-border)] bg-[var(--color-card)] px-7 py-12 sm:px-12 sm:py-16 text-center"
+      className="scroll-mt-24 border border-[var(--color-border)] bg-[var(--color-card)] px-7 py-12 sm:px-12 sm:py-16 text-center overflow-hidden"
     >
       <span className="kicker">The Briefing</span>
       <h2 className="font-headline text-balance mt-4 text-3xl sm:text-4xl lg:text-5xl leading-tight text-[var(--color-text)]">

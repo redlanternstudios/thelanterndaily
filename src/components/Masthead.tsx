@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import EditionTimer from "@/components/EditionTimer";
 
@@ -14,7 +14,7 @@ const PRIMARY_NAV = [
 
 const SECTOR_DESKS = [
   { label: "AI Infrastructure", href: "/section/ai-infrastructure" },
-  { label: "KP Frontier Radar", href: "/sources" },
+  { label: "Frontier Radar", href: "/sources" },
   { label: "Islamic Finance", href: "/markets" },
   { label: "Operator Stack", href: "/stack" },
   { label: "Builder Economy", href: "/section/builder-economy" },
@@ -39,12 +39,25 @@ function Logo() {
 export default function Masthead() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Prevent background scrolling when mobile full-screen drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <header className="sticky top-0 z-50 flex flex-col bg-[#07080D] border-b border-[#1E2028] w-full">
-      {/* ── Tier 1: Global Intelligence Desk Bar ── */}
-      <div className="border-b border-[#1A1E2B] bg-[#0A0C14] px-4 py-2 sm:px-6">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs font-mono">
-          <div className="flex flex-wrap items-center gap-2 text-[#9CA3AF]">
+      {/* ── Tier 1: Global Intelligence Desk Bar (Responsive) ── */}
+      <div className="border-b border-[#1A1E2B] bg-[#0A0C14] px-3 sm:px-6 py-1.5 sm:py-2">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 text-xs font-mono">
+          {/* Desktop full desk info */}
+          <div className="hidden sm:flex flex-wrap items-center gap-2 text-[#9CA3AF]">
             <span className="inline-flex items-center gap-1.5 font-bold text-[#4ADE80]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
               GLOBAL DESK ACTIVE
@@ -55,14 +68,22 @@ export default function Masthead() {
             <span className="font-semibold text-[#F7F2EE]">Wednesday, September 23, 2026</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Mobile compact live indicator */}
+          <div className="flex sm:hidden items-center gap-1.5 text-[11px] text-[#9CA3AF]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
+            <span className="font-bold text-[#4ADE80]">LIVE DESK</span>
+            <span className="text-[#374151]">·</span>
+            <span className="text-[#D1D5DB]">NYC · LDN · DXB</span>
+          </div>
+
+          <div className="flex items-center gap-2">
             <EditionTimer />
           </div>
         </div>
       </div>
 
       {/* ── Tier 2: Core Masthead Navigation ── */}
-      <div className="flex justify-between items-center px-4 sm:px-6 h-16 w-full max-w-7xl mx-auto">
+      <div className="flex justify-between items-center px-4 sm:px-6 h-14 sm:h-16 w-full max-w-7xl mx-auto">
         <Logo />
 
         {/* Desktop Primary Navigation */}
@@ -85,10 +106,10 @@ export default function Masthead() {
         </nav>
 
         {/* Mobile Hamburger Button */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-2.5">
           <Link
             href="/#subscribe"
-            className="bg-[#D42535] text-white font-mono text-[10px] font-bold uppercase tracking-wider px-3 py-1.5"
+            className="bg-[#D42535] text-white font-mono text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-sm"
           >
             Join
           </Link>
@@ -99,7 +120,7 @@ export default function Masthead() {
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-[#F7F2EE]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
@@ -111,64 +132,80 @@ export default function Masthead() {
         </div>
       </div>
 
-      {/* ── Tier 3: Sub-Nav Sector Bifurcation Ribbon ── */}
-      <nav aria-label="Sector Desks" className="border-t border-[#141722] bg-[#07080D] px-4 sm:px-6">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto whitespace-nowrap py-2 no-scrollbar text-xs font-mono">
-          <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block flex-shrink-0">
-            Desks:
-          </span>
-          {SECTOR_DESKS.map((desk, idx) => (
-            <span key={desk.label} className="flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
-              <Link
-                href={desk.href}
-                className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-              >
-                {desk.label}
-              </Link>
-              {idx < SECTOR_DESKS.length - 1 && <span className="text-[#1F2430]">·</span>}
+      {/* ── Tier 3: Sub-Nav Sector Bifurcation Ribbon (Hidden when mobile menu is open) ── */}
+      {!mobileMenuOpen && (
+        <nav aria-label="Sector Desks" className="border-t border-[#141722] bg-[#07080D] px-3 sm:px-6 overflow-hidden">
+          <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 sm:py-2 no-scrollbar text-xs font-mono scroll-smooth">
+            <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block flex-shrink-0">
+              Desks:
             </span>
-          ))}
-        </div>
-      </nav>
-
-      {/* ── Mobile Dropdown Drawer (Dual Bifurcation) ── */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#1E2028] bg-[#0A0C12] px-4 py-5 space-y-5">
-          <div>
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[#B8922A] font-bold">
-              Core Pillars
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {PRIMARY_NAV.map((link) => (
+            {SECTOR_DESKS.map((desk, idx) => (
+              <span key={desk.label} className="flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
                 <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="font-mono text-xs uppercase tracking-wider text-[#D1D5DB] py-1.5 hover:text-[#B8922A] transition-colors"
+                  href={desk.href}
+                  className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
                 >
-                  {link.label}
+                  {desk.label}
                 </Link>
-              ))}
+                {idx < SECTOR_DESKS.length - 1 && <span className="text-[#1F2430]">·</span>}
+              </span>
+            ))}
+          </div>
+        </nav>
+      )}
+
+      {/* ── Mobile Full-Screen Drawer Overlay ── */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-x-0 top-[90px] bottom-0 bg-[#07080D]/98 backdrop-blur-2xl z-50 overflow-y-auto px-5 py-6 pb-28 border-t border-[#1E2028] flex flex-col justify-between">
+          <div className="space-y-6">
+            <div>
+              <div className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#B8922A] font-bold flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#B8922A]" />
+                Core Platform Pillars
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                {PRIMARY_NAV.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-mono text-xs uppercase tracking-wider text-[#F7F2EE] bg-[#0E101A] border border-[#1A1F2E] p-3 rounded hover:border-[#B8922A] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="border-t border-[#1A1F2E] pt-5">
+              <div className="mb-3 font-mono text-[10px] uppercase tracking-widest text-[#D42535] font-bold flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D42535]" />
+                Intelligence &amp; Sector Desks
+              </div>
+              <div className="grid grid-cols-1 gap-1.5">
+                {SECTOR_DESKS.map((desk) => (
+                  <Link
+                    key={desk.label}
+                    href={desk.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="font-mono text-xs text-[#D1D5DB] py-2 px-3 rounded hover:bg-[#0E101A] hover:text-white transition-colors flex items-center justify-between border border-transparent hover:border-[#1F2430]"
+                  >
+                    <span>{desk.label}</span>
+                    <span className="text-[#6B7280]">→</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="border-t border-[#1A1F2E] pt-3">
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-[#D42535] font-bold">
-              Sector Desks
-            </div>
-            <div className="grid grid-cols-1 gap-1.5">
-              {SECTOR_DESKS.map((desk) => (
-                <Link
-                  key={desk.label}
-                  href={desk.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="font-mono text-xs text-[#9CA3AF] py-1 hover:text-[#F7F2EE] transition-colors flex items-center justify-between"
-                >
-                  <span>{desk.label}</span>
-                  <span className="text-[#4B5563]">→</span>
-                </Link>
-              ))}
-            </div>
+          <div className="border-t border-[#1A1F2E] pt-4 mt-6">
+            <Link
+              href="/#subscribe"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full block text-center bg-[#D42535] text-white font-mono text-xs font-bold uppercase tracking-widest py-3 rounded"
+            >
+              Join Free Briefing
+            </Link>
           </div>
         </div>
       )}

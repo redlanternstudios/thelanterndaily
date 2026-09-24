@@ -180,7 +180,7 @@ export default async function ArticlePage({
 
           {/* Sidebar */}
           <aside className="space-y-8">
-            <div className="rounded-lg border border-[#1A1F2E] bg-[#0D0F14] p-5 sm:p-6">
+            <div className="rounded-lg border border-[#1A1F2E] bg-[#0D0F14] p-5 sm:p-6 overflow-hidden">
               <h2 className="font-mono text-xs uppercase tracking-widest text-[#B8922A] font-bold">
                 Get the Briefing
               </h2>

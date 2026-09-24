@@ -45,10 +45,14 @@ export default function SubscribeForm({
   }
 
   return (
-    <div className={isCompact ? "" : "text-center"}>
+    <div className={isCompact ? "w-full" : "text-center w-full"}>
       <form
         onSubmit={handleSubmit}
-        className={`flex flex-col sm:flex-row gap-2 ${isCompact ? "" : "max-w-md mx-auto"}`}
+        className={`flex ${
+          isCompact
+            ? "flex-col gap-3 w-full"
+            : "flex-col sm:flex-row gap-2 max-w-md mx-auto"
+        }`}
       >
         <label htmlFor="subscribe-email" className="sr-only">
           Email address
@@ -60,12 +64,14 @@ export default function SubscribeForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder={placeholder ?? "you@company.com"}
           required
-          className="flex-1 border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-red)] focus:outline-none transition-colors"
+          className="w-full flex-1 border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-red)] focus:outline-none transition-colors rounded-none"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="bg-[var(--color-red)] px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] font-bold text-[var(--color-text)] hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap"
+          className={`bg-[var(--color-red)] ${
+            isCompact ? "w-full" : ""
+          } px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] font-bold text-[var(--color-text)] hover:opacity-90 disabled:opacity-50 transition-opacity whitespace-nowrap rounded-none`}
         >
           {status === "loading" ? "Joining…" : buttonText ?? "Join Free"}
         </button>

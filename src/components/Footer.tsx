@@ -73,7 +73,7 @@ export default function Footer() {
               <li>
                 <Link href="/sources" className="hover:text-[#F7F2EE] transition-colors text-[#B8922A] flex items-center gap-1.5 font-bold">
                   <span className="h-1 w-1 rounded-full bg-[#B8922A]" />
-                  KP Frontier Radar &amp; Cadence
+                  Frontier Radar &amp; Cadence
                 </Link>
               </li>
               <li>

@@ -1,7 +1,20 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
+export const viewport: Viewport = {
+  themeColor: '#07080D',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
+
 export const metadata: Metadata = {
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Lantern Daily',
+  },
   title: {
     default: 'The Lantern Daily — Intelligence for Muslim Founders & AI Builders',
     template: '%s | The Lantern Daily',
@@ -21,6 +34,8 @@ export const metadata: Metadata = {
   },
 };
 
+import MobileBottomNav from '@/components/navigation/MobileBottomNav';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,8 +51,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#07080D] text-[#F7F2EE] antialiased">
-        {children}
+      <body className="bg-[#07080D] text-[#F7F2EE] antialiased min-h-screen flex flex-col">
+        <div className="flex-1 pb-16 md:pb-0">
+          {children}
+        </div>
+        <MobileBottomNav />
       </body>
     </html>
   );

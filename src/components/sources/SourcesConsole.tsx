@@ -253,7 +253,7 @@ export const DAILY_CADENCE_STAGES = [
     tag: 'RADAR SWEEP',
     title: 'Global Ingestion & Overnight Sweep',
     description: 'Tokyo and London market close data is scraped alongside Wall Street pre-market indicators across 50+ RSS and FastMCP endpoints. Unstructured stories are normalized and pushed to Supabase content_radar.',
-    tooling: ['Make.com C1 Scenario', 'FastMCP Server', 'Supabase content_radar'],
+    tooling: ['n8n Autonomous Radar (WF-01)', 'FastMCP Server', 'Supabase content_radar'],
     status: 'AUTOMATED',
   },
   {
@@ -261,15 +261,15 @@ export const DAILY_CADENCE_STAGES = [
     tag: 'EVALUATION GATE',
     title: 'Deterministic AI Synthesis & Fiqh Screening',
     description: 'Gemini 3.8 Flash and Claude Sonnet process raw ingested feeds against deterministic evaluation rules: (1) AAOIFI 21 debt ratios, (2) Zero-hype filter, (3) Mathematical citation verification.',
-    tooling: ['Gemini 3.8 Flash', 'AAOIFI Standard 21 Parser', 'Content Radar Filter'],
+    tooling: ['n8n LangChain Screener (WF-02)', 'Gemini 3.8 Flash', 'AAOIFI Standard 21 Parser'],
     status: 'AUTOMATED',
   },
   {
     time: '05:30 AM EST',
     tag: 'HUMAN GATE',
-    title: 'Editorial Review & Preview Hold',
-    description: 'Lead editors review the staged daily package in Slack (#leads-and-alerts) and Telegram. Dispatches are approved with 1-click interactive webhooks or held for revision.',
-    tooling: ['Slack Router', 'Telegram HITL Gate', 'Next.js Admin Review'],
+    title: 'Editorial Review & Telegram Mobile Hold',
+    description: 'Scored intelligence candidates and editorial drafts are staged directly to Keymon via @TheLanternDailyRadar_Bot. Dispatches are approved with 1-tap inline buttons (Approve / Reject) or held for revision.',
+    tooling: ['The Lantern Daily Bot (@TheLanternDailyRadar_Bot)', 'Telegram Mobile HITL Gate', 'Next.js Admin Review'],
     status: 'HUMAN-IN-THE-LOOP',
   },
   {
@@ -277,7 +277,7 @@ export const DAILY_CADENCE_STAGES = [
     tag: 'PRODUCTION LAUNCH',
     title: 'Live Edition Publication & Archival Countdown',
     description: 'The Lantern Daily production edition is published to Next.js Edge. The 24-hour Edition Countdown Timer activates, and the daily morning briefing dispatches via Beehiiv and Resend.',
-    tooling: ['Vercel Edge Network', 'Beehiiv REST API', 'Resend Transactional'],
+    tooling: ['n8n Edge Dispatcher (WF-04)', 'Vercel Edge Network', 'Beehiiv REST API'],
     status: 'LIVE PUBLIC',
   },
   {
@@ -336,13 +336,13 @@ export default function SourcesConsole() {
           <div>
             <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#B8922A] font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-[#B8922A]" />
-              <span>Curated by Keymon Penn · Frontier Radar &amp; Provenance Engine</span>
+              <span>Frontier Intelligence · Sourcing &amp; Provenance Registry</span>
             </div>
             <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#F7F2EE] mt-2">
-              The Frontier Tech &amp; Infrastructure Radar.
+              Frontier Tech &amp; Infrastructure Radar.
             </h2>
             <p className="mt-2 text-sm text-[#9CA3AF] max-w-2xl leading-relaxed">
-              Every briefing published by The Lantern Daily is built on how Keymon Penn scouts the frontier: tracking brand new AI architectures, compute primitives, and sovereign infrastructure before the industry catches on. &quot;Did you see that new tech in The Lantern Daily?&quot; starts right here.
+              Every briefing published by The Lantern Daily is deterministically screened against authentic primary data, audited SEC balance sheets, semiconductor supply allocations, and verified compute benchmarks. Zero clickbait. Zero unverified hype.
             </p>
           </div>
 
@@ -356,20 +356,20 @@ export default function SourcesConsole() {
           </div>
         </div>
 
-        {/* ── Keymon's Discovery Covenant Callout ── */}
+        {/* ── Deterministic Ingestion Covenant Callout ── */}
         <div className="mb-8 rounded-sm border border-[#D42535]/30 bg-gradient-to-r from-[#D42535]/10 via-[#0A0C14] to-[#0A0C14] p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#D42535] flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-[#D42535] animate-pulse" />
-                The Discovery Covenant · &quot;Did You See That New Tech in The Lantern Daily?&quot;
+                Deterministic Verification Covenant · Primary Source Standard
               </span>
               <p className="text-sm text-[#E5E7EB] font-serif leading-snug">
-                We don&apos;t summarize yesterday&apos;s press releases. Keymon Penn personally scours GitHub commits, ArXiv preprints, foundry wafer orders, and SEC balance sheets to uncover what&apos;s actually working in production—so you see it first.
+                We don&apos;t summarize yesterday&apos;s press releases. Our engineering desk continuously monitors direct repository commits, ArXiv preprints, foundry wafer orders, and SEC filings to verify what is actually executing in production.
               </p>
             </div>
             <div className="shrink-0 font-mono text-xs text-[#B8922A] border border-[#B8922A]/40 bg-[#07080D] px-3.5 py-2 rounded">
-              ⚡ Curated Daily by Keymon Penn
+              ⚡ Autonomous Verification
             </div>
           </div>
         </div>
@@ -582,7 +582,7 @@ export default function SourcesConsole() {
             <div className="rounded border border-[#1E2433] bg-[#07080D] p-4 space-y-2">
               <div className="text-[#E5C058] font-bold">STAGE 1: Ingestion</div>
               <p className="text-[#9CA3AF] text-[11px] leading-relaxed font-sans">
-                Make.com &amp; n8n webhook listeners poll 50+ RSS/FastMCP endpoints every 4 hours, pushing raw article payloads to <code className="text-[#D1D5DB]">/api/admin/content-radar</code>.
+                n8n autonomous workers poll 50+ RSS/FastMCP endpoints every 4 hours, deduplicating against Supabase and pushing validated payloads to <code className="text-[#D1D5DB]">/api/admin/content-radar</code>.
               </p>
             </div>
 

@@ -1,24 +1,103 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
 
+function checkAuth(request: NextRequest): boolean {
+  const expected = process.env.ADMIN_SECRET_KEY || process.env.ADMIN_SECRET
+  if (!expected) return false
+  const headerKey = request.headers.get('x-admin-key') || request.headers.get('x-admin-secret')
+  const queryKey = request.nextUrl.searchParams.get('key') || request.nextUrl.searchParams.get('secret')
+  return headerKey === expected || queryKey === expected
+}
+
+async function rejectSpotlight(id: string, editor: string) {
+  const supabase = getSupabase()
+  const now = new Date().toISOString()
+  return await supabase
+    .from('lantern_spotlights')
+    .update({ 
+      status: 'rejected', 
+      reviewed_at: now,
+      metadata: { reviewed_by: editor, rejected_at: now }
+    })
+    .eq('id', id)
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  if (!checkAuth(request)) {
+    return new NextResponse('<html><body style="background:#09090b;color:#f87171;font-family:sans-serif;padding:40px;text-align:center;"><h2>⛔ 401 Unauthorized</h2><p>Invalid editorial access key.</p></body></html>', {
+      status: 401,
+      headers: { 'Content-Type': 'text/html' }
+    })
+  }
+
+  const { id } = await params
+  const editor = request.nextUrl.searchParams.get('editor') || 'Editorial Desk'
+  const { error } = await rejectSpotlight(id, editor)
+
+  if (error) {
+    return new NextResponse(`<html><body style="background:#09090b;color:#f87171;font-family:sans-serif;padding:40px;text-align:center;"><h2>⚠️ Rejection Failed</h2><p>${error.message}</p></body></html>`, {
+      status: 500,
+      headers: { 'Content-Type': 'text/html' }
+    })
+  }
+
+  return new NextResponse(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spotlight Rejected — The Lantern Daily</title>
+        <style>
+          body { background: #07090E; color: #F8FAFC; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+          .card { background: #0E121B; border: 1px solid #1E293B; border-radius: 16px; padding: 32px 24px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+          .badge { display: inline-block; background: rgba(239, 68, 68, 0.15); color: #F87171; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; border: 1px solid rgba(239, 68, 68, 0.3); }
+          h1 { font-size: 22px; font-weight: 700; margin: 0 0 10px 0; color: #FFFFFF; }
+          p { font-size: 14px; color: #94A3B8; line-height: 1.6; margin: 0 0 24px 0; }
+          .meta { background: #131826; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 12px; color: #CBD5E1; text-align: left; margin-bottom: 24px; }
+          .btn { display: block; background: #334155; color: #FFFFFF; font-weight: 700; font-size: 14px; padding: 12px 20px; border-radius: 8px; text-decoration: none; text-align: center; transition: opacity 0.2s; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="badge">ARCHIVED CANDIDATE</div>
+          <h1>❌ Candidate Rejected</h1>
+          <p>This intelligence candidate has been archived and excluded from broadcast.</p>
+          <div class="meta">
+            <div><strong>Item ID:</strong> ${id}</div>
+            <div><strong>Reviewed By:</strong> ${editor}</div>
+            <div><strong>Status:</strong> rejected</div>
+          </div>
+          <a href="https://thelanterndaily.com/dashboard" class="btn">Return to Intelligence Radar</a>
+        </div>
+      </body>
+    </html>
+  `, {
+    status: 200,
+    headers: { 'Content-Type': 'text/html' }
+  })
+}
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const adminKey = request.headers.get('x-admin-key')
-  if (adminKey !== process.env.ADMIN_SECRET_KEY) {
+  if (!checkAuth(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const { id } = await params
-  const supabase = getSupabase()
-  const { error } = await supabase
-    .from('lantern_spotlights')
-    .update({ status: 'rejected', reviewed_at: new Date().toISOString() })
-    .eq('id', id)
+  let editor = 'Editorial Desk'
+  try {
+    const body = await request.json()
+    if (body.editor) editor = body.editor
+  } catch {}
 
+  const { error } = await rejectSpotlight(id, editor)
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, status: 'rejected', editor })
 }

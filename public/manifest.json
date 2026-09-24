@@ -1,0 +1,17 @@
+{
+  "name": "The Lantern Daily",
+  "short_name": "Lantern Daily",
+  "description": "Frontier intelligence, AI infrastructure, and Islamic finance for sovereign builders.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07080D",
+  "theme_color": "#07080D",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -33,7 +33,7 @@ export default function NewsletterBanner() {
   };
 
   return (
-    <section id="subscribe" className="border border-[#1E2028] bg-[#0A0C12] p-8 text-center sm:p-12">
+    <section id="subscribe" className="border border-[#1E2028] bg-[#0A0C12] p-8 text-center sm:p-12 overflow-hidden">
       <div className="mx-auto max-w-2xl">
         <div className="mb-2 font-mono text-xs uppercase tracking-widest text-[#B8922A]">
           ✦ Sovereign Editorial Dispatch
@@ -52,14 +52,14 @@ export default function NewsletterBanner() {
             ✓ Dispatch confirmed. Your morning edition arrives at 06:00 AM EST.
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
+          <form onSubmit={handleSubmit} className="mx-auto mt-6 flex max-w-md w-full flex-col gap-2 sm:flex-row">
             <input
               type="email"
               placeholder="operator@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="min-h-[44px] flex-1 border border-[#2A2D35] bg-[#07080D] px-4 py-2.5 text-xs text-[#F7F2EE] placeholder-[#6B7280] focus:border-[#B8922A] focus:outline-none"
+              className="w-full min-h-[44px] flex-1 border border-[#2A2D35] bg-[#07080D] px-4 py-2.5 text-xs text-[#F7F2EE] placeholder-[#6B7280] focus:border-[#B8922A] focus:outline-none"
             />
             <button
               type="submit"

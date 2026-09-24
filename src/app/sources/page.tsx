@@ -7,7 +7,7 @@ import SourcesConsole from '@/components/sources/SourcesConsole';
 export const metadata: Metadata = {
   title: 'Frontier Radar & Sourcing Provenance | The Lantern Daily',
   description:
-    'How Keymon Penn and The Lantern Daily scout the frontier: verified data pipelines, 24-hour daily cadence, and deterministic filtering across AI infrastructure and sovereign capital.',
+    'Institutional data provenance, 24-hour daily cadence, and deterministic screening pipelines across AI infrastructure, compute economics, and sovereign capital.',
 };
 
 export default function SourcesPage() {
