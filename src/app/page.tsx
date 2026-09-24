@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Masthead from '@/components/Masthead';
 import Footer from '@/components/Footer';
-import EditionTimer from '@/components/EditionTimer';
 import EditorialStatusBadge from '@/components/editorial/EditorialStatusBadge';
 import NewsletterBanner from '@/components/editorial/NewsletterBanner';
 
@@ -92,76 +91,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#07080D] text-[#F7F2EE] antialiased">
       {/* ── Persistent Navigation Masthead (Today, Markets, Stack, Careers, About) ── */}
       <Masthead />
-
-      {/* ── Global Intelligence Bar & Archival Countdown ── */}
-      <header className="border-b border-[#1A1E2B] bg-[#0A0C14] px-4 py-2.5 sm:px-6">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs font-mono">
-          <div className="flex flex-wrap items-center gap-2 text-[#9CA3AF]">
-            <span className="inline-flex items-center gap-1.5 font-bold text-[#4ADE80]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
-              GLOBAL DESK ACTIVE
-            </span>
-            <span className="text-[#2A2E3D]">·</span>
-            <span className="text-[#D1D5DB] tracking-wider">NEW YORK · LONDON · DUBAI · TOKYO</span>
-            <span className="text-[#2A2E3D]">·</span>
-            <span className="font-semibold text-[#F7F2EE]">Wednesday, September 23, 2026</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <EditionTimer />
-          </div>
-        </div>
-      </header>
-
-      {/* ── Sub-Nav Sector Bifurcation Ribbon (True Multi-Page Navigation) ── */}
-      <nav aria-label="Sector Desks" className="border-b border-[#1A1E2B] bg-[#07080D] px-4 sm:px-6">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto py-2 no-scrollbar text-xs font-mono">
-          <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block">
-            Desks:
-          </span>
-          <Link
-            href="/section/ai-infrastructure"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            AI Infrastructure
-          </Link>
-          <span className="text-[#1F2430]">·</span>
-          <Link
-            href="/markets"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            Islamic Finance
-          </Link>
-          <span className="text-[#1F2430]">·</span>
-          <Link
-            href="/stack"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            Operator Stack
-          </Link>
-          <span className="text-[#1F2430]">·</span>
-          <Link
-            href="/section/builder-economy"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            Builder Economy
-          </Link>
-          <span className="text-[#1F2430]">·</span>
-          <Link
-            href="/section/governance-geopolitics"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            Governance &amp; Policy
-          </Link>
-          <span className="text-[#1F2430]">·</span>
-          <Link
-            href="/section/research-sacred-ethics-review"
-            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
-          >
-            Sacred Ethics &amp; Fiqh
-          </Link>
-        </div>
-      </nav>
 
       {/* ── Main Editorial Console Container ── */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
