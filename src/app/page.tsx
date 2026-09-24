@@ -113,6 +113,56 @@ export default function HomePage() {
         </div>
       </header>
 
+      {/* ── Sub-Nav Sector Bifurcation Ribbon (True Multi-Page Navigation) ── */}
+      <nav aria-label="Sector Desks" className="border-b border-[#1A1E2B] bg-[#07080D] px-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto py-2 no-scrollbar text-xs font-mono">
+          <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block">
+            Desks:
+          </span>
+          <Link
+            href="/section/ai-infrastructure"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            AI Infrastructure
+          </Link>
+          <span className="text-[#1F2430]">·</span>
+          <Link
+            href="/markets"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            Islamic Finance
+          </Link>
+          <span className="text-[#1F2430]">·</span>
+          <Link
+            href="/stack"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            Operator Stack
+          </Link>
+          <span className="text-[#1F2430]">·</span>
+          <Link
+            href="/section/builder-economy"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            Builder Economy
+          </Link>
+          <span className="text-[#1F2430]">·</span>
+          <Link
+            href="/section/governance-geopolitics"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            Governance &amp; Policy
+          </Link>
+          <span className="text-[#1F2430]">·</span>
+          <Link
+            href="/section/research-sacred-ethics-review"
+            className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"
+          >
+            Sacred Ethics &amp; Fiqh
+          </Link>
+        </div>
+      </nav>
+
       {/* ── Main Editorial Console Container ── */}
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:py-10">
 

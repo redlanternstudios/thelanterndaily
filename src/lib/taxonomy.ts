@@ -65,6 +65,10 @@ export const CATEGORY_DEFINITIONS: Record<CanonicalCategory, CategoryMeta> = {
   },
 };
 
+export function getCategoryBySlug(slug: string): CategoryMeta | undefined {
+  return Object.values(CATEGORY_DEFINITIONS).find((def) => def.slug === slug);
+}
+
 /**
  * Deterministically maps any legacy, database, or abbreviated category to the canonical taxonomy.
  */
