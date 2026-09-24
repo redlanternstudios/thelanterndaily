@@ -4,12 +4,13 @@ import Masthead from '@/components/Masthead';
 import Ticker from '@/components/Ticker';
 import Footer from '@/components/Footer';
 import HalalBadge from '@/components/HalalBadge';
+import LanternSeal from '@/components/lantern/LanternSeal';
 import { ALL_ARTICLES } from '@/lib/content';
 import { normalizeCategory } from '@/lib/taxonomy';
 
 export const metadata = {
-  title: 'Halal Stock Market & Daily Intelligence | The Lantern Daily',
-  description: 'Precision daily financial intelligence, Sharia-screened public equities, mega-cap tech compliance snapshots, and physical commodity reserves.',
+  title: 'Islamic Finance & Sovereign Markets | The Lantern Daily',
+  description: 'Precision daily financial intelligence, AAOIFI Shariah-screened equities, Sukuk liquidity, mega-cap balance sheet compliance, and sovereign commodity reserves.',
 };
 
 const SHARIA_ETFS = [
@@ -157,11 +158,11 @@ export default function MarketsPage() {
           </div>
 
           <h1 className="mt-4 font-serif text-3xl font-extrabold tracking-tight text-[#F7F2EE] sm:text-5xl">
-            The Halal Stock Market.
+            Islamic Finance &amp; Sovereign Markets.
           </h1>
 
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#9CA3AF] sm:text-base">
-            High-precision market intelligence designed for everyday Muslim investors, founders, and operators. Track Sharia-screened public equities, mega-cap tech compliance, physical monetary reserves, and the migration away from interest-bearing debt.
+            High-precision financial intelligence and Shariah-compliant asset screening for sovereign operators, founders, and ethical investors. Track equities screened against AAOIFI Standard 21, physical monetary reserves, and the global migration away from interest-bearing debt (<em>Riba</em>).
           </p>
         </header>
 
@@ -283,7 +284,7 @@ export default function MarketsPage() {
               <thead className="border-b border-[#1E2028] bg-[#07080D] text-[#9CA3AF] uppercase tracking-wider">
                 <tr>
                   <th className="p-3.5">Ticker / Company</th>
-                  <th className="p-3.5">AAOIFI Status</th>
+                  <th className="p-3.5">Lantern Shariah Seal</th>
                   <th className="p-3.5">Debt / Market Cap (&lt;33%)</th>
                   <th className="p-3.5">Cash / Market Cap (&lt;33%)</th>
                   <th className="p-3.5">Editorial Notes</th>
@@ -297,7 +298,15 @@ export default function MarketsPage() {
                       <span className="font-serif font-normal">{item.company}</span>
                     </td>
                     <td className="p-3.5">
-                      <HalalBadge stance={item.stance} size="sm" />
+                      <LanternSeal
+                        name={item.company}
+                        tickerOrTag={item.ticker}
+                        stance={item.stance as "positive" | "nuanced" | "concern" | "blocked"}
+                        debtRatio={item.debtRatio}
+                        cashRatio={item.cashRatio}
+                        editorialNote={item.notes}
+                        variant="compact"
+                      />
                     </td>
                     <td className="p-3.5 text-[#4ADE80] font-semibold">{item.debtRatio}</td>
                     <td className="p-3.5 text-[#4ADE80] font-semibold">{item.cashRatio}</td>

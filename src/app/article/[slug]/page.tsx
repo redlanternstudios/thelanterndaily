@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import SubscribeForm from "@/components/SubscribeForm";
 import HalalBadge from "@/components/HalalBadge";
+import LanternSeal from "@/components/lantern/LanternSeal";
 import { ALL_ARTICLES, SOCIAL_PROOF } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import type { Post } from "@/lib/supabase/types";
@@ -101,7 +102,12 @@ export default async function ArticlePage({
                 {kicker}
               </Link>
             )}
-            <HalalBadge stance={halalStance} size="sm" />
+            <LanternSeal
+              name={title}
+              tickerOrTag={kicker}
+              stance={halalStance as "positive" | "nuanced" | "concern" | "blocked"}
+              editorialNote={editorialNote || undefined}
+            />
           </div>
 
           <h1 className="font-serif mt-4 text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.15] text-[#F7F2EE] text-balance">

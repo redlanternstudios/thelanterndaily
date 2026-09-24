@@ -50,7 +50,7 @@ export const SOCIAL_PROOF = "Muslim founders, operators, and sovereign engineers
 
 export const NAV_LINKS = [
   { label: "Today", href: "/" },
-  { label: "Markets", href: "/markets" },
+  { label: "Islamic Finance", href: "/markets" },
   { label: "Stack", href: "/stack" },
   { label: "Careers", href: "/careers" },
   { label: "About", href: "/about" },

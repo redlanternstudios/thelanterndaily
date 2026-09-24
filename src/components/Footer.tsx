@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl space-y-4">
         <div className="flex flex-wrap items-center justify-center gap-6 font-mono text-xs">
           <Link href="/" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Today</Link>
-          <Link href="/markets" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Markets</Link>
+          <Link href="/markets" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Islamic Finance</Link>
           <Link href="/stack" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Stack</Link>
           <Link href="/careers" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">Careers</Link>
           <Link href="/about" className="text-[#9CA3AF] transition-colors hover:text-[#F7F2EE]">About</Link>
