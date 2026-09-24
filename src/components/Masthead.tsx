@@ -14,6 +14,7 @@ const PRIMARY_NAV = [
 
 const SECTOR_DESKS = [
   { label: "AI Infrastructure", href: "/section/ai-infrastructure" },
+  { label: "KP Frontier Radar", href: "/sources" },
   { label: "Islamic Finance", href: "/markets" },
   { label: "Operator Stack", href: "/stack" },
   { label: "Builder Economy", href: "/section/builder-economy" },
@@ -112,12 +113,12 @@ export default function Masthead() {
 
       {/* ── Tier 3: Sub-Nav Sector Bifurcation Ribbon ── */}
       <nav aria-label="Sector Desks" className="border-t border-[#141722] bg-[#07080D] px-4 sm:px-6">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto py-2 no-scrollbar text-xs font-mono">
-          <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block">
+        <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto whitespace-nowrap py-2 no-scrollbar text-xs font-mono">
+          <span className="hidden pr-2 font-bold uppercase tracking-widest text-[#B8922A] md:inline-block flex-shrink-0">
             Desks:
           </span>
           {SECTOR_DESKS.map((desk, idx) => (
-            <span key={desk.label} className="flex items-center gap-1">
+            <span key={desk.label} className="flex items-center gap-1 flex-shrink-0 whitespace-nowrap">
               <Link
                 href={desk.href}
                 className="flex-shrink-0 rounded px-2.5 py-1 text-[#9CA3AF] hover:bg-[#0E101A] hover:text-[#F7F2EE] transition-colors"

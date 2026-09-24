@@ -71,6 +71,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/sources" className="hover:text-[#F7F2EE] transition-colors text-[#B8922A] flex items-center gap-1.5 font-bold">
+                  <span className="h-1 w-1 rounded-full bg-[#B8922A]" />
+                  KP Frontier Radar &amp; Cadence
+                </Link>
+              </li>
+              <li>
                 <Link href="/archive" className="hover:text-[#F7F2EE] transition-colors">
                   Archival Dispatch Registry
                 </Link>
