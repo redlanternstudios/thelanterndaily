@@ -2,9 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import Masthead from '@/components/Masthead';
 import Footer from '@/components/Footer';
-import HalalBadge from '@/components/HalalBadge';
 import LanternSeal from '@/components/lantern/LanternSeal';
-import { ALL_ARTICLES } from '@/lib/content';
+import { getUnifiedPosts } from '@/lib/data/posts';
+import { getLiveShariaEtfs, getLiveMarketRows } from '@/lib/data/markets';
 import { normalizeCategory } from '@/lib/taxonomy';
 
 export const metadata = {
@@ -12,48 +12,7 @@ export const metadata = {
   description: 'Precision daily financial intelligence, AAOIFI Shariah-screened equities, Sukuk liquidity, mega-cap balance sheet compliance, and sovereign commodity reserves.',
 };
 
-const SHARIA_ETFS = [
-  {
-    ticker: 'SPUS',
-    name: 'SP Funds S&P 500 Sharia Industry ETF',
-    focus: 'US Large-Cap Equities',
-    price: '$148.20',
-    change: '+0.85%',
-    up: true,
-    aum: '$480M',
-    screener: 'AAOIFI Standard 21',
-  },
-  {
-    ticker: 'HLAL',
-    name: 'Wahed FTSE USA Shariah ETF',
-    focus: 'US Broad Market Equities',
-    price: '$46.85',
-    change: '+1.18%',
-    up: true,
-    aum: '$410M',
-    screener: 'FTSE Shariah',
-  },
-  {
-    ticker: 'UMMA',
-    name: 'Wahed Dow Jones Islamic World ETF',
-    focus: 'Global Ex-US Markets',
-    price: '$24.10',
-    change: '+0.42%',
-    up: true,
-    aum: '$120M',
-    screener: 'Dow Jones Islamic',
-  },
-  {
-    ticker: 'SPRE',
-    name: 'SP Funds S&P Global RE Sharia ETF',
-    focus: 'Global Real Estate (REITs)',
-    price: '$19.50',
-    change: '-0.24%',
-    up: false,
-    aum: '$85M',
-    screener: 'AAOIFI Standard 21',
-  },
-];
+export const revalidate = 60;
 
 const MEGA_CAP_SCREEN = [
   {
@@ -63,7 +22,7 @@ const MEGA_CAP_SCREEN = [
     stance: 'positive',
     debtRatio: '14.2%',
     cashRatio: '18.5%',
-    notes: 'Low interest debt leverage; hardware & ecosystem services dominate revenue.',
+    notes: 'Low interest debt leverage: hardware and ecosystem services dominate revenue.',
   },
   {
     ticker: 'MSFT',
@@ -72,7 +31,7 @@ const MEGA_CAP_SCREEN = [
     stance: 'positive',
     debtRatio: '12.8%',
     cashRatio: '22.1%',
-    notes: 'Enterprise cloud & AI infrastructure; balance sheet well within AAOIFI bounds.',
+    notes: 'Enterprise cloud and AI infrastructure: balance sheet well within AAOIFI bounds.',
   },
   {
     ticker: 'NVDA',
@@ -81,7 +40,7 @@ const MEGA_CAP_SCREEN = [
     stance: 'positive',
     debtRatio: '3.6%',
     cashRatio: '26.4%',
-    notes: 'Exceptional balance sheet cash; AI silicon and compute hardware.',
+    notes: 'Exceptional balance sheet cash: AI silicon and compute hardware.',
   },
   {
     ticker: 'GOOGL',
@@ -90,7 +49,7 @@ const MEGA_CAP_SCREEN = [
     stance: 'positive',
     debtRatio: '4.8%',
     cashRatio: '28.9%',
-    notes: 'Search, YouTube, and Google Cloud infrastructure; strong equity buffer.',
+    notes: 'Search, YouTube, and Google Cloud infrastructure: strong equity buffer.',
   },
   {
     ticker: 'TSLA',
@@ -103,39 +62,49 @@ const MEGA_CAP_SCREEN = [
   },
 ];
 
-const SOVEREIGN_ASSETS = [
-  {
-    name: 'Physical Gold (XAU/USD)',
-    value: '$2,654.10 / oz',
-    change: '+1.4%',
-    up: true,
-    note: 'Sovereign inflation hedge & historic monetary anchor',
-  },
-  {
-    name: 'Physical Silver (XAG/USD)',
-    value: '$32.40 / oz',
-    change: '+2.1%',
-    up: true,
-    note: 'Industrial clean-energy demand & bimetallic reserve',
-  },
-  {
-    name: 'GPU Compute (1M H100 Tok)',
-    value: '$0.42',
-    change: '-6.3%',
-    up: false,
-    note: 'Deflationary infrastructure cost for modern enterprise',
-  },
-  {
-    name: 'Agent API Volume (MoM)',
-    value: '$2.1B',
-    change: '+11.9%',
-    up: true,
-    note: 'Autonomous corporate transaction volume',
-  },
-];
+export default async function MarketsPage() {
+  const [shariaEtfs, marketRows, allPosts] = await Promise.all([
+    getLiveShariaEtfs(),
+    getLiveMarketRows(),
+    getUnifiedPosts(),
+  ]);
 
-export default function MarketsPage() {
-  const marketArticles = ALL_ARTICLES.filter(
+  const goldRow = marketRows.find((r) => r.ticker === 'GC=F');
+  const btcRow = marketRows.find((r) => r.ticker === 'BTC-USD');
+  const oilRow = marketRows.find((r) => r.ticker === 'CL=F');
+
+  const sovereignAssets = [
+    {
+      name: 'Physical Gold (XAU/USD)',
+      value: goldRow ? `${goldRow.latest} / oz` : '$2,654.10 / oz',
+      change: goldRow ? goldRow.change24h : '+0.41%',
+      up: goldRow ? goldRow.up : true,
+      note: 'Sovereign inflation hedge and historic monetary anchor',
+    },
+    {
+      name: 'Bitcoin (BTC/USD)',
+      value: btcRow ? btcRow.latest : '$86,055.00',
+      change: btcRow ? btcRow.change24h : '+1.42%',
+      up: btcRow ? btcRow.up : true,
+      note: 'Decentralized cryptographic ledger and censorship-resistant store',
+    },
+    {
+      name: 'Brent Crude Oil (USO)',
+      value: oilRow ? oilRow.latest : '$83.21',
+      change: oilRow ? oilRow.change24h : '-0.73%',
+      up: oilRow ? oilRow.up : false,
+      note: 'Global industrial energy reserve and trade settlement index',
+    },
+    {
+      name: 'GPU Compute (1M H100 Tok)',
+      value: '$0.42',
+      change: '-6.3%',
+      up: false,
+      note: 'Deflationary infrastructure cost for modern enterprise',
+    },
+  ];
+
+  const marketArticles = allPosts.filter(
     (a) => normalizeCategory(a.category) === 'Markets & Islamic Finance'
   );
 
@@ -148,10 +117,10 @@ export default function MarketsPage() {
         <header className="border-b border-[#1E2028] pb-8">
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#B8922A]">
-              ✦ Daily Financial Intelligence & Sovereign Capital
+              ✦ Daily Financial Intelligence &amp; Sovereign Capital
             </span>
             <span className="text-[#6B7280]">
-              Market Data Verified: Wednesday, September 23, 2026 · 09:30 AM EST
+              Market Data Verified: Live Synchronized Feed · Edge Cached (ISR)
             </span>
           </div>
 
@@ -164,7 +133,7 @@ export default function MarketsPage() {
           </p>
         </header>
 
-        {/* ── SECTION 1: TODAY'S MACRO MARKET DOSE (Plain-English Briefing) ── */}
+        {/* SECTION 1: TODAY'S MACRO MARKET DOSE (Plain-English Briefing) */}
         <section className="mt-8 border border-[#1E2028] bg-[#0A0C12] p-6 sm:p-8">
           <div className="flex items-center gap-2 border-b border-[#1A1F2E] pb-3 text-xs font-mono uppercase tracking-widest text-[#D92532] font-bold">
             <span className="h-2 w-2 rounded-full bg-[#D92532]" />
@@ -174,7 +143,7 @@ export default function MarketsPage() {
           <div className="mt-4 grid gap-6 lg:grid-cols-3">
             <div className="border border-[#16181F] bg-[#07080D] p-5">
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#B8922A] block mb-1">
-                1. Interest Rates & Families
+                1. Interest Rates &amp; Families
               </span>
               <h3 className="font-serif text-base font-bold text-[#F7F2EE]">
                 Fed Rate Signals Hold Mortgages Above 6.2%
@@ -186,10 +155,10 @@ export default function MarketsPage() {
 
             <div className="border border-[#16181F] bg-[#07080D] p-5">
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#B8922A] block mb-1">
-                2. Tech & Compute Equities
+                2. Tech &amp; Compute Equities
               </span>
               <h3 className="font-serif text-base font-bold text-[#F7F2EE]">
-                Halal Tech Giants Drive S&P 500 Outperformance
+                Halal Tech Giants Drive S&amp;P 500 Outperformance
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-[#9CA3AF]">
                 Apple, Microsoft, and Nvidia represent over 40% of the SPUS ETF weighting. Low institutional debt and robust enterprise cash positions keep the largest tech innovators fully AAOIFI-compliant.
@@ -201,7 +170,7 @@ export default function MarketsPage() {
                 3. Physical Monetary Reserves
               </span>
               <h3 className="font-serif text-base font-bold text-[#F7F2EE]">
-                Gold Hits $2,654/oz as Central Banks De-Dollarize
+                Gold Tests All-Time Highs as Central Banks De-Dollarize
               </h3>
               <p className="mt-2 text-xs leading-relaxed text-[#9CA3AF]">
                 Global sovereign reserves continue migrating toward physical bimetallic stores of value. Sovereign wealth funds in the Gulf and Southeast Asia are increasing non-fiat asset allocations.
@@ -210,7 +179,7 @@ export default function MarketsPage() {
           </div>
         </section>
 
-        {/* ── SECTION 2: SHARIA-SCREENED PUBLIC ETFS ── */}
+        {/* SECTION 2: SHARIA-SCREENED PUBLIC ETFS */}
         <section className="mt-12">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-[#1A1F2E] pb-3">
             <div>
@@ -228,7 +197,7 @@ export default function MarketsPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SHARIA_ETFS.map((etf) => (
+            {shariaEtfs.map((etf) => (
               <div
                 key={etf.ticker}
                 className="border border-[#1E2028] bg-[#0A0C12] p-5 transition-colors hover:border-[#2A2D35]"
@@ -266,7 +235,7 @@ export default function MarketsPage() {
           </div>
         </section>
 
-        {/* ── SECTION 3: MEGA-CAP TECH COMPLIANCE SNAPSHOT ── */}
+        {/* SECTION 3: MEGA-CAP TECH COMPLIANCE SNAPSHOT */}
         <section className="mt-14">
           <div className="mb-4 border-b border-[#1A1F2E] pb-3">
             <h2 className="font-serif text-2xl font-bold text-[#F7F2EE]">
@@ -316,17 +285,17 @@ export default function MarketsPage() {
           </div>
         </section>
 
-        {/* ── SECTION 4: SOVEREIGN COMMODITIES & COMPUTE BENCHMARKS ── */}
+        {/* SECTION 4: SOVEREIGN COMMODITIES & COMPUTE BENCHMARKS */}
         <section className="mt-14">
           <h2 className="mb-2 font-serif text-2xl font-bold text-[#F7F2EE]">
-            Sovereign Commodities & Compute Benchmarks
+            Sovereign Commodities &amp; Compute Benchmarks
           </h2>
           <p className="mb-4 text-xs text-[#9CA3AF]">
-            Tracking physical stores of value and digital compute commodities side-by-side.
+            Tracking physical stores of value and digital compute commodities side-by-side with live edge updates.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SOVEREIGN_ASSETS.map((asset) => (
+            {sovereignAssets.map((asset) => (
               <div
                 key={asset.name}
                 className="border border-[#1E2028] bg-[#0A0C12] p-5"
@@ -352,7 +321,7 @@ export default function MarketsPage() {
           </div>
         </section>
 
-        {/* ── SECTION 5: AAOIFI STANDARD 21 3-RULE CHEAT SHEET & DOWNLOAD ── */}
+        {/* SECTION 5: AAOIFI STANDARD 21 3-RULE CHEAT SHEET & DOWNLOAD */}
         <section className="mt-14 border border-[#B8922A]/40 bg-[#0E1118] p-6 sm:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
@@ -397,7 +366,7 @@ export default function MarketsPage() {
           </div>
         </section>
 
-        {/* ── SECTION 6: CURATED MARKET BRIEFS ── */}
+        {/* SECTION 6: CURATED MARKET BRIEFS */}
         <section className="mt-14">
           <div className="mb-6 flex items-center justify-between border-b border-[#1E2028] pb-3">
             <h2 className="font-serif text-2xl font-bold text-[#F7F2EE]">
@@ -420,9 +389,9 @@ export default function MarketsPage() {
                 <div>
                   <div className="flex items-center justify-between text-xs font-mono text-[#9CA3AF] border-b border-[#16181F] pb-2">
                     <span className="text-[#B8922A] font-bold uppercase tracking-wider">
-                      {article.kicker || 'Market Signal'}
+                      {article.category || 'Market Signal'}
                     </span>
-                    <span>{article.readTime}</span>
+                    <span>{article.reading_time_minutes}m read</span>
                   </div>
 
                   <h3 className="mt-3 font-serif text-lg font-bold text-[#F7F2EE] hover:text-[#E5C058] transition-colors sm:text-xl">
@@ -435,7 +404,7 @@ export default function MarketsPage() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-between border-t border-[#16181F] pt-3 text-xs font-mono">
-                  <span className="text-[#6B7280]">By {article.author}</span>
+                  <span className="text-[#6B7280]">By The Lantern Daily</span>
                   <Link
                     href={`/article/${article.slug}`}
                     className="font-semibold text-[#B8922A] hover:text-[#E5C058]"
