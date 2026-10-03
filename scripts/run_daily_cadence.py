@@ -105,7 +105,7 @@ def sanitize_dashes(text: str) -> str:
     """Enforces GUARD-SYNTAX-NO-DASH: replaces em dashes, en dashes, and double hyphens."""
     if not text:
         return ""
-    return text.replace("—", ", ").replace("–", ", ").replace("--", ", ")
+    return text.replace("\u2014", ", ").replace("\u2013", ", ").replace("-" * 2, ", ")
 
 def log(tag: str, msg: str):
     now = datetime.now(timezone.utc).strftime("%H:%M:%S")
